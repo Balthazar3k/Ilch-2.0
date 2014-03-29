@@ -144,7 +144,7 @@ class Calendar
   
     public function getNavigation()
     {
-        print_r($this->controller->getTranslator()->trans('monthNames'));
+        $month = $this->controller->getTranslator()->getTranslations()['monthNames'];
 
         if( $this->_month == 1 ){
             $lastMonth = 12;
@@ -168,9 +168,9 @@ class Calendar
         $nextDate = $this->_day.'.'.$nextMonth.'.'.$nextYear;
 
         ?><div class="btn-group">
-            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => $lastDate));?>"><i class="fa fa-caret-square-o-left"></i></a>
+            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => $lastDate));?>"><i class="fa fa-caret-square-o-left"></i> <?=$month[$lastMonth]?></a>
             <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => date('d.m.Y')));?>"><i class="fa fa-calendar"></i> <?php echo $month[intval($this->_month)]." ".$this->_year; ?></a>
-            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => $nextDate));?>"><i class="fa fa-caret-square-o-right"></i></a>
+            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => $nextDate));?>"><?=$month[$nextMonth]?> <i class="fa fa-caret-square-o-right"></i></a>
         </div><?php
     }
 
@@ -184,8 +184,8 @@ class Calendar
         ?><table cellspacing="1" width="<?=$size?>" class="calendar">
             
             <tr>
-                <?php foreach( $this->weekDays() as $key => $value): ?>
-                <td align="center" width="<?=$rowSize;?>" class="weekdays"><?=$value;?></td>
+                <?php foreach( $this->controller->getTranslator()->getTranslations()['dayNames'] as $key => $value): ?>
+                <td align="center" width="<?=$rowSize;?>" class="weekdays"><?=$value[0];?></td>
                 <?php endforeach; ?>
             </tr>
             <?php
