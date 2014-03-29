@@ -4,54 +4,30 @@
  * @package Calendar 1.0
  */
  
-namespace Eventplaner\Controllers;
+namespace Calendar\Controllers;
+
 defined('ACCESS') or die('no direct access');
 
-use Eventplaner\Mappers\Eventplaner as EventMapper;
-use User\Mappers\User as UserMapper;
 
 class Index extends \Ilch\Controller\Frontend
 {
     public function indexAction()
-    {    
-        $this->getLayout()->getHmenu()->add($this->getTranslator()->trans('eventplaner'), array('action' => 'index'));
+    {
+        $this->getLayout()->getHmenu()->add($this->getTranslator()->trans('calendar'), array('action' => 'index'));
         
-        $calendar = new \Eventplaner\Plugins\Calendar($this);
+       ?><pre><?php
+        print_r($this->getRequest()->getParam('controller'));
+        ?></pre><?php
+        
+        $calendar = new \Calendar\Plugins\Calendar($this);
         $calendar->view($this->getRequest()->getParam('date'));
         
-        $mapper = new EventMapper();
-        $events = $mapper->getEvents($calendar->where('start', 'Y-m-d H:i:s'));
+        $mapper = new \Calendar\Mappers\Calendar();
+        $calendarItems = $mapper->getCalendar($calendar->where('date_start', 'Y-m-d H:i:s'));
         
-        $this->getView()->set('calendar', $calendar);
-        $this->getView()->set('eventList', $events );
-        $this->getView()->set('config', $this->getConfig());
-    }
-    
-    public function calendarAction()
-    {
-        $this->getLayout()->getHmenu()->add($this->getTranslator()->trans('eventplaner'), array('action' => 'index'));
+        foreach( $calendarItems as $item){
         
-        $calendar = new \Eventplaner\Plugins\Calendar($this);
-        $calendar->setSize($this->getConfig()->get('event_calendar_size'))->view($this->getRequest()->getParam('date'));
-        
-        $mapper = new EventMapper();
-        $events = $mapper->getEvents($calendar->where('start', 'Y-m-d H:i:s'));
-        $status = json_decode($this->getConfig()->get('event_status'), true);
-        
-        foreach( $events as $event ){
-        
-            $calendar->fill($event->getStart(), '
-                <a title="Hallo" href="'.$this->getLayout()->getUrl(array('action' => 'details', 'id' => $event->getId())).'">
-                    <div class="calendarView">
-                        <div class="title">'.$event->getEvent().'</div>
-                        <div class="status" style="'.$status[$event->getStatus()]['style'].'">'.
-                            $this->getTranslator()->trans($status[$event->getStatus()]['status']).' '.
-                            $event->numRegistrations().'/'.$event->getRegistrations().
-                        '</div>
-                        <div class="time">'.$event->getStartDate('H:i').' - '.$event->getEndsDate('H:i').'</time>
-                    </div>
-                </a>
-            ');
+  
         }
         
         $this->getView()->set('calendar', $calendar);

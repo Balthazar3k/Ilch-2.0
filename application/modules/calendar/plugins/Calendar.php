@@ -4,7 +4,7 @@
  * @package Calendar 1.0
  */
 
-namespace Eventplaner\Plugins;
+namespace Calendar\Plugins;
 
 class Calendar 
 {
@@ -40,6 +40,7 @@ class Calendar
     
     public function __construct($controller) {
         $this->controller = $controller;
+        $this->setSize(940);
     }
        
     public function view($view = false)
@@ -52,7 +53,11 @@ class Calendar
             $ts = time();
         }
         
-        $this->setTimestamp($ts);
+        $this->_date = date('d.m.Y', $ts);
+        $this->_day = date('d', $ts);
+        $this->_month = date('m', $ts);
+        $this->_year = date('Y', $ts);
+        
         $this->init_CalendarArray();
         return $this;
     }
@@ -61,38 +66,6 @@ class Calendar
     {
         $this->_size = (int) $size;
         return $this;
-    }
-
-    public function setDay($day)
-    {
-        $this->_day = (int) $day;
-        return $this;
-    }
-    
-    public function setMonth($month)
-    {
-        $this->_month = (int) $month;
-        return $this;
-    }
-    
-    public function setYear($year)
-    {
-        $this->_year = (int) $year;
-        return $this;
-    }
-    
-    public function setDate($date)
-    {
-        $this->_date = (string) $date;
-        return $this;
-    }
-    
-    public function setTimestamp($ts)
-    {
-        $this->_date = date('d.m.Y', $ts);
-        $this->setDay(date('d', $ts));
-        $this->setMonth(date('m', $ts));
-        $this->setYear(date('Y', $ts));
     }
     
     /* fill the Calender Array */ 
@@ -168,43 +141,10 @@ class Calendar
         return "WHERE ".$feld .">'".$startDate."' AND ". $feld ."<'".$endsDate."'"; 
     }
 
-    public static function monthName(){
-        $monat = array(	
-            1 =>  "Januar",
-            2 =>  "Februar",
-            3 =>  "M&auml;rz",
-            4 =>  "April",
-            5 =>  "Mai",
-            6 =>  "Juni",
-            7 =>  "Juli",
-            8 =>  "August",
-            9 =>  "September",
-            10 => "Oktober",
-            11 => "November",
-            12 => "Dezember"
-        );
-
-            return $monat;
-    }
-
-    public static function weekDays()
+  
+    public function getNavigation()
     {
-        $weekDays = array(	
-            1 => "Montag",
-            2 => "Dienstag",
-            3 => "Mittwoch",
-            4 => "Donnerstag",
-            5 => "Freitag",
-            6 => "Samstag",
-            0 => "Sonntag"
-        );
-
-        return $weekDays;
-    }
-    
-    public function navigation()
-    {
-        $month = $this->monthName();
+        print_r($this->controller->getTranslator()->trans('monthNames'));
 
         if( $this->_month == 1 ){
             $lastMonth = 12;
@@ -235,7 +175,7 @@ class Calendar
     }
 
 
-    public function getHtml()
+    public function getCalendarHtml()
     {
         $rowSize = $this->_size/7;
         $ceilCounter = 0;

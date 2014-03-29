@@ -4,13 +4,10 @@
  * @package Calendar 1.0
  */
 
-namespace Eventplaner\Controllers\Admin;
+namespace Calendar\Controllers\Admin;
 
 defined('ACCESS') or die('no direct access');
 
-use Eventplaner\Mappers\Eventplaner as EventMapper;
-use Eventplaner\Models\Eventplaner as EventModel;
-use User\Mappers\User as UserMapper;
 
 class Index extends \Ilch\Controller\Admin
 {
@@ -23,12 +20,6 @@ class Index extends \Ilch\Controller\Admin
             array
             (
                 array
-                (
-                    'name' => 'listView',
-                    'active' => true,
-                    'icon' => 'fa fa-th-list',
-                    'url' => $this->getLayout()->getUrl(array('controller' => 'index', 'action' => 'index'))
-                ),array
                 (
                     'name' => 'calendarView',
                     'active' => true,
@@ -49,7 +40,7 @@ class Index extends \Ilch\Controller\Admin
         (
             array
             (
-                'name' => 'menuActionNewEvent',
+                'name' => 'menuNewCalendarItem',
                 'icon' => 'fa fa-plus-circle',
                 'url' => $this->getLayout()->getUrl(array('controller' => 'index', 'action' => 'treat'))
             )
@@ -58,65 +49,22 @@ class Index extends \Ilch\Controller\Admin
 	
     public function indexAction()
     {
-        $date = new \Ilch\Date();
-        $eventMapper = new EventMapper();
-
-        if( $status = $this->getRequest()->getParam('status') ){
-            $status = array('status' => $status );
-        }
-
-        $pagination = new \Ilch\Pagination();
-        $pagination->setRowsPerPage($this->getConfig()->get('event_admin_rowsperpage'));
-        $pagination->setPage($this->getRequest()->getParam('page'));
-        $this->getView()->set('config', $this->getConfig());
-        $this->getView()->set('eventList', $eventMapper->getEventList($status, $pagination) );
-        $this->getView()->set('pagination', $pagination);
-    }
-    
-    public function calendarAction()
-    {
-        $calendar = new \Eventplaner\Plugins\Calendar($this);
-        $calendar->setSize($this->getConfig()->get('event_calendar_size'))->view($this->getRequest()->getParam('date'));
+        ?><pre><?php
+        print_r($this->getRequest()->getParam('controller'));
+        ?></pre><?php
         
-        $mapper = new EventMapper();
-        $events = $mapper->getEvents($calendar->where('start', 'Y-m-d H:i:s'));
-        $status = json_decode($this->getConfig()->get('event_status'), true);
+        $calendar = new \Calendar\Plugins\Calendar($this);
+        $calendar->view($this->getRequest()->getParam('date'));
         
-        foreach( $events as $event){
+        $mapper = new \Calendar\Mappers\Calendar();
+        $calendarItems = $mapper->getCalendar($calendar->where('date_start', 'Y-m-d H:i:s'));
         
-            $calendar->fill($event->getStart(), '
-                <a href="'.$this->getLayout()->getUrl(array('action' => 'treat', 'id' => $event->getId())).'">
-                    <div class="calendarView">
-                        <div class="title">'.$event->getEvent().'</div>
-                        <div class="status" style="'.$status[$event->getStatus()]['style'].'">'.
-                            $this->getTranslator()->trans($status[$event->getStatus()]['status']).' '.
-                            $event->numRegistrations().'/'.$event->getRegistrations().
-                        '</div>
-                        <div class="time">'.$event->getStartDate('H:i').' - '.$event->getEndsDate('H:i').'</time>
-                    </div>
-                </a>
-            ');
+        foreach( $calendarItems as $item){
+        
+  
         }
         
         $this->getView()->set('calendar', $calendar);
-    }
-
-
-    public function statusAction()
-    {
-        if( $this->getRequest()->getParam('status') &&
-            $this->getRequest()->getParam('id'))
-        {
-            $model = new EventModel();
-            $model->setId($this->getRequest()->getParam('id'));
-            $model->setStatus($this->getRequest()->getParam('status'));
-            
-            $mapper = new EventMapper();
-            $mapper->changeStatus($model);
-            
-            $this->addMessage('saveStatusSuccess'); 
-            $this->redirect(array('action' => 'index', 'page' => $this->getRequest()->getParam('page')));
-        }
     }
 	
     public function treatAction()
