@@ -47,6 +47,7 @@ class Config extends \Ilch\Config\Install
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `module_key` varchar(255) NOT NULL,
                 `module_url` varchar(255) NOT NULL,
+                `cycle` varchar(10) NOT NULL,
                 `date_start` datetime NOT NULL,
                 `date_ends` datetime NOT NULL,
                 `organizer` int(32) NOT NULL,

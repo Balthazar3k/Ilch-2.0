@@ -13,6 +13,7 @@ class Calendar extends \Ilch\Model
     protected $_id;
     protected $_moduleKey;
     protected $_moduleUrl;
+    protected $_cycle;
     protected $_dateStart;
     protected $_dateEnds;
     protected $_organizer;
@@ -56,6 +57,16 @@ class Calendar extends \Ilch\Model
         }
         
         $this->_moduleUrl = (string) $res;
+    }
+    
+    public function getCycle()
+    {
+        return $this->_cycle;
+    }
+    
+    public function setCycle($res)
+    {
+        $this->_cycle = (string) $res;
     }
 
     public function getDateStart()
@@ -150,18 +161,6 @@ class Calendar extends \Ilch\Model
     public function setSeries($res)
     {
         $this->_series = (int) $res;
-    }
-
-
-	
-    public function decode()
-    {
-        return json_decode($this->_array, true);
-    }
-    
-    public function encode()
-    {
-        return json_encode($this->_array, true);
     }
 }
 ?>

@@ -6,6 +6,8 @@
 
 namespace Calendar\Mappers;
 
+use Calendar\Plugins\Functions as func;
+
 defined('ACCESS') or die('no direct access');
 
 class Calendar extends \Ilch\Mapper
@@ -67,7 +69,7 @@ class Calendar extends \Ilch\Mapper
 	
     public function save($controller, \Calendar\Models\Calendar $model)
     {
-        if( !is_object($controller)){
+        if( !is_object($controller) && empty($model->getModuleKey()) ){
             trigger_error('the methode save from Calendar, need the first Argument from Controller Object ($this)');
             return;
         } else {
@@ -79,7 +81,14 @@ class Calendar extends \Ilch\Mapper
         $fields['module_key'] = $model->getModuleKey();
         $fields['module_url'] = $model->getModuleUrl();
         
-        $fields['date_start'] = $model->getDateStart();
+        $fields['cycle'] = $model->getCycle();
+        
+        $dates = func::cycle(
+            $model->getCycle(),
+            $model->getDateStart(),
+            $model->getDateEnds()
+         );
+        
         $fields['date_ends'] = $model->getDateEnds();
         
         $fields['organizer'] = $model->getOrganizer();
@@ -90,7 +99,6 @@ class Calendar extends \Ilch\Mapper
         
         $fields['created'] = $model->getCreated();
         $fields['changed'] = $model->getChanged();
-        $fields['series'] = $model->getSeries();
         
         $CalendarItemId = (int)$this->db()->selectCell('id')
                 ->from('calendar')
@@ -103,9 +111,29 @@ class Calendar extends \Ilch\Mapper
                 ->where(array('id' => $CalendarItemId))
                 ->execute();
         } else {
-            $this->db()->insert('calendar')
-                ->fields($fields)
-                ->execute();
+            
+            if(is_array($dates)){
+               
+                $CalendarLastId = $this->db()->queryCell('
+                    SELECT MAX(`id`) FROM `[prefix]_calendar`;
+                ');
+                
+                $CalendarLastId++;
+                
+                $model->setId($CalendarLastId);
+                $model->setSeries($CalendarLastId);
+                
+                $fields['id'] = $model->getId();
+                $fields['series'] = $model->getSeries();
+                
+                foreach($dates as $date){
+                    $fields['date_start'] = $date;
+                    $this->db()->insert('calendar')
+                        ->fields($fields)
+                        ->execute();
+                }
+            }
+            
         }
     }
 }
