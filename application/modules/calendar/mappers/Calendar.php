@@ -89,7 +89,6 @@ class Calendar extends \Ilch\Mapper
             $model->getDateEnds()
          );
         
-        $fields['date_ends'] = $model->getDateEnds();
         
         $fields['organizer'] = $model->getOrganizer();
         $fields['title'] = $model->getTitle();
@@ -120,14 +119,12 @@ class Calendar extends \Ilch\Mapper
                 
                 $CalendarLastId++;
                 
-                $model->setId($CalendarLastId);
                 $model->setSeries($CalendarLastId);
-                
-                $fields['id'] = $model->getId();
                 $fields['series'] = $model->getSeries();
                 
-                foreach($dates as $date){
+                foreach($dates[0] as $i => $date){
                     $fields['date_start'] = $date;
+                    $fields['date_ends'] = $date[1][$i];
                     $this->db()->insert('calendar')
                         ->fields($fields)
                         ->execute();

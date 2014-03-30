@@ -8,6 +8,20 @@ defined('ACCESS') or die('no direct access');
 
 return array(
     'calendar' => 'Kalender',
+    'calendar_view' => 'Kalenderansicht',
+    'time_options' => 'Zeit Einstellungen',
+    
+    'title' => 'Titel',
+    'cycle' => 'Zyklus',
+    'cycle_unique' => 'Einmalig',
+    'cycle_daily' => 'Täglich',
+    'cycle_weekly' => 'Wöchentlich',
+    'time_start' => 'Zeit Begin',
+    'time_ends' => 'Zeit Ende',
+    'date_start' => 'Datum Begin',
+    'date_ends' => 'Datum Ende',
+    
+    'menu_action_insert_calendar' => 'Kalender eintrag erstellen',
 
     'monthNames' => array(	
          1 =>  'Januar',

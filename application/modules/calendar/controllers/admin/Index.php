@@ -21,10 +21,10 @@ class Index extends \Ilch\Controller\Admin
             (
                 array
                 (
-                    'name' => 'calendarView',
+                    'name' => 'calendar_view',
                     'active' => true,
                     'icon' => 'fa fa-calendar',
-                    'url' => $this->getLayout()->getUrl(array('controller' => 'index', 'action' => 'calendar'))
+                    'url' => $this->getLayout()->getUrl(array('controller' => 'index', 'action' => 'index'))
                 ),array
                 (
                     'name' => 'settings',
@@ -40,7 +40,7 @@ class Index extends \Ilch\Controller\Admin
         (
             array
             (
-                'name' => 'menuNewCalendarItem',
+                'name' => 'menu_action_insert_calendar',
                 'icon' => 'fa fa-plus-circle',
                 'url' => $this->getLayout()->getUrl(array('controller' => 'index', 'action' => 'treat'))
             )
@@ -126,7 +126,6 @@ class Index extends \Ilch\Controller\Admin
             $this->getView()->set('event', $eventMapper->getEventById($evendId) );
         }
         
-        $this->getView()->set('users', $user->getUserList(  ) );
     }
 	
 }

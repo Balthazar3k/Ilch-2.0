@@ -14,16 +14,17 @@ class Functions
         $from = strtotime($from);
         $to = strtotime($to);
 
-        $h = date("H", $from);
-        $i = date("i", $from);
-        $m = date("m", $from);
-        $d = date("d", $from);
-        $y = date("Y", $from);
+        $h1 = date("H", $from);     $h2 = date("H", $to);
+        $i1 = date("i", $from);     $i2 = date("i", $to);
+        $m1 = date("m", $from);     $m2 = date("m", $to);
+        $d1 = date("d", $from);     $d2 = date("d", $to);
+        $y1 = date("Y", $from);     $y2 = date("Y", $to);
 
         switch($option)
         {
             case 'unique':
-                $dates[] = $from; 
+                $dates[0][] = $from;
+                $dates[1][] = $from;
                 return $dates; 
             break;
 
@@ -31,7 +32,8 @@ class Functions
                
                 $days = floor(($to-$from)/(86400));
                 for( $x = 0; $x < $days+1; $x++){
-                    $dates[] = date($format, mktime($h, $i, 0, $m, $d+($x), $y));
+                    $dates[0][] = date($format, mktime($h1, $i1, 0, $m1, $d1+($x), $y1));
+                    $dates[1][] = date($format, mktime($h2, $i2, 0, $m2, $d2+($x), $y2));
                 }
 
                 return $dates;
@@ -41,7 +43,8 @@ class Functions
 
                 $weeks = floor(($to-$from)/(86400*7));
                 for( $x = 0; $x < $weeks+1; $x++){
-                    $dates[] = date($format, mktime($h, $i, 0, $m, $d+(7*$x), $y));
+                    $dates[0][] = date($format, mktime($h1, $i1, 0, $m1, $d1+(7*$x), $y1));
+                    $dates[1][] = date($format, mktime($h2, $i2, 0, $m2, $d2+(7*$x), $y2));
                 }
 
                 return $dates;
@@ -53,12 +56,13 @@ class Functions
                     
                     $anyOption = floor(($to-$from)/(86400*$option));
                     for( $x = 0; $x < $anyOption+1; $x++){
-                        $dates[] = date($format, mktime($h, $i, 0, $m, $d+($option*$x), $y));
+                        $dates[0][] = date($format, mktime($h1, $i1, 0, $m1, $d1+($option*$x), $y1));
+                        $dates[1][] = date($format, mktime($h2, $i2, 0, $m2, $d2+($option*$x), $y2));
                     }
 
                     return $dates;                    
                 } else {
-                    trigger_error('Methode: '__METHOD__ . ' Class:'. __CLASS__ .', missing first Argument!'):
+                    trigger_error('Methode: '. __METHOD__ .' in Class:'. __CLASS__ .', missing first Argument!');
                 }
                 
             break;
