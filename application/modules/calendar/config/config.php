@@ -53,7 +53,6 @@ class Config extends \Ilch\Config\Install
                 `organizer` int(32) NOT NULL,
                 `title` varchar(128) NOT NULL,
                 `message` text NOT NULL,
-                `array` text NOT NULL,
                 `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 `changed` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 `series` int(11) NOT NULL DEFAULT 0,

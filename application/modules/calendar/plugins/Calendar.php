@@ -5,6 +5,7 @@
  */
 
 namespace Calendar\Plugins;
+use Calendar\Plugins\Functions as func;
 
 class Calendar 
 {
@@ -54,9 +55,9 @@ class Calendar
         }
         
         $this->_date = date('d.m.Y', $ts);
-        $this->_day = date('d', $ts);
-        $this->_month = date('m', $ts);
-        $this->_year = date('Y', $ts);
+        $this->_day = (int) date('d', $ts);
+        $this->_month = (int) date('m', $ts);
+        $this->_year = (int) date('Y', $ts);
         
         $this->init_CalendarArray();
         return $this;
@@ -72,9 +73,9 @@ class Calendar
     public function fill( $datetime, $html, $attributes=array() )
     {	
         $ts = strtotime($datetime);
-        $y = intval(date("Y", $ts));
-        $m = intval(date("m", $ts));
-        $d = intval(date("d", $ts));
+        $y = (int) intval(date("Y", $ts));
+        $m = (int) intval(date("m", $ts));
+        $d = (int) intval(date("d", $ts));
 
         $this->calendarArray[$y][$m][$d][] = "<div class=\"eventItem\" ".$this->setAttr($attributes).">".$html."</div>";
     }
@@ -93,7 +94,7 @@ class Calendar
         $_day   = $this->_day;                                                              # Der Heutige Tag
         $_month = $this->_month;                                                            # Der aktuelle Monat
         $_year  = $this->_year;                                                             # Das aktuelle Jahr
-        $aDaysNow = date("t", $this->getCurrentTS());                                         # Anzahl der Tage in diesem Monat
+        $aDaysNow = date("t", $this->getCurrentTS());                                      # Anzahl der Tage in diesem Monat
 
         # Berechnung der letzten Tage des vorigen Monats auf dem aktuellen Monatsplatt
         $aDaysLast =        date("t", mktime(0,0,0,$_month-1,1,$_year));                    # Anzahl der Tage im vorigem Monate
@@ -113,7 +114,7 @@ class Calendar
         # Schleife für den aktuellen Monat
         for( $i=1; $i<$aDaysNow+1; $i++){
             $countDays++;
-            if( ($_day.".".$_month) == ($i.".".intval(date('m'))) ){
+            if( ($_day.".".$_month.'.'.$_year) == ($i.".".date('n.Y')) ){
                 $this->calendarArray[$_year][$_month][$i] = array("attributes" => $this->today);
                 $this->calendarArray[$_year][$_month][$i][] = "<div class='dayTitle today'>".$i." <span class='small'>today</span></div>";
             }else{
@@ -180,7 +181,9 @@ class Calendar
         $rowSize = $this->_size/7;
         $ceilCounter = 0;
         
+        //func::ar($this->calendarArray);
         
+        // Später noch ein Dynamisches Design mit DivContainern.
         ?><table cellspacing="1" width="<?=$size?>" class="calendar">
             
             <tr>
@@ -212,9 +215,9 @@ class Calendar
         <?php
     }
     
-    private function setAttr(array $attributes)
+    private function setAttr($attributes)
     {
-        if( is_Array($attributes) ){
+        if( is_Array($attributes) && count($attributes) > 0 ){
             $attr = array();
             foreach( $attributes as $key => $value){
                 $attr[] = $key . '="'.$value.'"';

@@ -14,6 +14,8 @@ class Calendar extends \Ilch\Model
     protected $_moduleKey;
     protected $_moduleUrl;
     protected $_cycle;
+    protected $_timeStart;
+    protected $_timeEnds;
     protected $_dateStart;
     protected $_dateEnds;
     protected $_organizer;
@@ -47,15 +49,11 @@ class Calendar extends \Ilch\Model
     
     public function getModuleUrl()
     {
-        return json_decode($this->_moduleUrl, true);
+        return $this->_moduleUrl;
     }
     
     public function setModuleUrl($res)
     {
-        if( is_array($res) ){
-            $res = json_encode($res, true);
-        }
-        
         $this->_moduleUrl = (string) $res;
     }
     
@@ -81,12 +79,32 @@ class Calendar extends \Ilch\Model
 	
     public function getDateEnds()
     {
-        return $this->_DateEnds;
+        return $this->_dateEnds;
     }
     
     public function setDateEnds($res)
     {
         $this->_dateEnds = (string) $res;
+    }
+    
+    public function getTimeStart()
+    {
+        return $this->_timeStart;
+    }
+    
+    public function setTimeStart($res)
+    {
+        $this->_timeStart = (string) $res;
+    }
+	
+    public function getTimeEnds()
+    {
+        return $this->_timeEnds;
+    }
+    
+    public function setTimeEnds($res)
+    {
+        $this->_timeEnds = (string) $res;
     }
 	
     public function getOrganizer()
@@ -118,20 +136,6 @@ class Calendar extends \Ilch\Model
     {
         $this->_message = (string)$res;
     }
-    
-    public function getArray()
-    {
-        return json_decode($this->_array, true);
-    }
-    
-    public function setArray($res)
-    {
-        if( is_array($res) ){
-            $res = json_encode($res, true);
-        }
-        
-        $this->_array = (string) $res;
-    }
 	
     public function getCreated()
     {
@@ -161,6 +165,26 @@ class Calendar extends \Ilch\Model
     public function setSeries($res)
     {
         $this->_series = (int) $res;
+    }
+    
+    public function getStartTimestamp()
+    {
+        return strtotime($this->_dateStart);
+    }
+    
+    public function getStart($format = 'd.m.Y H:i')
+    {
+        return date($format, $this->getStartTimestamp());
+    }
+    
+    public function getEndsTimestamp()
+    {
+        return strtotime($this->_dateEnds);
+    }
+    
+    public function getEnds($format = 'd.m.Y H:i')
+    {
+        return date($format, $this->getEndsTimestamp());
     }
 }
 ?>

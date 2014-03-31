@@ -13,21 +13,19 @@ class Index extends \Ilch\Controller\Frontend
 {
     public function indexAction()
     {
-        $this->getLayout()->getHmenu()->add($this->getTranslator()->trans('calendar'), array('action' => 'index'));
-        
-       ?><pre><?php
-        print_r($this->getRequest()->getParam('controller'));
-        ?></pre><?php
-        
         $calendar = new \Calendar\Plugins\Calendar($this);
         $calendar->view($this->getRequest()->getParam('date'));
         
         $mapper = new \Calendar\Mappers\Calendar();
-        $calendarItems = $mapper->getCalendar($calendar->where('date_start', 'Y-m-d H:i:s'));
+        $calendarItems = $mapper->getCalendar(
+            $calendar->where('date_start', 'Y-m-d H:i:s')
+        );
         
         foreach( $calendarItems as $item){
-        
-  
+            $calendar->fill($item->getDateStart(),
+                '<div align="center"><b>'.$item->getTitle().'</b></div>'.
+                '<center>'.$item->getStart('H:i - ') . $item->getEnds('H:i').'</center>' 
+            );
         }
         
         $this->getView()->set('calendar', $calendar);

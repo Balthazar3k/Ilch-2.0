@@ -58,43 +58,60 @@ class Index extends \Ilch\Controller\Admin
         );
         
         foreach( $calendarItems as $item){
-       
+            $calendar->fill($item->getDateStart(),
+                '<div align="center"><b>'.$item->getTitle().'</b></div>'.
+                '<center>'.$item->getStart('H:i - ') . $item->getEnds('H:i').'</center>' 
+            );
         }
         
         $this->getView()->set('calendar', $calendar);
     }
 	
-    public function treatAction()
+    public function treatAction($menu = array())
     {		
-        
+        $mapper = new \Calendar\Mappers\Calendar();
         
         if($this->getRequest()->isPost()) {
-        
-            $mapper = new \Calendar\Mappers\Calendar();
+            
             $model = new \Calendar\Models\Calendar();
             
             if ($this->getRequest()->getParam('id')) {
                 $model->setId($this->getRequest()->getParam('id'));
             }
             
+            if(is_array($menu) && count($menu) > 0){
+                $model->setModuleUrl($this->getLayout()->getUrl($menu));
+            } else {
+                $model->setModuleUrl($this->getLayout()->getUrl(
+                    array(
+                        'controller' => 'calendar',
+                        'action' => 'details'
+                    )
+                ));
+            }
             
             $cycle = $this->getRequest()->getPost('cycle');
             $date_start = $this->getRequest()->getPost('date_start');
             $date_ends = $this->getRequest()->getPost('date_ends');
-
+            $time_start = $this->getRequest()->getPost('time_start');
+            $time_ends = $this->getRequest()->getPost('time_ends');
+            
             $organizer = $this->getRequest()->getPost('organizer');
             $title = $this->getRequest()->getPost('title');
             $message = $this->getRequest()->getPost('message');
             
             $array = array();
-           
-            
+                       
             if( empty($cycle) ) {
                 $this->addMessage('missing_cycle', 'danger');
             } elseif(empty($date_start)) {
-                $this->addMessage('missing_start', 'danger');
+                $this->addMessage('missing_date_start', 'danger');
             } elseif(empty($date_ends)) {
-                $this->addMessage('missing_ends', 'danger');
+                $this->addMessage('missing_date_ends', 'danger');
+            } elseif(empty($time_start)) {
+                $this->addMessage('missing_time_start', 'danger');
+            } elseif(empty($time_ends)) {
+                $this->addMessage('missing_time_ends', 'danger');
             } elseif(empty($title)) {
                 $this->addMessage('missing_title', 'danger');
             } elseif(empty($organizer)) {
@@ -106,14 +123,16 @@ class Index extends \Ilch\Controller\Admin
                 $model->setCycle($cycle);
                 $model->setDateStart($date_start);
                 $model->setDateEnds($date_ends);
+                $model->setTimeStart($time_start);
+                $model->setTimeEnds($time_ends);
                 
                 $model->setTitle($title);
                 $model->setOrganizer($organizer);
                 $model->setMessage($message);
                 
-                $mapper->save($model);
+                $mapper->save($this, $model);
                 
-                $this->addMessage('save_success');
+                $this->addMessage('calendar_save_success');
                 
                 $this->redirect(array(
                     'controller' => $this->getRequest()->getControllerName(),
@@ -122,8 +141,8 @@ class Index extends \Ilch\Controller\Admin
             }
         }
 
-        if ($evendId = $this->getRequest()->getParam('id')) {
-            $this->getView()->set('event', $eventMapper->getEventById($evendId) );
+        if ($ItemId = $this->getRequest()->getParam('id')) {
+            $this->getView()->set('item', $mapper->getCalendarById($ItemId) );
         }
         
     }

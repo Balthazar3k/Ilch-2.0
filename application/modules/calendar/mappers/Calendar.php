@@ -36,6 +36,7 @@ class Calendar extends \Ilch\Mapper
             $model->setModuleKey($res['module_key']);
             $model->setModuleUrl($res['module_url']);
             
+            $model->setCycle($res['cycle']);
             $model->setDateStart($res['date_start']);
             $model->setDateEnds($res['date_ends']);
             
@@ -43,13 +44,12 @@ class Calendar extends \Ilch\Mapper
             $model->setTitle($res['title']);
             $model->setMessage($res['message']);
             
-            $model->setArray($res['array']);
-            
             $model->setCreated($res['created']);
             $model->setChanged($res['changed']);
             $model->setSeries($res['series']);
             $entry[] = $model;
         }   
+        //func::ar($entry);
         return $entry;
     }
 	
@@ -70,10 +70,10 @@ class Calendar extends \Ilch\Mapper
     public function save($controller, \Calendar\Models\Calendar $model)
     {
         if( !is_object($controller) && empty($model->getModuleKey()) ){
-            trigger_error('the methode save from Calendar, need the first Argument from Controller Object ($this)');
+            exit('1 Argument from Calendar->save need the $this from controller!');
             return;
         } else {
-            $model ->setModuleKey($controller->getRequest()->getControllerName());
+            $model ->setModuleKey($controller->getRequest()->getModuleName());
         }
         
         $fields = array();
@@ -89,12 +89,9 @@ class Calendar extends \Ilch\Mapper
             $model->getDateEnds()
          );
         
-        
         $fields['organizer'] = $model->getOrganizer();
         $fields['title'] = $model->getTitle();
         $fields['message'] = $model->getMessage();
-        
-        $fields['array'] = $model->getArray();
         
         $fields['created'] = $model->getCreated();
         $fields['changed'] = $model->getChanged();
@@ -123,8 +120,9 @@ class Calendar extends \Ilch\Mapper
                 $fields['series'] = $model->getSeries();
                 
                 foreach($dates[0] as $i => $date){
-                    $fields['date_start'] = $date;
-                    $fields['date_ends'] = $date[1][$i];
+                    $fields['date_start'] = $date . ' ' . $model->getTimeStart();
+                    $fields['date_ends'] = $dates[1][$i] . ' ' . $model->getTimeEnds();
+                    
                     $this->db()->insert('calendar')
                         ->fields($fields)
                         ->execute();

@@ -11,11 +11,18 @@ return array(
     'calendar_view' => 'Kalenderansicht',
     'time_options' => 'Zeit Einstellungen',
     
+    'calendar_save_success' => 'Eintrag/Einträge in den Kalender waren erfolgreich.',
+    
     'title' => 'Titel',
     'cycle' => 'Zyklus',
     'cycle_unique' => 'Einmalig',
     'cycle_daily' => 'Täglich',
     'cycle_weekly' => 'Wöchentlich',
+    'cycle_2_days' => 'alle 2 Tage',
+    'cycle_3_days' => 'alle 3 Tage',
+    'cycle_4_days' => 'alle 4 Tage',
+    'cycle_5_days' => 'alle 5 Tage',
+    'cycle_6_days' => 'alle 6 Tage',
     'time_start' => 'Zeit Begin',
     'time_ends' => 'Zeit Ende',
     'date_start' => 'Datum Begin',
@@ -46,7 +53,9 @@ return array(
         5 => array('Freitag','Fr'),
         6 => array('Samstag','Sa'),
         0 => array('Sonntag','So')
-    )
+    ),
+    
+    'calendar_save_methode' => 'Calendar->Mapper->Save brauch als erstes Argument die Controller Instanze!'
 );
 
 ?>

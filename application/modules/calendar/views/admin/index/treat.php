@@ -58,6 +58,12 @@ $config = $this->get('config');
                 <option value="unique"><?=$this->getTrans('cycle_unique')?></option>
                 <option value="daily"><?=$this->getTrans('cycle_daily')?></option>
                 <option value="weekly"><?=$this->getTrans('cycle_weekly')?></option>
+                
+                <!--<option value="2"><?=$this->getTrans('cycle_2_days')?></option>
+                <option value="3"><?=$this->getTrans('cycle_3_days')?></option>
+                <option value="4"><?=$this->getTrans('cycle_4_days')?></option>
+                <option value="5"><?=$this->getTrans('cycle_5_days')?></option>
+                <option value="6"><?=$this->getTrans('cycle_6_days')?></option>-->
             </select>
         </div> 
      </div>
@@ -67,7 +73,7 @@ $config = $this->get('config');
             <?php echo $this->getTrans('time_start'); ?>:
         </label>
         <div class="col-lg-5">
-            <input class="form-control datepicker"
+            <input class="form-control"
                    type="text"
                    id="time_start"
                    name="time_start"
@@ -81,7 +87,7 @@ $config = $this->get('config');
             <?php echo $this->getTrans('time_ends'); ?>:
         </label>
         <div class="col-lg-5">
-            <input class="form-control datepicker"
+            <input class="form-control"
                    type="text"
                    id="time_ends"
                    name="time_ends"
@@ -95,7 +101,7 @@ $config = $this->get('config');
             <?php echo $this->getTrans('date_start'); ?>:
         </label>
         <div class="col-lg-5">
-            <input class="form-control datepicker"
+            <input class="form-control  datepicker"
                    type="text"
                    id="date_start"
                    name="date_start"

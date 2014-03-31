@@ -8,29 +8,31 @@ namespace Calendar\Plugins;
 
 class Functions 
 {
-    public static function cycle( $option, $from, $to, $format = 'Y-m-d H:i:s' ){
+    public static function cycle( $option, $from, $to, $format = 'Y-m-d' ){
         $dates = array();
         
-        $from = strtotime($from);
-        $to = strtotime($to);
+        $fromTS = strtotime($from);
+        $toTS = strtotime($to);
 
-        $h1 = date("H", $from);     $h2 = date("H", $to);
-        $i1 = date("i", $from);     $i2 = date("i", $to);
-        $m1 = date("m", $from);     $m2 = date("m", $to);
-        $d1 = date("d", $from);     $d2 = date("d", $to);
-        $y1 = date("Y", $from);     $y2 = date("Y", $to);
+        $h1 = date("H", $fromTS);     $h2 = date("H", $toTS);
+        $i1 = date("i", $fromTS);     $i2 = date("i", $toTS);
+        $m1 = date("m", $fromTS);     $m2 = date("m", $toTS);
+        $d1 = date("d", $fromTS);     $d2 = date("d", $toTS);
+        $y1 = date("Y", $fromTS);     $y2 = date("Y", $toTS);
+        
+        
 
         switch($option)
         {
             case 'unique':
                 $dates[0][] = $from;
-                $dates[1][] = $from;
+                $dates[1][] = $to;
                 return $dates; 
             break;
 
             case 'daily':
                
-                $days = floor(($to-$from)/(86400));
+                $days = floor(($toTS-$fromTS)/(86400));
                 for( $x = 0; $x < $days+1; $x++){
                     $dates[0][] = date($format, mktime($h1, $i1, 0, $m1, $d1+($x), $y1));
                     $dates[1][] = date($format, mktime($h2, $i2, 0, $m2, $d2+($x), $y2));
@@ -41,7 +43,7 @@ class Functions
 
             case 'weekly': 
 
-                $weeks = floor(($to-$from)/(86400*7));
+                $weeks = floor(($toTS-$fromTS)/(86400*7));
                 for( $x = 0; $x < $weeks+1; $x++){
                     $dates[0][] = date($format, mktime($h1, $i1, 0, $m1, $d1+(7*$x), $y1));
                     $dates[1][] = date($format, mktime($h2, $i2, 0, $m2, $d2+(7*$x), $y2));
@@ -52,9 +54,9 @@ class Functions
             
             default:
                 
-                if( is_integer($option) && $option < 0 ){
+                if( is_numeric($option) && $option > 0 ){
                     
-                    $anyOption = floor(($to-$from)/(86400*$option));
+                    $anyOption = floor(($toTS-$fromTS)/(86400*$option));
                     for( $x = 0; $x < $anyOption+1; $x++){
                         $dates[0][] = date($format, mktime($h1, $i1, 0, $m1, $d1+($option*$x), $y1));
                         $dates[1][] = date($format, mktime($h2, $i2, 0, $m2, $d2+($option*$x), $y2));
@@ -62,11 +64,26 @@ class Functions
 
                     return $dates;                    
                 } else {
-                    trigger_error('Methode: '. __METHOD__ .' in Class:'. __CLASS__ .', missing first Argument!');
+                    trigger_error('Methode: '. __METHOD__ .' in Class:'. __CLASS__ .', missing first Argument or valid $option!');
                 }
                 
             break;
         }
+    }
+    
+    public static function ar()
+    {
+        ?><pre><?php
+        foreach(func_get_args() as $arg){
+            if( is_array($arg) || is_object($arg)){
+                print_r($arg);
+                ?><hr><?php
+            } else {
+                echo $arg;
+                ?><hr><?php
+            }
+        }
+        ?></pre><?php
     }
 }
 ?>
