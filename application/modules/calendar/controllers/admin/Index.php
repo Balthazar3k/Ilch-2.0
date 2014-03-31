@@ -84,7 +84,7 @@ class Index extends \Ilch\Controller\Admin
             } else {
                 $model->setModuleUrl($this->getLayout()->getUrl(
                     array(
-                        'controller' => 'calendar',
+                        'controller' => 'index',
                         'action' => 'details'
                     )
                 ));

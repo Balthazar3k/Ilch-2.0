@@ -13,6 +13,8 @@ class Index extends \Ilch\Controller\Frontend
 {
     public function indexAction()
     {
+        $this->getLayout()->getHmenu()->add($this->getTranslator()->trans('calendar'), array('action' => 'index'));
+        
         $calendar = new \Calendar\Plugins\Calendar($this);
         $calendar->view($this->getRequest()->getParam('date'));
         
@@ -23,8 +25,10 @@ class Index extends \Ilch\Controller\Frontend
         
         foreach( $calendarItems as $item){
             $calendar->fill($item->getDateStart(),
-                '<div align="center"><b>'.$item->getTitle().'</b></div>'.
-                '<center>'.$item->getStart('H:i - ') . $item->getEnds('H:i').'</center>' 
+                '<a href="'.$item->getModuleUrl().'">'.
+                    '<div align="center"><b>'.$item->getTitle().'</b></div>'.
+                    '<center>'.$item->getStart('H:i - ') . $item->getEnds('H:i').'</center>'.
+                '</a>'
             );
         }
         
