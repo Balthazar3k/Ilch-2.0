@@ -184,13 +184,15 @@ class Calendar
         //func::ar($this->calendarArray);
         
         // Später noch ein Dynamisches Design mit DivContainern.
-        ?><table cellspacing="1" width="<?=$size?>" class="calendar">
-            
-            <tr>
-                <?php foreach( $this->controller->getTranslator()->getTranslations()['dayNames'] as $key => $value): ?>
-                <td align="center" width="<?=$rowSize;?>" class="weekdays"><?=$value[0];?></td>
-                <?php endforeach; ?>
-            </tr>
+        ?><table cellspacing="1" width="<?=$size?>" class="calendar table table-hover table-striped">
+            <thead>
+                <tr>
+                    <?php foreach( $this->controller->getTranslator()->getTranslations()['dayNames'] as $key => $value): ?>
+                    <th align="center" width="<?=$rowSize;?>" class="weekdays"><?=$value[0];?></th>
+                    <?php endforeach; ?>
+                </tr>
+            </thead>
+            <tbody>
             <?php
                 foreach( $this->calendarArray as $year => $yearArray):
                     foreach( $yearArray as $month => $daysArray):
@@ -211,6 +213,7 @@ class Calendar
                         endforeach;
                     endforeach;
                 endforeach;?>
+            </tbody>
         </table>
         <?php
     }

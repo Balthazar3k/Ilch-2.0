@@ -85,8 +85,8 @@ class Calendar extends \Ilch\Mapper
         
         $dates = func::cycle(
             $model->getCycle(),
-            $model->getDateStart(),
-            $model->getDateEnds()
+            $model->getStartTimestamp(),
+            $model->getEndsTimestamp()
          );
         
         $fields['organizer'] = $model->getOrganizer();

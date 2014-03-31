@@ -8,11 +8,8 @@ namespace Calendar\Plugins;
 
 class Functions 
 {
-    public static function cycle( $option, $from, $to, $format = 'Y-m-d' ){
+    public static function cycle( $option, $fromTS, $toTS, $format = 'Y-m-d' ){
         $dates = array();
-        
-        $fromTS = strtotime($from);
-        $toTS = strtotime($to);
 
         $h1 = date("H", $fromTS);     $h2 = date("H", $toTS);
         $i1 = date("i", $fromTS);     $i2 = date("i", $toTS);
@@ -25,8 +22,8 @@ class Functions
         switch($option)
         {
             case 'unique':
-                $dates[0][] = $from;
-                $dates[1][] = $to;
+                $dates[0][] = date($format, $fromTS);
+                $dates[1][] = date($format, $toTS);
                 return $dates; 
             break;
 
