@@ -50,7 +50,7 @@ class Index extends \Ilch\Controller\Admin
     public function indexAction()
     {
         $calendar = new \Calendar\Plugins\Calendar($this);
-        $calendar->view($this->getRequest()->getParam('date'));
+        $calendar->viewDate($this->getRequest()->getParam('date'));
         
         $mapper = new \Calendar\Mappers\Calendar();
         $calendarItems = $mapper->getCalendar(
