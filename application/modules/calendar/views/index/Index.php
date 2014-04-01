@@ -19,7 +19,7 @@ $date = $this->getRequest()->getParam('date');
            <a class="btn btn-default" href="<?=$this->getUrl(array('date' => false));?>"><i class="fa fa-caret-square-o-down"></i> <?=$this->getTrans('return');?></a>
         </div>
     </div>
-    <div style="float: right;"><?=$calendar->getNavigation();?></div>
+    <div style="float: right;"><?=$calendar->getNaviHtml();?></div>
 </div><br><br>
 
 

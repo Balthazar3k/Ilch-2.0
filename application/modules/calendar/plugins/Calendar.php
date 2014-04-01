@@ -82,11 +82,6 @@ class Calendar
         $this->calendarArray[$y][$m][$d][] = "<div class=\"eventItem\" ".$this->setAttr($attributes).">".$html."</div>";
     }
     
-    private function getCurrentTS()
-    {
-        return mktime(0,0,0,  $this->_month, $this->_day, $this->_year);
-    }
-
     private function init_CalendarArray(){
         # Hier wird eine Array erstellt
         # Das einem Monats blatt eines Kalenders gleich kommt
@@ -96,7 +91,7 @@ class Calendar
         $_day   = $this->_day;                                                              # Der Heutige Tag
         $_month = $this->_month;                                                            # Der aktuelle Monat
         $_year  = $this->_year;                                                             # Das aktuelle Jahr
-        $aDaysNow = date("t", $this->getCurrentTS());                                       # Anzahl der Tage in diesem Monat
+        $aDaysNow = date("t", $this->_time);                                       # Anzahl der Tage in diesem Monat
 
         # Berechnung der letzten Tage des vorigen Monats auf dem aktuellen Monatsplatt
         $aDaysLast =        date("t", mktime(0,0,0,$_month-1,1,$_year));                    # Anzahl der Tage im vorigem Monate
@@ -145,7 +140,7 @@ class Calendar
     }
 
   
-    public function getNavigation()
+    public function getNaviHtml()
     {
         $month = $this->controller->getTranslator()->getTranslations()['monthNames'];
 
@@ -165,15 +160,22 @@ class Calendar
             $nextYear = $this->_year;
         }
         
-        
-        
         $lastDate = $this->_day.'.'.$lastMonth.'.'.$lastYear;
         $nextDate = $this->_day.'.'.$nextMonth.'.'.$nextYear;
 
         ?><div class="btn-group">
-            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => $lastDate));?>"><i class="fa fa-caret-square-o-left"></i> <?=$month[$lastMonth]?></a>
-            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => date('d.m.Y')));?>"><i class="fa fa-calendar"></i> <?php echo $month[intval($this->_month)]." ".$this->_year; ?></a>
-            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => $nextDate));?>"><?=$month[$nextMonth]?> <i class="fa fa-caret-square-o-right"></i></a>
+            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => $lastDate));?>">
+                <i class="fa fa-caret-square-o-left"></i> 
+                <?=$month[$lastMonth]?>
+            </a>
+            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => date('d.m.Y')));?>">
+                <i class="fa fa-calendar"></i> 
+                <?php echo $month[intval($this->_month)]." ".$this->_year; ?>
+            </a>
+            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => $nextDate));?>">
+                <?=$month[$nextMonth]?> 
+                <i class="fa fa-caret-square-o-right"></i>
+            </a>
         </div><?php
     }
 
@@ -182,8 +184,6 @@ class Calendar
     {
         $rowSize = $this->_size/7;
         $ceilCounter = 0;
-        
-        //func::ar($this->calendarArray);
         
         // Später noch ein Dynamisches Design mit DivContainern.
         ?><table cellspacing="1" width="<?=$size?>" class="calendar table table-hover table-striped">

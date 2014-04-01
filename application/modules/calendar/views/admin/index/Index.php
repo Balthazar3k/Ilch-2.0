@@ -9,5 +9,5 @@ $calendar = $this->get('calendar');
 ?>
 <link href="<?php echo $this->getStaticUrl('../application/modules/calendar/static/css/index.css'); ?>" rel="stylesheet">
 
-<?=$calendar->getNavigation();?>
+<?=$calendar->getNaviHtml();?>
 <?=$calendar->getCalendarHtml();?>

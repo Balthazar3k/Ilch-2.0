@@ -21,7 +21,6 @@ class Calendar extends \Ilch\Model
     protected $_organizer;
     protected $_title;
     protected $_message;
-    protected $_array;
     protected $_created;
     protected $_changed;
     protected $_series;
