@@ -68,7 +68,7 @@ class Index extends \Ilch\Controller\Admin
         $this->getView()->set('calendar', $calendar);
     }
 	
-    public function treatAction($menu = array())
+    public function treatAction()
     {		
         $mapper = new \Calendar\Mappers\Calendar();
         
@@ -80,16 +80,15 @@ class Index extends \Ilch\Controller\Admin
                 $model->setId($this->getRequest()->getParam('id'));
             }
             
-            if(is_array($menu) && count($menu) > 0){
+            /*if(is_array($menu) && count($menu) > 0){
                 $model->setModuleUrl($this->getLayout()->getUrl($menu));
             } else {
                 $model->setModuleUrl($this->getLayout()->getUrl(
                     array(
-                        'controller' => 'index',
                         'action' => 'details'
                     )
                 ));
-            }
+            }*/
             
             $cycle = $this->getRequest()->getPost('cycle');
             $date_start = $this->getRequest()->getPost('date_start');

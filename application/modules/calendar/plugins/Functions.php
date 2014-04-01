@@ -11,14 +11,10 @@ class Functions
     public static function cycle( $option, $fromTS, $toTS, $format = 'Y-m-d' ){
         $dates = array();
 
-        $h1 = date("H", $fromTS);     $h2 = date("H", $toTS);
-        $i1 = date("i", $fromTS);     $i2 = date("i", $toTS);
         $m1 = date("m", $fromTS);     $m2 = date("m", $toTS);
         $d1 = date("d", $fromTS);     $d2 = date("d", $toTS);
         $y1 = date("Y", $fromTS);     $y2 = date("Y", $toTS);
         
-        
-
         switch($option)
         {
             case 'unique':
@@ -31,8 +27,8 @@ class Functions
                
                 $days = floor(($toTS-$fromTS)/(86400));
                 for( $x = 0; $x < $days+1; $x++){
-                    $dates[0][] = date($format, mktime($h1, $i1, 0, $m1, $d1+($x), $y1));
-                    $dates[1][] = date($format, mktime($h2, $i2, 0, $m2, $d2+($x), $y2));
+                    $dates[0][] = date($format, mktime(0, 0, 0, $m1, $d1+($x), $y1));
+                    $dates[1][] = date($format, mktime(0, 0, 0, $m2, $d2+($x), $y2));
                 }
 
                 return $dates;
@@ -42,8 +38,8 @@ class Functions
 
                 $weeks = floor(($toTS-$fromTS)/(86400*7));
                 for( $x = 0; $x < $weeks+1; $x++){
-                    $dates[0][] = date($format, mktime($h1, $i1, 0, $m1, $d1+(7*$x), $y1));
-                    $dates[1][] = date($format, mktime($h2, $i2, 0, $m2, $d2+(7*$x), $y2));
+                    $dates[0][] = date($format, mktime(0, 0, 0, $m1, $d1+(7*$x), $y1));
+                    $dates[1][] = date($format, mktime(0, 0, 0, $m2, $d2+(7*$x), $y2));
                 }
 
                 return $dates;
@@ -55,8 +51,8 @@ class Functions
                     
                     $anyOption = floor(($toTS-$fromTS)/(86400*$option));
                     for( $x = 0; $x < $anyOption+1; $x++){
-                        $dates[0][] = date($format, mktime($h1, $i1, 0, $m1, $d1+($option*$x), $y1));
-                        $dates[1][] = date($format, mktime($h2, $i2, 0, $m2, $d2+($option*$x), $y2));
+                        $dates[0][] = date($format, mktime(0, 0, 0, $m1, $d1+($option*$x), $y1));
+                        $dates[1][] = date($format, mktime(0, 0, 0, $m2, $d2+($option*$x), $y2));
                     }
 
                     return $dates;                    

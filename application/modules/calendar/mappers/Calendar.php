@@ -56,15 +56,32 @@ class Calendar extends \Ilch\Mapper
     public function getCalendarItem($id)
     {   
         $res = $this->db()->selectRow('*')
-                    ->from('ep_events')
-                    ->where(array('id' => $eventId))
+                    ->from('calendar')
+                    ->where(array('id' => $id))
                     ->execute();
 
         if(empty($res)){
             return false;
         }
-
         
+        $model = new \Calendar\Models\Calendar();
+        $model->setId($res['id']);
+        $model->setModuleKey($res['module_key']);
+        $model->setModuleUrl($res['module_url']);
+
+        $model->setCycle($res['cycle']);
+        $model->setDateStart($res['date_start']);
+        $model->setDateEnds($res['date_ends']);
+
+        $model->setOrganizer($res['organizer']);
+        $model->setTitle($res['title']);
+        $model->setMessage($res['message']);
+
+        $model->setCreated($res['created']);
+        $model->setChanged($res['changed']);
+        $model->setSeries($res['series']);
+
+        return $model;
     }
 	
     public function save($controller, \Calendar\Models\Calendar $model)

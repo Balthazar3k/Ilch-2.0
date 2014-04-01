@@ -28,6 +28,11 @@ return array(
     'date_start' => 'Datum Begin',
     'date_ends' => 'Datum Ende',
     
+    'of_the' => 'Von dem',
+    'to' => 'bis zum',
+    'created' => 'Erstellt am',
+    'changed' => 'Geändert am',
+    
     'menu_action_insert_calendar' => 'Kalender eintrag erstellen',
 
     'monthNames' => array(	
