@@ -18,6 +18,7 @@ class Calendar
     protected $_month;  # Current Month
     protected $_year;   # Current Year
     protected $_date;   # Current Date
+    protected $_time;   # Current Timestamp
     
     protected $_size;
 
@@ -44,7 +45,7 @@ class Calendar
         $this->setSize(940);
     }
        
-    public function view($view = false)
+    public function viewDate($view = false)
     {
         if( is_string( $view )){
             $ts = strtotime($view);
@@ -54,6 +55,7 @@ class Calendar
             $ts = time();
         }
         
+        $this->_time = $ts;
         $this->_date = date('d.m.Y', $ts);
         $this->_day = (int) date('d', $ts);
         $this->_month = (int) date('m', $ts);
@@ -73,9 +75,9 @@ class Calendar
     public function fill( $datetime, $html, $attributes=array() )
     {	
         $ts = strtotime($datetime);
-        $y = (int) intval(date("Y", $ts));
-        $m = (int) intval(date("m", $ts));
-        $d = (int) intval(date("d", $ts));
+        $y = (int) date("Y", $ts);
+        $m = (int) date("m", $ts);
+        $d = (int) date("d", $ts);
 
         $this->calendarArray[$y][$m][$d][] = "<div class=\"eventItem\" ".$this->setAttr($attributes).">".$html."</div>";
     }
@@ -94,7 +96,7 @@ class Calendar
         $_day   = $this->_day;                                                              # Der Heutige Tag
         $_month = $this->_month;                                                            # Der aktuelle Monat
         $_year  = $this->_year;                                                             # Das aktuelle Jahr
-        $aDaysNow = date("t", $this->getCurrentTS());                                      # Anzahl der Tage in diesem Monat
+        $aDaysNow = date("t", $this->getCurrentTS());                                       # Anzahl der Tage in diesem Monat
 
         # Berechnung der letzten Tage des vorigen Monats auf dem aktuellen Monatsplatt
         $aDaysLast =        date("t", mktime(0,0,0,$_month-1,1,$_year));                    # Anzahl der Tage im vorigem Monate
@@ -136,7 +138,7 @@ class Calendar
         return $this->calendarArray;
     }
     
-    public function where($feld, $format="U"){
+    public function where($feld, $format="Y-m-d H:i:s"){
         $startDate = date( $format, $this->startDate);
         $endsDate = date( $format, $this->endsDate);
         return "WHERE ".$feld .">'".$startDate."' AND ". $feld ."<'".$endsDate."'"; 
