@@ -16,7 +16,7 @@ class Index extends \Ilch\Controller\Frontend
         $this->getLayout()->getHmenu()->add($this->getTranslator()->trans('calendar'), array('action' => 'index'));
         
         $calendar = new \Calendar\Plugins\Calendar($this);
-        $calendar->view($this->getRequest()->getParam('date'));
+        $calendar->viewDate($this->getRequest()->getParam('date'));
         
         $mapper = new \Calendar\Mappers\Calendar();
         $calendarItems = $mapper->getCalendar(
