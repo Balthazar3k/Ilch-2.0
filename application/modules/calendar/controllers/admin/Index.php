@@ -2,12 +2,13 @@
 /**
  * @copyright Balthazar3k 2014
  * @package Calendar 1.0
+ * 
+ * $module_item_tpl = '\\'.ucfirst($item->getModuleKey()).'\\View\\Index\\Calendar.php'
  */
 
 namespace Calendar\Controllers\Admin;
 
 defined('ACCESS') or die('no direct access');
-
 
 class Index extends \Ilch\Controller\Admin
 {
