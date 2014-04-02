@@ -17,7 +17,7 @@ class Index extends \Ilch\Controller\Admin
     {
         $this->getLayout()->addMenu
         (
-            'eventplaner',
+            'calendar',
             array
             (
                 array

@@ -69,7 +69,7 @@ $config = $this->get('config');
      </div>
     
     <div class="form-group">
-        <label for="start" class="col-lg-1 control-label">
+        <label for="time_start" class="col-lg-1 control-label">
             <?php echo $this->getTrans('time_start'); ?>:
         </label>
         <div class="col-lg-5">
@@ -84,7 +84,7 @@ $config = $this->get('config');
     </div>
 
     <div class="form-group">
-        <label for="ends" class="col-lg-1 control-label">
+        <label for="time_ends" class="col-lg-1 control-label">
             <?php echo $this->getTrans('time_ends'); ?>:
         </label>
         <div class="col-lg-5">
@@ -99,7 +99,7 @@ $config = $this->get('config');
     </div>
 
     <div class="form-group">
-        <label for="start" class="col-lg-1 control-label">
+        <label for="date_start" class="col-lg-1 control-label">
             <?php echo $this->getTrans('date_start'); ?>:
         </label>
         <div class="col-lg-5">
@@ -108,12 +108,12 @@ $config = $this->get('config');
                    id="date_start"
                    name="date_start"
                    placeholder="YYYY-MM-TT"
-                   value="<?php if( $this->get('item') != '') { echo $this->get('item')->getStart('Y-m-d'); } ?>" />
+                   value="<?php if( $this->get('item') != '') { echo $this->get('item')->getMinDate('Y-m-d'); } ?>" />
         </div>
     </div>
 
     <div id="endsDatepicker" class="form-group" <?=( ($this->get('item') != '' && $this->get('item')->getCycle() > 0 )? '' : 'style="display: none;"');?>>
-        <label for="ends" class="col-lg-1 control-label">
+        <label for="date_ends" class="col-lg-1 control-label">
             <?php echo $this->getTrans('date_ends'); ?>:
         </label>
         <div class="col-lg-5">

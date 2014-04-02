@@ -37,9 +37,6 @@ class Calendar
         'style' => 'opacity: 0.3;'
     );
     
-    
-    
-    
     public function __construct($controller) {
         $this->controller = $controller;
         $this->setSize(940);
@@ -88,10 +85,10 @@ class Calendar
         
         $maxDays = 42;                                                                      # Ein Kalenderblatt hat insgesamt 42 Tage für eine Optimale darstellung
         $countDays = 0;                                                                     # Zähler um den nächsten Monat zu berechnen
-        $_day   = $this->_day;                                                              # Der Heutige Tag
+        $_day   = $this->_day;                                                              # Der aktuelle Tag
         $_month = $this->_month;                                                            # Der aktuelle Monat
         $_year  = $this->_year;                                                             # Das aktuelle Jahr
-        $aDaysNow = date("t", $this->_time);                                       # Anzahl der Tage in diesem Monat
+        $aDaysNow = date("t", $this->_time);                                                # Anzahl der Tage in diesem Monat
 
         # Berechnung der letzten Tage des vorigen Monats auf dem aktuellen Monatsplatt
         $aDaysLast =        date("t", mktime(0,0,0,$_month-1,1,$_year));                    # Anzahl der Tage im vorigem Monate
@@ -203,9 +200,9 @@ class Calendar
                             if( ($ceilCounter-1) % 7 == 0 ){ echo "<tr>"; } 
             ?>
                                 <td valign="top" <?=$this->setAttr($dayArray['attributes'])?> width="<?=$rowSize;?>" height="<?=$rowSize;?>"><?php
-                                        foreach( $dayArray as $i => $event ):
-                                            if( !is_array( $event ) ){
-                                                echo $event; 
+                                        foreach( $dayArray as $i => $day ):
+                                            if( !is_array( $day ) ){
+                                                echo $day; 
                                             }
                                         endforeach;
             ?>

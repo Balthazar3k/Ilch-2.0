@@ -203,6 +203,21 @@ class Calendar extends \Ilch\Model
     
     
     
+    protected $_minDate;
+    
+    public function getMinDate($format='Y-m-d'){
+        if(empty($this->_minDate)){
+            $obj = new \Calendar\Mappers\Calendar();
+            $res = $obj->getSeriesMin($this->getSeries());
+            $this->_minDate = $res;
+            return date( $format, $res);
+        } else {
+            return date( $format, $this->_minDate);
+        }
+    }
+    
+    
+    
     protected $_seriesList;
     
     public function getSeriesList(){

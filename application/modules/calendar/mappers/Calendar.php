@@ -183,5 +183,11 @@ class Calendar extends \Ilch\Mapper
             SELECT MAX(`date_start`) FROM `[prefix]_calendar` WHERE `series`=\''.$id.'\';
         '));
     }
+    
+    public function getSeriesMin($id){
+        return strtotime($this->db()->queryCell('
+            SELECT MIN(`date_start`) FROM `[prefix]_calendar` WHERE `series`=\''.$id.'\';
+        '));
+    }
 }
 ?>
