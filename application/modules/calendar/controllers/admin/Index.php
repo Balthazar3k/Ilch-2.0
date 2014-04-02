@@ -100,36 +100,31 @@ class Index extends \Ilch\Controller\Admin
             $title = $this->getRequest()->getPost('title');
             $message = $this->getRequest()->getPost('message');
             
-            $array = array();
+            $model->setCycle($cycle);
+            $model->setDateStart($date_start);
+            $model->setDateEnds($date_ends);
+            $model->setTimeStart($time_start);
+            $model->setTimeEnds($time_ends);
+
+            $model->setTitle($title);
+            $model->setOrganizer($organizer);
+            $model->setMessage($message);
+            
+            $this->getView()->set('item', $model );
                        
-            if( empty($cycle) ) {
-                $this->addMessage('missing_cycle', 'danger');
+            if( empty($title) ) {
+                $this->addMessage('missing_title', 'danger');
+            } elseif(empty($message)) {
+                $this->addMessage('missing_message', 'danger');
+            } elseif( $cycle > 0 && empty($date_ends) ) {
+                $this->addMessage('missing_date_ends', 'danger');
             } elseif(empty($date_start)) {
                 $this->addMessage('missing_date_start', 'danger');
-            } elseif(empty($date_ends)) {
-                $this->addMessage('missing_date_ends', 'danger');
             } elseif(empty($time_start)) {
                 $this->addMessage('missing_time_start', 'danger');
             } elseif(empty($time_ends)) {
                 $this->addMessage('missing_time_ends', 'danger');
-            } elseif(empty($title)) {
-                $this->addMessage('missing_title', 'danger');
-            } elseif(empty($organizer)) {
-                $this->addMessage('missing_organizer', 'danger');
-            } elseif(empty($message)) {
-                $this->addMessage('missing_message', 'danger');
             } else {
-
-                $model->setCycle($cycle);
-                $model->setDateStart($date_start);
-                $model->setDateEnds($date_ends);
-                $model->setTimeStart($time_start);
-                $model->setTimeEnds($time_ends);
-                
-                $model->setTitle($title);
-                $model->setOrganizer($organizer);
-                $model->setMessage($message);
-                
                 $mapper->save($this, $model);
                 
                 $this->addMessage('calendar_save_success');
@@ -143,6 +138,7 @@ class Index extends \Ilch\Controller\Admin
 
         if ($ItemId = $this->getRequest()->getParam('id')) {
             $this->getView()->set('item', $mapper->getCalendarById($ItemId) );
+            $this->getView()->set('cycle', func::cycleNames() );
         }
         
     }

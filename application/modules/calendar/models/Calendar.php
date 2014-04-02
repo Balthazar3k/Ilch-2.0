@@ -63,7 +63,7 @@ class Calendar extends \Ilch\Model
     
     public function setCycle($res)
     {
-        $this->_cycle = (string) $res;
+        $this->_cycle = (int) $res;
     }
 
     public function getDateStart()

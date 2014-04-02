@@ -3,6 +3,8 @@
  * @copyright Balthazar3k 2014
  * @package Calendar 1.0
  */
+namespace Calendar\Views\Admin\Index;
+use Calendar\Plugins\Functions as func;
 $config = $this->get('config');
 ?>
 
@@ -55,15 +57,9 @@ $config = $this->get('config');
                 class="form-control"
                 id="cycle"
                 name="cycle">
-                <option value="unique"><?=$this->getTrans('cycle_unique')?></option>
-                <option value="daily"><?=$this->getTrans('cycle_daily')?></option>
-                <option value="weekly"><?=$this->getTrans('cycle_weekly')?></option>
-                
-                <!--<option value="2"><?=$this->getTrans('cycle_2_days')?></option>
-                <option value="3"><?=$this->getTrans('cycle_3_days')?></option>
-                <option value="4"><?=$this->getTrans('cycle_4_days')?></option>
-                <option value="5"><?=$this->getTrans('cycle_5_days')?></option>
-                <option value="6"><?=$this->getTrans('cycle_6_days')?></option>-->
+                <?php foreach( func::cycleNames() as $id => $val ): ?>
+                <option value="<?=$id?>"><?=$this->getTrans('cycle_'. $val)?></option>
+                <?php endforeach; ?>
             </select>
         </div> 
      </div>
@@ -78,6 +74,7 @@ $config = $this->get('config');
                    id="time_start"
                    name="time_start"
                    placeholder="HH:MM"
+                   max="5" maxlength="5"
                    value="<?php if( $this->get('item') != '') { echo ( empty($this->get('item')->getDateStart()) ? '' : $this->get('item')->getDateStart() ); } ?>" />
         </div>
     </div>
@@ -92,6 +89,7 @@ $config = $this->get('config');
                    id="time_ends"
                    name="time_ends"
                    placeholder="HH:MM"
+                   max="5" maxlength="5"
                    value="<?php if( $this->get('item') != '') { echo ( empty($this->get('item')->getEnds()) ? '' : $this->get('item')->getEnds() ); } ?>" />
         </div>
     </div>
@@ -110,7 +108,7 @@ $config = $this->get('config');
         </div>
     </div>
 
-    <div class="form-group">
+    <div id="endsDatepicker" class="form-group" style="display: none;">
         <label for="ends" class="col-lg-1 control-label">
             <?php echo $this->getTrans('date_ends'); ?>:
         </label>
@@ -120,6 +118,7 @@ $config = $this->get('config');
                    id="date_ends"
                    name="date_ends"
                    placeholder="YYYY-MM-TT"
+                   disabled="disabled"
                    value="<?php if( $this->get('item') != '') { echo ( empty($this->get('item')->getEnds()) ? '' : $this->get('item')->getEnds() ); } ?>" />
         </div>
     </div>
@@ -140,6 +139,39 @@ $config = $this->get('config');
             $(this).datepicker({ 
                 dateFormat: "yy-mm-dd"
             });
+        });
+        
+        $('#cycle').change(function(){
+            var $val = $(this).val();
+            console.log($val);
+            if( $val > 0 ){
+                $('#endsDatepicker').fadeIn(function(){
+                    $(this).find('input').prop('disabled', false);
+                });
+            }else if( $val === 'unique' ){
+                $('#endsDatepicker').fadeOut(function(){
+                    $(this).find('input').prop('disabled', true);
+                });
+            }
+        });
+        
+        $("input#time_ends, input#time_start").bind("keyup", function(event){
+            event.preventDefault();
+            var val = $(this).val();
+            if( val.length === 2 && event.keyCode !== 8 ){        
+                $(this).val(val+":");
+            }
+            
+            if( val.indexOf(':') && val.length === 5 ){
+                var time = val.split(':');
+                
+                if( time[0] > 23 && time[1] > 59 ){
+                    $(this).val('23:59');
+                }else if( time[0] > 23 ){
+                    time[0] = 23;
+                    $(this).val('23:'.time[1]);
+                }
+            }
         });
     
     });

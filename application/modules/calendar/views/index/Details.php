@@ -3,6 +3,8 @@
  * @copyright Balthazar3k 2014
  * @package Calendar 1.0
  */
+namespace Calendar\Views\Admin\Index;
+use Calendar\Plugins\Functions as func;
 
 $item = $this->get('item');
 ?>
@@ -31,30 +33,12 @@ $item = $this->get('item');
     <?php endif; ?>
   
     <div class="small" align="right">
+         <?=$this->getTrans('cycle');?>: <?=$this->getTrans('cycle_'.func::cycleNames($item->getCycle()));?> <i class="fa fa-file"></i><br />
          <?=$this->getTrans('created');?> <?=date('d.m.Y H:i', strtotime($item->getCreated()));?> <i class="fa fa-file"></i><br />
          <?=$this->getTrans('changed');?> <?=date('d.m.Y H:i', strtotime($item->getChanged()));?> <i class="fa fa-file-text"></i>
     </div>
 </div>
 
 <script type="text/javascript">
-$(function() {
-     $( "#dialog" ).dialog({
-        autoOpen: false,
-        modal: true
-    });
-        
-    $( "#opener" ).click(function() {
-        $( "#dialog" ).dialog( "open" );
-    });
 
-    
-    $( "div#progressbar" ).each(function(){
-        var max = parseInt($(this).attr('data-max'));
-        var value = parseInt($(this).attr('data-value'));
-        $(this).progressbar({
-            max: max,
-            value: value
-        });
-    });
-});
 </script>

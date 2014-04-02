@@ -17,12 +17,12 @@ class Functions
         
         switch($option)
         {
-            case 'unique':
+            case 0:
                 $dates[0][] = date($format, $fromTS);
                 return $dates; 
             break;
 
-            case 'daily':
+            case 1:
                
                 $days = floor(($toTS-$fromTS)/(86400));
                 for( $x = 0; $x < $days+1; $x++){
@@ -32,7 +32,7 @@ class Functions
                 return $dates;
             break;
 
-            case 'weekly': 
+            case 2: 
 
                 $weeks = floor(($toTS-$fromTS)/(86400*7));
                 for( $x = 0; $x < $weeks+1; $x++){
@@ -60,6 +60,22 @@ class Functions
         }
     }
     
+    public static function cycleNames($id = NULL)
+    {
+        $options = array(
+            0 => 'unique',
+            1 => 'daily',
+            2 => 'weekly'
+        );
+        
+        if( $id != NULL ){
+            return $options[$id];
+        } else {
+            return $options;
+        }
+    }
+
+
     public static function ar()
     {
         ?><pre><?php
