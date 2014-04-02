@@ -34,6 +34,7 @@ return array(
     'changed' => 'Geändert am',
     
     'menu_action_insert_calendar' => 'Kalender eintrag erstellen',
+    'menu_action_update_calendar' => 'Kalender eintrag bearbeiten',
 
     'monthNames' => array(	
          1 =>  'Januar',

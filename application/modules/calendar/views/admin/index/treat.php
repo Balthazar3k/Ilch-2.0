@@ -14,7 +14,7 @@ $config = $this->get('config');
         
     <legend>
     <?php
-        if ($this->get('event') != '') {
+        if ($this->get('item') != '') {
             echo $this->getTrans('menu_action_update_calendar');
         } else {
             echo $this->getTrans('menu_action_insert_calendar');
@@ -58,7 +58,9 @@ $config = $this->get('config');
                 id="cycle"
                 name="cycle">
                 <?php foreach( func::cycleNames() as $id => $val ): ?>
-                <option value="<?=$id?>"><?=$this->getTrans('cycle_'. $val)?></option>
+                <option value="<?=$id?>" <?=($id === $this->get('item')->getCycle() ? 'selected="selected"' : '' )?>>
+                    <?=$this->getTrans('cycle_'. $val)?>
+                </option>
                 <?php endforeach; ?>
             </select>
         </div> 
@@ -75,7 +77,7 @@ $config = $this->get('config');
                    name="time_start"
                    placeholder="HH:MM"
                    max="5" maxlength="5"
-                   value="<?php if( $this->get('item') != '') { echo ( empty($this->get('item')->getDateStart()) ? '' : $this->get('item')->getDateStart() ); } ?>" />
+                   value="<?php if( $this->get('item') != '') { echo $this->get('item')->getStart('H:i'); } ?>" />
         </div>
     </div>
 
@@ -90,7 +92,7 @@ $config = $this->get('config');
                    name="time_ends"
                    placeholder="HH:MM"
                    max="5" maxlength="5"
-                   value="<?php if( $this->get('item') != '') { echo ( empty($this->get('item')->getEnds()) ? '' : $this->get('item')->getEnds() ); } ?>" />
+                   value="<?php if( $this->get('item') != '') { echo $this->get('item')->getEnds('H:i'); } ?>" />
         </div>
     </div>
 
@@ -104,11 +106,11 @@ $config = $this->get('config');
                    id="date_start"
                    name="date_start"
                    placeholder="YYYY-MM-TT"
-                   value="<?php if( $this->get('item') != '') { echo ( empty($this->get('item')->getDateStart()) ? '' : $this->get('item')->getDateStart() ); } ?>" />
+                   value="<?php if( $this->get('item') != '') { echo $this->get('item')->getStart('Y-m-d'); } ?>" />
         </div>
     </div>
 
-    <div id="endsDatepicker" class="form-group" style="display: none;">
+    <div id="endsDatepicker" class="form-group" <?=( $this->get('item')->getCycle() > 0 ? '' : 'style="display: none;"');?>>
         <label for="ends" class="col-lg-1 control-label">
             <?php echo $this->getTrans('date_ends'); ?>:
         </label>
@@ -118,8 +120,8 @@ $config = $this->get('config');
                    id="date_ends"
                    name="date_ends"
                    placeholder="YYYY-MM-TT"
-                   disabled="disabled"
-                   value="<?php if( $this->get('item') != '') { echo ( empty($this->get('item')->getEnds()) ? '' : $this->get('item')->getEnds() ); } ?>" />
+                   <?=( $this->get('item')->getCycle() > 0 ? '' : 'disabled="disabled"');?>
+                   value="<?php if( $this->get('item') != '') { echo $this->get('item')->getMaxDate('Y-m-d'); } ?>" />
         </div>
     </div>
 

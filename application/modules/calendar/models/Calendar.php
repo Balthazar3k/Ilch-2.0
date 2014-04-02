@@ -185,5 +185,20 @@ class Calendar extends \Ilch\Model
     {
         return date($format, $this->getEndsTimestamp());
     }
+    
+    
+    
+    protected $_maxDate;
+    
+    public function getMaxDate($format='Y-m-d'){
+        if(empty($this->_maxDate)){
+            $obj = new \Calendar\Mappers\Calendar();
+            $res = $obj->getSeriesMax($this->getSeries());
+            $this->_maxDate = $res;
+            return date( $format, $res);
+        } else {
+            return date( $format, $this->_maxDate);
+        }
+    }
 }
 ?>

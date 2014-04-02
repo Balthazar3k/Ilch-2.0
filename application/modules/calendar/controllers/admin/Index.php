@@ -60,8 +60,10 @@ class Index extends \Ilch\Controller\Admin
         
         foreach( $calendarItems as $item){
             $calendar->fill($item->getDateStart(),
-                '<div align="center"><b>'.$item->getTitle().'</b></div>'.
-                '<center>'.$item->getStart('H:i - ') . $item->getEnds('H:i').'</center>' 
+                '<a href="'.$this->getLayout()->getUrl(array('action' => 'treat', 'id' => $item->getId())).'">'.
+                    '<div align="center"><b>'.$item->getTitle().'</b></div>'.
+                    '<center>'.$item->getStart('H:i - ') . $item->getEnds('H:i').'</center>'.
+                '</a>'
             );
         }
         
@@ -137,8 +139,7 @@ class Index extends \Ilch\Controller\Admin
         }
 
         if ($ItemId = $this->getRequest()->getParam('id')) {
-            $this->getView()->set('item', $mapper->getCalendarById($ItemId) );
-            $this->getView()->set('cycle', func::cycleNames() );
+            $this->getView()->set('item', $mapper->getCalendarItem($ItemId) );
         }
         
     }
