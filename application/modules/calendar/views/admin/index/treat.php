@@ -11,7 +11,9 @@ $config = $this->get('config');
 <form class="form-horizontal" method="POST" action="<?php echo $this->getUrl(array('action' => 'treat', 'id' => $this->getRequest()->getParam('id'))); ?>">
     <?php echo $this->getTokenField(); ?>
     <input type="hidden" name="organizer" value="<?=$_SESSION['user_id']?>" />
-        
+    <input type="hidden" name="series" value="<?=( ($this->get('item') != '') ? $this->get('item')->getSeries() : 0);?>" />
+    
+    
     <legend>
     <?php
         if ($this->get('item') != '') {
@@ -58,7 +60,7 @@ $config = $this->get('config');
                 id="cycle"
                 name="cycle">
                 <?php foreach( func::cycleNames() as $id => $val ): ?>
-                <option value="<?=$id?>" <?=($id === $this->get('item')->getCycle() ? 'selected="selected"' : '' )?>>
+                <option value="<?=$id?>" <?php if( $this->get('item') != '') { echo ($id === $this->get('item')->getCycle() ? 'selected="selected"' : '' ); } ?>>
                     <?=$this->getTrans('cycle_'. $val)?>
                 </option>
                 <?php endforeach; ?>
@@ -110,7 +112,7 @@ $config = $this->get('config');
         </div>
     </div>
 
-    <div id="endsDatepicker" class="form-group" <?=( $this->get('item')->getCycle() > 0 ? '' : 'style="display: none;"');?>>
+    <div id="endsDatepicker" class="form-group" <?=( ($this->get('item') != '' && $this->get('item')->getCycle() > 0 )? '' : 'style="display: none;"');?>>
         <label for="ends" class="col-lg-1 control-label">
             <?php echo $this->getTrans('date_ends'); ?>:
         </label>
@@ -120,7 +122,7 @@ $config = $this->get('config');
                    id="date_ends"
                    name="date_ends"
                    placeholder="YYYY-MM-TT"
-                   <?=( $this->get('item')->getCycle() > 0 ? '' : 'disabled="disabled"');?>
+                   <?=(($this->get('item') != '' && $this->get('item')->getCycle() > 0 ) ? '' : 'disabled="disabled"');?>
                    value="<?php if( $this->get('item') != '') { echo $this->get('item')->getMaxDate('Y-m-d'); } ?>" />
         </div>
     </div>
@@ -150,7 +152,7 @@ $config = $this->get('config');
                 $('#endsDatepicker').fadeIn(function(){
                     $(this).find('input').prop('disabled', false);
                 });
-            }else if( $val === 'unique' ){
+            }else if( $val == 0 ){
                 $('#endsDatepicker').fadeOut(function(){
                     $(this).find('input').prop('disabled', true);
                 });

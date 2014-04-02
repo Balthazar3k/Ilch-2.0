@@ -82,16 +82,6 @@ class Index extends \Ilch\Controller\Admin
                 $model->setId($this->getRequest()->getParam('id'));
             }
             
-            /*if(is_array($menu) && count($menu) > 0){
-                $model->setModuleUrl($this->getLayout()->getUrl($menu));
-            } else {
-                $model->setModuleUrl($this->getLayout()->getUrl(
-                    array(
-                        'action' => 'details'
-                    )
-                ));
-            }*/
-            
             $cycle = $this->getRequest()->getPost('cycle');
             $date_start = $this->getRequest()->getPost('date_start');
             $date_ends = $this->getRequest()->getPost('date_ends');
@@ -102,6 +92,8 @@ class Index extends \Ilch\Controller\Admin
             $title = $this->getRequest()->getPost('title');
             $message = $this->getRequest()->getPost('message');
             
+            $series = $this->getRequest()->getPost('series');
+            
             $model->setCycle($cycle);
             $model->setDateStart($date_start);
             $model->setDateEnds($date_ends);
@@ -111,6 +103,7 @@ class Index extends \Ilch\Controller\Admin
             $model->setTitle($title);
             $model->setOrganizer($organizer);
             $model->setMessage($message);
+            $model->setSeries($series);
             
             $this->getView()->set('item', $model );
                        

@@ -200,5 +200,20 @@ class Calendar extends \Ilch\Model
             return date( $format, $this->_maxDate);
         }
     }
+    
+    
+    
+    protected $_seriesList;
+    
+    public function getSeriesList(){
+        if(empty($this->_seriesList)){
+            $obj = new \Calendar\Mappers\Calendar();
+            $res = $obj->getCalendarSeries($this->getSeries());
+            $this->_seriesList = $res;
+            return $res;
+        } else {
+            return $this->_seriesList;
+        }
+    }
 }
 ?>

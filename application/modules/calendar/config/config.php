@@ -55,7 +55,7 @@ class Config extends \Ilch\Config\Install
                 `message` text NOT NULL,
                 `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 `changed` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                `series` int(11) NOT NULL DEFAULT 0,
+                `series` int(22) NOT NULL DEFAULT 0,
                 PRIMARY KEY (`id`)
               ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
         ";
