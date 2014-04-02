@@ -138,7 +138,7 @@ class Calendar extends \Ilch\Mapper
                 
                 foreach($dates[0] as $i => $date){
                     $fields['date_start'] = $date . ' ' . $model->getTimeStart();
-                    $fields['date_ends'] = $dates[1][$i] . ' ' . $model->getTimeEnds();
+                    $fields['date_ends'] = $date . ' ' . $model->getTimeEnds();
                     
                     $this->db()->insert('calendar')
                         ->fields($fields)
