@@ -49,7 +49,6 @@ class Calendar extends \Ilch\Mapper
             $model->setSeries($res['series']);
             $entry[] = $model;
         }   
-        //func::ar($entry);
         return $entry;
     }
 	
@@ -129,29 +128,20 @@ class Calendar extends \Ilch\Mapper
             return;
         } else {
             $model ->setModuleKey($controller->getRequest()->getModuleName());
+            unset($controller);
         }
         
         $fields = array();
         
         $fields['module_key'] = $model->getModuleKey();
-        $fields['module_url'] = $model->getModuleUrl();
-        
-        $fields['cycle'] = $model->getCycle();
-        
-        $dates = func::cycle(
-            $model->getCycle(),
-            $model->getStartTimestamp(),
-            $model->getEndsTimestamp()
-         );
-        
+    
         $fields['organizer'] = $model->getOrganizer();
         $fields['title'] = $model->getTitle();
         $fields['message'] = $model->getMessage();
         
-        $fields['created'] = $model->getCreated();
-        $fields['changed'] = $model->getChanged();
+        func::ar($_POST, $model); exit();
                
-        if(is_array($dates)){
+        if( $model->is_Series() ){
             $this->db()->query('
                 DELETE FROM `[prefix]_calendar` WHERE `series`=\''.$model->getSeries().'\';
             ');
@@ -164,6 +154,13 @@ class Calendar extends \Ilch\Mapper
 
             $model->setSeries($CalendarLastId);
             $fields['series'] = $model->getSeries();
+            $fields['cycle'] = $model->getCycle();
+            
+            $dates = func::cycle(
+                $model->getCycle(),
+                $model->getStartTimestamp(),
+                $model->getEndsTimestamp()
+             );
 
             foreach($dates[0] as $i => $date){
                 $fields['date_start'] = $date . ' ' . $model->getTimeStart();
@@ -173,9 +170,21 @@ class Calendar extends \Ilch\Mapper
                     ->fields($fields)
                     ->execute();
             }
-        }
+        } else {
+            $fields['date_start'] = $model->getDateStart() . ' ' . $model->getTimeStart();
+            $fields['date_ends'] = $model->getDateEnds() . ' ' . $model->getTimeEnds();
             
-        
+            $this->db()->update('calendar')
+                    ->fields($fields)
+                    ->where(array( 'id' => $model->getId() ))
+                    ->execute();
+        }  
+    }
+    
+    public function getSeries($id){
+        return $this->db()->queryCell('
+            SELECT `series` FROM `[prefix]_calendar` WHERE `id`=\''.$id.'\';
+        ');
     }
     
     public function getSeriesMax($id){

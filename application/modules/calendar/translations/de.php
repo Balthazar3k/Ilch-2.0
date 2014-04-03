@@ -33,6 +33,11 @@ return array(
     'created' => 'Erstellt am',
     'changed' => 'Geändert am',
     
+    'action_series' => 'Der Kalendereintrag ist teil einer Serie',
+    'action_series_edit' => 'Kalenderserie bearbeiten?',
+    'action_series_true' => 'Ja, Serie bearbeiten',
+    'action_series_false' => 'Nein, nur diesen Eintrag',
+    
     'menu_action_insert_calendar' => 'Kalender eintrag erstellen',
     'menu_action_update_calendar' => 'Kalender eintrag bearbeiten',
 

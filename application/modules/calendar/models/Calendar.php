@@ -201,6 +201,11 @@ class Calendar extends \Ilch\Model
         }
     }
     
+    public function setMaxDate()
+    {
+        $this->_maxDate = (int) time();
+    }
+
     
     
     protected $_minDate;
@@ -215,6 +220,11 @@ class Calendar extends \Ilch\Model
             return date( $format, $this->_minDate);
         }
     }
+        
+    public function setMinDate()
+    {
+        $this->_minDate = (int) time();
+    }
     
     
     
@@ -228,6 +238,41 @@ class Calendar extends \Ilch\Model
             return $res;
         } else {
             return $this->_seriesList;
+        }
+    }
+    
+    
+    
+    protected $_isSeries;
+    
+    public function set_is_Series($bool){
+        if( $bool ) {
+            $this->_isSeries = true;
+        } else {
+            $this->_isSeries = false;
+        }
+            
+    }
+
+    public function is_Series( $val1 = NULL, $val2 = NULL ){   
+        if( $this->_isSeries && $val1 != NULL && $val2 != NULL ){
+            return $val1;
+        } else {
+            return $val2;
+        }
+        
+        if( $this->_isSeries ){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function is_Cycle( $val1 = NULL, $val2 = NULL ){   
+        if( $this->_cycle && $val1 != NULL && $val2 != NULL ){
+            return $val1;
+        } else {
+            return $val2;
         }
     }
 }

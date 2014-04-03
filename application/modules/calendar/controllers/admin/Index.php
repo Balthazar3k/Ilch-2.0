@@ -50,8 +50,9 @@ class Index extends \Ilch\Controller\Admin
 	
     public function indexAction()
     {
+        $viewDate = $this->getRequest()->getParam('date');
         $calendar = new \Calendar\Plugins\Calendar($this);
-        $calendar->viewDate($this->getRequest()->getParam('date'));
+        $calendar->viewDate($viewDate);
         
         $mapper = new \Calendar\Mappers\Calendar();
         $calendarItems = $mapper->getCalendar(
@@ -60,7 +61,7 @@ class Index extends \Ilch\Controller\Admin
         
         foreach( $calendarItems as $item){
             $calendar->fill($item->getDateStart(),
-                '<a href="'.$this->getLayout()->getUrl(array('action' => 'treat', 'id' => $item->getId())).'">'.
+                '<a href="'.$this->getLayout()->getUrl(array('action' => $item->is_Cycle('series', 'treat'), 'id' => $item->getId(), 'date' => $viewDate)).'">'.
                     '<div align="center"><b>'.$item->getTitle().'</b></div>'.
                     '<center>'.$item->getStart('H:i - ') . $item->getEnds('H:i').'</center>'.
                 '</a>'
@@ -82,6 +83,7 @@ class Index extends \Ilch\Controller\Admin
                 $model->setId($this->getRequest()->getParam('id'));
             }
             
+            $series = $this->getRequest()->getPost('series');
             $cycle = $this->getRequest()->getPost('cycle');
             $date_start = $this->getRequest()->getPost('date_start');
             $date_ends = $this->getRequest()->getPost('date_ends');
@@ -92,8 +94,7 @@ class Index extends \Ilch\Controller\Admin
             $title = $this->getRequest()->getPost('title');
             $message = $this->getRequest()->getPost('message');
             
-            $series = $this->getRequest()->getPost('series');
-            
+            $model->setSeries($series);
             $model->setCycle($cycle);
             $model->setDateStart($date_start);
             $model->setDateEnds($date_ends);
@@ -103,7 +104,8 @@ class Index extends \Ilch\Controller\Admin
             $model->setTitle($title);
             $model->setOrganizer($organizer);
             $model->setMessage($message);
-            $model->setSeries($series);
+                                   
+            $model->set_is_Series($this->getRequest()->getPost('is_series'));
             
             $this->getView()->set('item', $model );
                        
@@ -132,9 +134,14 @@ class Index extends \Ilch\Controller\Admin
         }
 
         if ($ItemId = $this->getRequest()->getParam('id')) {
-            $this->getView()->set('item', $mapper->getCalendarItem($ItemId) );
-        }
-        
+            $item = $mapper->getCalendarItem($ItemId);
+            $item->set_is_Series($this->getRequest()->getParam('series'));
+            $this->getView()->set('item', $item );
+        }   
+    }
+    
+    public function seriesAction(){
+        $this->addMessage('action_series', 'info');
     }
 	
 }
