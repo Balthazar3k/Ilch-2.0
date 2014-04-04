@@ -7,6 +7,7 @@
  */
 
 namespace Calendar\Controllers\Admin;
+use Calendar\Plugins\Functions as func;
 
 defined('ACCESS') or die('no direct access');
 
@@ -111,8 +112,6 @@ class Index extends \Ilch\Controller\Admin
                        
             if( empty($title) ) {
                 $this->addMessage('missing_title', 'danger');
-            } elseif(empty($message)) {
-                $this->addMessage('missing_message', 'danger');
             } elseif( $cycle > 0 && empty($date_ends) ) {
                 $this->addMessage('missing_date_ends', 'danger');
             } elseif(empty($date_start)) {
@@ -135,13 +134,23 @@ class Index extends \Ilch\Controller\Admin
 
         if ($ItemId = $this->getRequest()->getParam('id')) {
             $item = $mapper->getCalendarItem($ItemId);
+            //func::dump($item);
             $item->set_is_Series($this->getRequest()->getParam('series'));
             $this->getView()->set('item', $item );
         }   
     }
     
     public function seriesAction(){
-        $this->addMessage('action_series', 'info');
+        if(empty($this->getRequest()->getParam('id'))){
+            $this->redirect(array(
+                'action' => 'index'
+            ));
+        }
+        
+        $mapper = new \Calendar\Mappers\Calendar();
+        $item = $mapper->getCalendarItem($this->getRequest()->getParam('id'));
+        
+        $this->getView()->set('item', $item);
     }
 	
 }

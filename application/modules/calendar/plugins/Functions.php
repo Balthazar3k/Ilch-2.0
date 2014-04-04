@@ -90,5 +90,20 @@ class Functions
         }
         ?></pre><?php
     }
+    
+    public static function dump()
+    {
+        ?><pre><?php
+        foreach(func_get_args() as $arg){
+            if( is_array($arg) || is_object($arg)){
+                var_dump($arg);
+                ?><hr><?php
+            } else {
+                echo $arg;
+                ?><hr><?php
+            }
+        }
+        ?></pre><?php
+    }
 }
 ?>

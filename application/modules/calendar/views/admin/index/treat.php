@@ -20,7 +20,7 @@ if( $this->get('item') != '' ){
 
 <form class="form-horizontal" method="POST" action="<?php echo $this->getUrl(array('action' => 'treat', 'id' => $this->getRequest()->getParam('id'))); ?>">
     <?=$this->getTokenField();?>
-    <input type="hidden" name="is_series" value="<?=$item->is_Series('1', '0')?>" />
+    <input type="hidden" name="is_series" value="<?=$item->if_Series('1', '0')?>" />
     <input type="hidden" name="organizer" value="<?=$_SESSION['user_id']?>" />
     <input type="hidden" name="series" value="<?=( ($item != '') ? $item->getSeries() : 0);?>" />
     
@@ -70,7 +70,7 @@ if( $this->get('item') != '' ){
                 class="form-control"
                 id="cycle"
                 name="cycle"
-                <?php if( $item != '') { echo $item->is_Series(' ' ,'disabled="disabled"'); } ?>>
+                <?php if( $item != '') { echo $item->if_Series(' ' ,'disabled="disabled"'); } ?>>
                 <?php foreach( func::cycleNames() as $id => $val ): ?>
                 <option value="<?=$id?>" <?php if( $item != '') { echo ($id === $item->getCycle() ? 'selected="selected"' : '' ); } ?>>
                     <?=$this->getTrans('cycle_'. $val)?>
@@ -120,7 +120,7 @@ if( $this->get('item') != '' ){
                    id="date_start"
                    name="date_start"
                    placeholder="YYYY-MM-TT"
-                   value="<?php if( $item != '') { echo $item->is_Series( $item->getMinDate('Y-m-d'), $item->getStart('Y-m-d') ); } ?>" />
+                   value="<?php if( $item != '') { echo $item->if_Series( $item->getMinDate('Y-m-d'), $item->getStart('Y-m-d') ); } ?>" />
         </div>
     </div>
 
@@ -135,7 +135,7 @@ if( $this->get('item') != '' ){
                    name="date_ends"
                    placeholder="YYYY-MM-TT"
                    <?=(($item != '' && $item->getCycle() > 0 ) ? '' : 'disabled="disabled"');?>
-                   value="<?php if( $item != '') { echo $item->is_Series( $item->getMaxDate('Y-m-d'), $item->getStart('Y-m-d') ); } ?>" />
+                   value="<?php if( $item != '') { echo $item->if_Series( $item->getMaxDate('Y-m-d'), $item->getStart('Y-m-d') ); } ?>" />
         </div>
     </div>
 

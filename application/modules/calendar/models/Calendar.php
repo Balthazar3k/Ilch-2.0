@@ -246,21 +246,23 @@ class Calendar extends \Ilch\Model
     protected $_isSeries;
     
     public function set_is_Series($bool){
-        if( $bool ) {
-            $this->_isSeries = true;
-        } else {
-            $this->_isSeries = false;
+        switch(strtolower($bool)){
+            case '1':
+            case 'on':
+            case 'yes':
+            case 'true':
+                $this->_isSeries = true;
+            break;
+        
+            default:
+                $this->_isSeries = false;
+            break;
         }
             
     }
 
-    public function is_Series( $val1 = NULL, $val2 = NULL ){   
-        if( $this->_isSeries && $val1 != NULL && $val2 != NULL ){
-            return $val1;
-        } else {
-            return $val2;
-        }
-        
+    public function is_Series( $val1 = '', $val2 = '' ){   
+
         if( $this->_isSeries ){
             return true;
         } else {
@@ -268,6 +270,14 @@ class Calendar extends \Ilch\Model
         }
     }
     
+    public function if_Series($val1, $val2){
+        if( $this->is_Series() ){
+            return $val1;
+        } else {
+            return $val2;
+        }
+    }
+
     public function is_Cycle( $val1 = NULL, $val2 = NULL ){   
         if( $this->_cycle && $val1 != NULL && $val2 != NULL ){
             return $val1;

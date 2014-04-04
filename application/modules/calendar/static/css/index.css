@@ -65,3 +65,14 @@
 .calendar-details div{
     margin-bottom: 3px;
 }
+
+div.left {
+    float: left;
+    width: 35%;
+    margin-right: 1%;
+}
+
+.liberation{
+    font-family: "Calibri";
+    
+}

@@ -28,15 +28,19 @@ return array(
     'date_start' => 'Datum Begin',
     'date_ends' => 'Datum Ende',
     
+    'begin_datetime' => '<b>%s</b> um <b>%s - %s</b> Uhr',
     'of_the' => 'Von dem',
     'to' => 'bis zum',
     'created' => 'Erstellt am',
     'changed' => 'Geändert am',
     
     'action_series' => 'Der Kalendereintrag ist teil einer Serie',
-    'action_series_edit' => 'Kalenderserie bearbeiten?',
+    'action_series_edit' => 'Bearbeiten',
     'action_series_true' => 'Ja, Serie bearbeiten',
     'action_series_false' => 'Nein, nur diesen Eintrag',
+    
+    'list_series' => 'Serienliste - (%s)',
+    'series_listing' => '<b>%s</b> um <b>%s - %s</b> Uhr (%s)',
     
     'menu_action_insert_calendar' => 'Kalender eintrag erstellen',
     'menu_action_update_calendar' => 'Kalender eintrag bearbeiten',
@@ -64,9 +68,7 @@ return array(
         5 => array('Freitag','Fr'),
         6 => array('Samstag','Sa'),
         0 => array('Sonntag','So')
-    ),
-    
-    'calendar_save_methode' => 'Calendar->Mapper->Save brauch als erstes Argument die Controller Instanze!'
+    )
 );
 
 ?>
