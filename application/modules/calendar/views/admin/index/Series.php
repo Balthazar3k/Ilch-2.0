@@ -67,7 +67,7 @@ $item = $this->get('item');
                 <div class="list-group">
                     <div class="list-group-item alert-info" align="center"> 
                         <i class="fa fa-calendar fa-fw"></i>
-                        <?=$this->getTranslator()->trans(
+                        <?=$this->getTrans(
                                 'begin_datetime', 
                                 $item->getStart('D d.M.Y'),
                                 $item->getStart('H:i'), 
@@ -81,7 +81,7 @@ $item = $this->get('item');
                             <?=$this->getTrans('cycle');?>: <?=$this->getTrans('cycle_'.Cycle::Name($item->getCycle()));?>
                         </div>
                         <div class="col-md-6" align="right">
-                            <?=$item->is_Cycle($this->getTranslator()->trans('cycle_from_to', $item->getMinDate(), $item->getMaxDate()), ' ');?>
+                            <?=$item->is_Cycle($this->getTrans('cycle_from_to', $item->getMinDate(), $item->getMaxDate()), ' ');?>
                         </div>
                         <br style="clear: both;" />
                     </div>
@@ -142,7 +142,7 @@ $item = $this->get('item');
                         );?>   
                     " aria-hidden="true" class="close" type="button"><i class="fa fa-cog fa-fw"></i></a>
                     <i class="fa fa-calendar-o fa-fw"></i>
-                    <?=$this->getTranslator()->trans(
+                    <?=$this->getTrans(
                             'series_listing', 
                             $series->getStart('D d.M.Y'),
                             $series->getStart('H:i'), 

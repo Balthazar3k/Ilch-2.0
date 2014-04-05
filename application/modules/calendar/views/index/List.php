@@ -28,7 +28,7 @@ $date = $this->getRequest()->getParam('date');
     <div class="col-sm-5 better-fill">
         <div class="well well-sm">
             <i class="fa fa-calendar-o fa-fw"></i>
-            <?=$this->getTranslator()->trans(
+            <?=$this->getTrans(
                     'begin_datetime', 
                     $item->getStart('d.M.Y'),
                     $item->getStart('H:i'), 

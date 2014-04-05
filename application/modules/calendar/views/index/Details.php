@@ -22,7 +22,7 @@ $item = $this->get('item');
         <div class="list-group">
             <div class="list-group-item " align="center"> 
                 <i class="fa fa-calendar fa-fw"></i>
-                <?=$this->getTranslator()->trans(
+                <?=$this->getTrans(
                         'begin_datetime', 
                         $item->getStart('D d.M.Y'),
                         $item->getStart('H:i'), 
@@ -36,7 +36,7 @@ $item = $this->get('item');
                     <?=$this->getTrans('cycle');?>: <?=$this->getTrans('cycle_'.cycle::Name($item->getCycle()));?>
                 </div>
                 <div class="col-md-6" align="right">
-                    <?=$item->is_Cycle($this->getTranslator()->trans('cycle_from_to', $item->getMinDate(), $item->getMaxDate()), ' ');?>
+                    <?=$item->is_Cycle($this->getTrans('cycle_from_to', $item->getMinDate(), $item->getMaxDate()), ' ');?>
                 </div>
                 <br style="clear: both;" />
             </div>
