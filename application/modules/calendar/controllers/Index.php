@@ -47,9 +47,25 @@ class Index extends \Ilch\Controller\Frontend
         $item = $mapper->getCalendarItem($this->getRequest()->getParam('id'));
         
         $this->getLayout()->getHmenu()->add($this->getTranslator()->trans('calendar'), array('action' => 'index'));
-        $this->getLayout()->getHmenu()->add($this->getTranslator()->trans('details').': '.$item->getTitle(), array('action' => 'details', 'id' => $this->getRequest()->getParam('id')));
+        $this->getLayout()->getHmenu()->add($this->getTranslator()->trans('hmenu_details', $item->getTitle()), array('action' => 'details', 'id' => $this->getRequest()->getParam('id')));
        
         $this->getView()->set('item', $item);
+    }
+    
+    public function listAction()
+    {
+        $this->getLayout()->getHmenu()->add($this->getTranslator()->trans('calendar'), array('action' => 'index'));
+        
+        $calendar = new \Calendar\Plugins\Calendar($this);
+        $calendar->viewDate($this->getRequest()->getParam('date'));
+        
+        $mapper = new \Calendar\Mappers\Calendar();
+        $calendarItems = $mapper->getCalendar(
+            $calendar->where('date_start', 'Y-m-d H:i:s')
+        );
+        
+        $this->getView()->set('calendar', $calendar);
+        $this->getView()->set('items', $calendarItems);
     }
 }
 ?>

@@ -4,7 +4,8 @@
  * @package Calendar 1.0
  */
 namespace Calendar\Views\Admin\Index;
-use Calendar\Plugins\Functions as func;
+use Calendar\Plugins\Cycle as Cycle;
+
 $config = $this->get('config');
 if( $this->get('item') != '' ){
     $item = $this->get('item');
@@ -71,7 +72,7 @@ if( $this->get('item') != '' ){
                 id="cycle"
                 name="cycle"
                 <?php if( $item != '') { echo $item->if_Series(' ' ,'disabled="disabled"'); } ?>>
-                <?php foreach( func::cycleNames() as $id => $val ): ?>
+                <?php foreach( Cycle::getArray() as $id => $val ): ?>
                 <option value="<?=$id?>" <?php if( $item != '') { echo ($id === $item->getCycle() ? 'selected="selected"' : '' ); } ?>>
                     <?=$this->getTrans('cycle_'. $val)?>
                 </option>
@@ -194,8 +195,3 @@ if( $this->get('item') != '' ){
     
     });
 </script>
-
-<?php
-    func::ar($item);
-    ?>
-

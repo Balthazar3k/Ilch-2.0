@@ -9,17 +9,49 @@ use Calendar\Plugins\Functions as func;
 
 class Calendar 
 {
+    /**
+     * @var the Controller who ist called the Calendar
+     */
     protected $controller;
     
-    protected $startDate = '';
-    protected $endsDate = '';
-
-    protected $_day;    # Current Day
-    protected $_month;  # Current Month
-    protected $_year;   # Current Year
-    protected $_date;   # Current Date
-    protected $_time;   # Current Timestamp
+    /**
+     * @var Current view Day
+     */
+    protected $_day;
     
+    /**
+     * @var Current view Month
+     */
+    protected $_month;
+    
+    /**
+     * @var Current view Year
+     */
+    protected $_year;
+    
+    /**
+     * @var Current view Date
+     */
+    protected $_date;
+    
+    /**
+     * @var Current view Timestamp
+     */
+    protected $_time;
+    
+    /**
+     * @var Calendar sheet start date
+     */
+    protected $startDate;
+    
+    /**
+     * @var Calendar sheet ends date
+     */
+    protected $endsDate;
+    
+    /**
+     * @var Current view Day
+     */
     protected $_size;
 
     protected $calendarArray = array();
@@ -34,13 +66,28 @@ class Calendar
     );
 
     public $otherMonth = array(
-        'style' => 'opacity: 0.3;'
+        'style' => 'opacity: 0.2;'
     );
+    
+    /**
+     * Loads the Calendar
+     * 
+     * @param object $controller (the Controller who ist called the Calendar)
+     * @return class Calendar
+     */
     
     public function __construct($controller) {
         $this->controller = $controller;
         $this->setSize(940);
+        return $this;
     }
+    
+    /**
+     * shows the calendar sheet
+     * 
+     * @param string $view (date)
+     * @return class Calendar
+     */
        
     public function viewDate($view = false)
     {
@@ -61,6 +108,13 @@ class Calendar
         $this->init_CalendarArray();
         return $this;
     }
+    
+    /**
+     * Sets the size of the calendar
+     * 
+     * @param integer $size
+     * @return class Calendar
+     */
 
     public function setSize($size)
     {
@@ -68,7 +122,13 @@ class Calendar
         return $this;
     }
     
-    /* fill the Calender Array */ 
+    /**
+     * filled entries in the calendar
+     * 
+     * @param string $datetime
+     * @param string $html
+     * @param array $attributes
+     */
     public function fill( $datetime, $html, $attributes=array() )
     {	
         $ts = strtotime($datetime);
@@ -78,6 +138,12 @@ class Calendar
 
         $this->calendarArray[$y][$m][$d][] = "<div class=\"eventItem\" ".$this->setAttr($attributes).">".$html."</div>";
     }
+    
+    /**
+     * created a calendar array
+     * 
+     * @return array
+     */
     
     private function init_CalendarArray(){
         # Hier wird eine Array erstellt
@@ -130,12 +196,24 @@ class Calendar
         return $this->calendarArray;
     }
     
-    public function where($feld, $format="Y-m-d H:i:s"){
+    /**
+     * created the sql where to records from the database to filter
+     * 
+     * @return string MySQL
+     */
+    
+    public function where($feld, $format="Y-m-d H:i:s")
+    {
         $startDate = date( $format, $this->startDate);
         $endsDate = date( $format, $this->endsDate);
         return "WHERE ".$feld .">'".$startDate."' AND ". $feld ."<'".$endsDate."'"; 
     }
 
+    /**
+     * set the HTML from Navigation
+     * 
+     * @return echo HTML
+     */
   
     public function getNaviHtml()
     {
@@ -175,7 +253,12 @@ class Calendar
             </a>
         </div><?php
     }
-
+    
+    /**
+     * set the HTML from Calendar
+     * 
+     * @return echo HTML
+     */
 
     public function getCalendarHtml()
     {
@@ -216,6 +299,13 @@ class Calendar
         </table>
         <?php
     }
+    
+    /**
+     * change the array to a HTML Atributes string
+     * 
+     * @param array $attributes
+     * @return string
+     */
     
     private function setAttr($attributes)
     {

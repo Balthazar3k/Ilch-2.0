@@ -9,12 +9,18 @@ defined('ACCESS') or die('no direct access');
 return array(
     'calendar' => 'Kalender',
     'calendar_view' => 'Kalenderansicht',
+    'list_view' => 'Listenansicht',
     'time_options' => 'Zeit Einstellungen',
+    'hmenu_details' => 'Detail von %s',
     
-    'calendar_save_success' => 'Eintrag/Einträge in den Kalender waren erfolgreich.',
+    'calendar_save_success' => 'In den Kalender eintragen waren erfolgreich.',
+    'calendar_delete_success' => 'Löschen war erfolgreich!.',
+    'calendarSeries_delete_success' => 'Serie löschen war erfolgreich!.',
+    'calendar_delete_error' => 'Löschen war nicht erfolgreich!.',
     
     'title' => 'Titel',
     'cycle' => 'Zyklus',
+    'cycle_from_to' => 'start am %s bis zum %s',
     'cycle_unique' => 'Einmalig',
     'cycle_daily' => 'Täglich',
     'cycle_weekly' => 'Wöchentlich',
@@ -38,6 +44,7 @@ return array(
     'action_series_edit' => 'Bearbeiten',
     'action_series_true' => 'Ja, Serie bearbeiten',
     'action_series_false' => 'Nein, nur diesen Eintrag',
+    'action_series_delete' => 'Serie Löschen',
     
     'list_series' => 'Serienliste - (%s)',
     'series_listing' => '<b>%s</b> um <b>%s - %s</b> Uhr (%s)',

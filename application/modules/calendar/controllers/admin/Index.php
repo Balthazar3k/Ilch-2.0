@@ -3,11 +3,9 @@
  * @copyright Balthazar3k 2014
  * @package Calendar 1.0
  * 
- * $module_item_tpl = '\\'.ucfirst($item->getModuleKey()).'\\View\\Index\\Calendar.php'
  */
 
 namespace Calendar\Controllers\Admin;
-use Calendar\Plugins\Functions as func;
 
 defined('ACCESS') or die('no direct access');
 
@@ -27,12 +25,6 @@ class Index extends \Ilch\Controller\Admin
                     'active' => true,
                     'icon' => 'fa fa-calendar',
                     'url' => $this->getLayout()->getUrl(array('controller' => 'index', 'action' => 'index'))
-                ),array
-                (
-                    'name' => 'settings',
-                    'active' => true,
-                    'icon' => 'fa fa-cogs',
-                    'url'  => $this->getLayout()->getUrl(array('controller' => 'settings', 'action' => 'index'))
                 )
                 
             )
@@ -62,7 +54,7 @@ class Index extends \Ilch\Controller\Admin
         
         foreach( $calendarItems as $item){
             $calendar->fill($item->getDateStart(),
-                '<a href="'.$this->getLayout()->getUrl(array('action' => $item->is_Cycle('series', 'treat'), 'id' => $item->getId(), 'date' => $viewDate)).'">'.
+                '<a href="'.$this->getLayout()->getUrl(array('action' => 'series', 'id' => $item->getId(), 'date' => $viewDate)).'">'.
                     '<div align="center"><b>'.$item->getTitle().'</b></div>'.
                     '<center>'.$item->getStart('H:i - ') . $item->getEnds('H:i').'</center>'.
                 '</a>'
@@ -77,6 +69,10 @@ class Index extends \Ilch\Controller\Admin
         $mapper = new \Calendar\Mappers\Calendar();
         
         if($this->getRequest()->isPost()) {
+            
+            if( !$this->getRequest()->isSecure() ){
+                return;
+            }
             
             $model = new \Calendar\Models\Calendar();
             
@@ -152,6 +148,41 @@ class Index extends \Ilch\Controller\Admin
         
         $this->getView()->set('item', $item);
     }
-	
+    
+    public function deleteAction()
+    {
+        $url = array();
+        $by_id = (int) $this->getRequest()->getParam('d');
+        $by_series = (int) $this->getRequest()->getParam('series');
+        
+        if( $by_series ){
+            $where['series'] = $by_series;
+            $msg = 'calendarSeries_delete_success';
+            
+            $url = array(
+                'controller' => $this->getRequest()->getControllerName(),
+                'action' => 'index'
+            );
+        } else {
+            $where['id'] = $by_id;
+            $msg = 'calendar_delete_success';
+            
+            $url = array(
+                'controller' => $this->getRequest()->getControllerName(),
+                'action' => 'series',
+                'id' => $this->getRequest()->getParam('id'),
+            );
+        }
+        
+        $mapper = new \Calendar\Mappers\Calendar();
+        if( $mapper->delete($where) ){
+            $this->addMessage($msg);
+        } else {
+            $this->addMessage('calendar_delete_error', 'danger');
+        }
+        
+        $this->redirect($url);
+        
+    }	
 }
 ?>

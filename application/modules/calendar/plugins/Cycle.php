@@ -6,9 +6,19 @@
  */
 namespace Calendar\Plugins;
 
-class Functions 
+class Cycle 
 {
-    public static function cycle( $option, $fromTS, $toTS, $format = 'Y-m-d' ){
+    /**
+     * create the Dates for a Cycle
+     * 
+     * @param integer $option
+     * @param integer $fromTS (from Timestamp)
+     * @param integer $toTS (to Timestamp)
+     * @param string $format
+     * @return array of dates
+     */
+    
+    public static function calc( $option, $fromTS, $toTS, $format = 'Y-m-d' ){
         $dates = array();
 
         $m1 = date("m", $fromTS); 
@@ -60,19 +70,30 @@ class Functions
         }
     }
     
-    public static function cycleNames($id = NULL)
-    {
-        $options = array(
+    /**
+     * get the Array of Cycle
+     * 
+     * @return array $cycle
+     */
+    
+    public static function getArray(){
+        return array(
             0 => 'unique',
             1 => 'daily',
             2 => 'weekly'
         );
-        
-        if( $id != NULL ){
-            return $options[$id];
-        } else {
-            return $options;
-        }
+    }
+    
+    /**
+     * get the Array of Cycle
+     * 
+     * @param integer $id
+     * @return array $cycleName
+     */
+
+    public static function Name($id = integer)
+    {
+        return self::getArray()[$id];
     }
 
 
@@ -95,13 +116,8 @@ class Functions
     {
         ?><pre><?php
         foreach(func_get_args() as $arg){
-            if( is_array($arg) || is_object($arg)){
-                var_dump($arg);
-                ?><hr><?php
-            } else {
-                echo $arg;
-                ?><hr><?php
-            }
+            var_dump($arg);
+            ?><hr><?php
         }
         ?></pre><?php
     }
