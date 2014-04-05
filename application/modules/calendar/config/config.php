@@ -38,6 +38,7 @@ class Config extends \Ilch\Config\Install
 
     public function uninstall()
     {
+        $this->db()->drop('calendar');
     }
 
     public function getInstallSql()
