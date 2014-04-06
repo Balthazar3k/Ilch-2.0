@@ -3,6 +3,10 @@
     Author     : Balthazar
 */
 
+.calendar-navi a{
+    width: 150px;
+}
+
 .calendar th{
    color: #3276b1;
    text-align: center;
@@ -72,4 +76,8 @@ div.well{
 
 .row .better-fill:last-child{
     padding: 0 15px 0 1px;
+}
+
+.marge-right{
+    margin-right: 3px;
 }

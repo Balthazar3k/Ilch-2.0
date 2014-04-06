@@ -52,20 +52,16 @@ class Cycle
                 return $dates;
             break;
             
-            default:
-                
-                if( is_numeric($option) && $option > 0 ){
-                    
-                    $anyOption = floor(($toTS-$fromTS)/(86400*$option));
-                    for( $x = 0; $x < $anyOption+1; $x++){
-                        $dates[0][] = date($format, mktime(0, 0, 0, $m1, $d1+($option*$x), $y1));
+            case 3: 
+                $weekdays = array( 1, 2, 3, 4, 5);
+                $days = floor(($toTS-$fromTS)/(86400));
+                for( $x = 0; $x < $days+1; $x++){
+                    if(in_array((int) date('w', mktime(0, 0, 0, $m1, $d1+($x), $y1)), $weekdays) ){
+                        $dates[0][] = date($format, mktime(0, 0, 0, $m1, $d1+($x), $y1));
                     }
-
-                    return $dates;                    
-                } else {
-                    trigger_error('Methode: '. __METHOD__ .' in Class:'. __CLASS__ .', missing first Argument or valid $option!');
                 }
-                
+
+                return $dates;
             break;
         }
     }
@@ -80,7 +76,8 @@ class Cycle
         return array(
             0 => 'unique',
             1 => 'daily',
-            2 => 'weekly'
+            2 => 'weekly',
+            3 => 'weekdays'
         );
     }
     

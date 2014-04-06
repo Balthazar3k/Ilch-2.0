@@ -24,6 +24,7 @@ return array(
     'cycle_unique' => 'Unique',
     'cycle_daily' => 'Daily',
     'cycle_weekly' => 'Weekly',
+    'cycle_weekdays' => 'Weekdays',
     'time_start' => 'Start Time',
     'time_ends' => 'Ends Time',
     'date_start' => 'Start Date',

@@ -5,7 +5,7 @@
  */
 
 namespace Calendar\Plugins;
-use Calendar\Plugins\Functions as func;
+use Calendar\Plugins\Cycle as Cycle;
 
 class Calendar 
 {
@@ -238,16 +238,17 @@ class Calendar
         $lastDate = $this->_day.'.'.$lastMonth.'.'.$lastYear;
         $nextDate = $this->_day.'.'.$nextMonth.'.'.$nextYear;
 
-        ?><div class="btn-group">
-            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => $lastDate));?>">
+        ?><a name="calendar"></a>
+        <div class="btn-group calendar-navi">
+            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => $lastDate));?>#calendar">
                 <i class="fa fa-caret-square-o-left"></i> 
                 <?=$month[$lastMonth]?>
             </a>
-            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => date('d.m.Y')));?>">
+            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => date('d.m.Y')));?>#calendar">
                 <i class="fa fa-calendar"></i> 
-                <?php echo $month[intval($this->_month)]." ".$this->_year; ?>
+                <?php echo $month[intval($this->_month)]." <b>".$this->_year."</b>"; ?>
             </a>
-            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => $nextDate));?>">
+            <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => $nextDate));?>#calendar">
                 <?=$month[$nextMonth]?> 
                 <i class="fa fa-caret-square-o-right"></i>
             </a>
@@ -265,8 +266,7 @@ class Calendar
         $rowSize = $this->_size/7;
         $ceilCounter = 0;
         
-        // Später noch ein Dynamisches Design mit DivContainern.
-        ?><table cellspacing="1" width="<?=$size?>" class="calendar table table-hover table-striped">
+        ?><table cellspacing="1" width="<?=$size?>" class="calendar">
             <thead>
                 <tr>
                     <?php foreach( $this->controller->getTranslator()->getTranslations()['dayNames'] as $key => $value): ?>
