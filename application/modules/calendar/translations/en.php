@@ -26,7 +26,7 @@ return array(
     
     'title' => 'Title',
     'cycle' => 'Cycle',
-    'cycle_from_to' => 'start from %s to %s',
+    'cycle_from_to' => '%s to %s',
     'cycle_unique' => 'Unique',
     'cycle_daily' => 'Daily',
     'cycle_weekly' => 'Weekly',

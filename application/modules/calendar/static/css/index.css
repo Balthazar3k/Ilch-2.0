@@ -40,6 +40,10 @@
     border-bottom: 1px dotted black; 
 }
 
+.calendar-day-title{
+    overflow: hidden;
+}
+
 .calendarView div{
     font-size: 12px;
     text-align: center;

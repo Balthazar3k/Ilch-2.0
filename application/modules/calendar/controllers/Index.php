@@ -25,10 +25,14 @@ class Index extends \Ilch\Controller\Frontend
         
         foreach( $calendarItems as $item){
             $calendar->fill($item->getDateStart(),
-                '<a href="'.$this->getLayout()->getUrl(array('action' => 'details', 'id' => $item->getId())).'">'.
-                    '<div align="center"><b>'.$item->getTitle().'</b></div>'.
-                    '<center>'.$item->getStart('H:i - ') . $item->getEnds('H:i').'</center>'.
-                '</a>'
+                '<a href="'.$this->getLayout()->getUrl(array('action' => 'details', 'id' => $item->getId())).'">
+                    <div class="calendar-day-title" align="center">
+                        <b>'.substr($item->getTitle(), 0, 10).'</b>'
+                        .( $item->getMessage() != '' ? ' <i class="fa fa-comment"></i>' : '').
+                        '<br />'
+                        .$item->getStart('H:i - ') . $item->getEnds('H:i') .'
+                    </div>
+                </a>'
             );
         }
         

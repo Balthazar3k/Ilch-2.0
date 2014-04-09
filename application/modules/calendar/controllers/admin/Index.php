@@ -55,7 +55,7 @@ class Index extends \Ilch\Controller\Admin
         foreach( $calendarItems as $item){
             $calendar->fill($item->getDateStart(),
                 '<a href="'.$this->getLayout()->getUrl(array('action' => 'series', 'id' => $item->getId(), 'date' => $viewDate)).'">'.
-                    '<div align="center"><b>'.$item->getTitle().'</b></div>'.
+                    '<div align="center"><b>'.$item->getTitle().'</b>'.( $item->getMessage() != '' ? ' <i class="fa fa-comment-o fa-fw"></i>' : '').'</div>'.
                     '<center>'.$item->getStart('H:i - ') . $item->getEnds('H:i').'</center>'.
                 '</a>'
             );
