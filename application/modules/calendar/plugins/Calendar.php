@@ -145,52 +145,47 @@ class Calendar
      * @return array
      */
     
-    private function init_CalendarArray(){
-        # Hier wird eine Array erstellt
-        # Das einem Monats blatt eines Kalenders gleich kommt
-        
-        $maxDays = 42;                                                                      # Ein Kalenderblatt hat insgesamt 42 Tage für eine Optimale darstellung
-        $countDays = 0;                                                                     # Zähler um den nächsten Monat zu berechnen
-        $_day   = $this->_day;                                                              # Der aktuelle Tag
-        $_month = $this->_month;                                                            # Der aktuelle Monat
-        $_year  = $this->_year;                                                             # Das aktuelle Jahr
-        $aDaysNow = date("t", $this->_time);                                                # Anzahl der Tage in diesem Monat
+    private function init_CalendarArray()
+    {
+        $maxDays = 42;                                                                      # A calendar page has illustration of a total of 42 days for an Optimal
+        $countDays = 0;                                                                     # Counter to calculate the next week
+        $allDaysNow = date("t", $this->_time);                                              # Number of days in that month
 
-        # Berechnung der letzten Tage des vorigen Monats auf dem aktuellen Monatsplatt
-        $aDaysLast =        date("t", mktime(0,0,0,$_month-1,1,$_year));                    # Anzahl der Tage im vorigem Monate
-        $aWeekDaysLast =    date("w", mktime(0,0,0, $_month-1, $aDaysLast, $_year));        # Ermittel den Letzten wochentag
-        $aWeekDaysLast =    ( $aWeekDaysLast == 0 ? 6 : $aWeekDaysLast-1);                  # Ermittelt wiviele Tage vor dem Letzten Monat liegt für ein Kalender Monatsblatt
+        # Calculation of the final days of the previous month to the current month
+        $allPastDays =        date("t", mktime(0,0,0,$this->_month-1,1,$this->_year));                      # Number of days in the previous month
+        $allPastWeekdays =    date("w", mktime(0,0,0, $this->_month-1, $allPastDays, $this->_year));        # last day of week
+        $allPastWeekdays =    ( $allPastWeekdays == 0 ? 6 : $allPastWeekdays-1);                            # how many days are in front of the last month
 
-        # Schleife für den Monat davor
-        $firstDayLastMonth = ($aDaysLast-$aWeekDaysLast);
-        $this->startDate = mktime( 0, 0, 0, $_month-1, $firstDayLastMonth, $_year);
+        # Last Month
+        $firstDayLastMonth = ($allPastDays-$allPastWeekdays);
+        $this->startDate = mktime( 0, 0, 0, $this->_month-1, $firstDayLastMonth, $this->_year);
 
-        for( $i=$firstDayLastMonth; $i<$aDaysLast+1; $i++){
+        for( $i=$firstDayLastMonth; $i<$allPastDays+1; $i++){
             $countDays++;
-            $this->calendarArray[$_year][$_month-1][$i] = array("attributes" => $this->otherMonth);
-            $this->calendarArray[$_year][$_month-1][$i][] = "<div class='dayTitle'>".$i."</div>";
+            $this->calendarArray[$this->_year][$this->_month-1][$i] = array("attributes" => $this->otherMonth);
+            $this->calendarArray[$this->_year][$this->_month-1][$i][] = "<div class='dayTitle'>".$i."</div>";
         }
 
-        # Schleife für den aktuellen Monat
-        for( $i=1; $i<$aDaysNow+1; $i++){
+        # Current Viewed Month
+        for( $i=1; $i<$allDaysNow+1; $i++){
             $countDays++;
-            if( ($_day.".".$_month.'.'.$_year) == ($i.".".date('n.Y')) ){
-                $this->calendarArray[$_year][$_month][$i] = array("attributes" => $this->today);
-                $this->calendarArray[$_year][$_month][$i][] = "<div class='dayTitle today'>".$i." <span class='small'>today</span></div>";
+            if( ($this->_day.".".$this->_month.'.'.$this->_year) == ($i.".".date('n.Y')) ){
+                $this->calendarArray[$this->_year][$this->_month][$i] = array("attributes" => $this->today);
+                $this->calendarArray[$this->_year][$this->_month][$i][] = "<div class='dayTitle today'>".$i." <span class='small'>today</span></div>";
             }else{
-                $this->calendarArray[$_year][$_month][$i] = array("attributes" => $this->thisMonth);
-                $this->calendarArray[$_year][$_month][$i][] = "<div class='dayTitle'>".$i."</div>";
+                $this->calendarArray[$this->_year][$this->_month][$i] = array("attributes" => $this->thisMonth);
+                $this->calendarArray[$this->_year][$this->_month][$i][] = "<div class='dayTitle'>".$i."</div>";
             }
         }
 
-        # Schleife für den letzten Monat
+        # Past Month
         $lastDayNextMonth = ($maxDays-$countDays)+1;
 
-        $this->endsDate = mktime( 0, 0, 0, $_month+1, $lastDayNextMonth, $_year);
+        $this->endsDate = mktime( 0, 0, 0, $this->_month+1, $lastDayNextMonth, $this->_year);
 
         for( $i=1; $i<$lastDayNextMonth; $i++){
-            $this->calendarArray[$_year][$_month+1][$i] = array("attributes" =>  $this->otherMonth);
-            $this->calendarArray[$_year][$_month+1][$i][] = "<div class='dayTitle'>".$i."</div>";
+            $this->calendarArray[$this->_year][$this->_month+1][$i] = array("attributes" =>  $this->otherMonth);
+            $this->calendarArray[$this->_year][$this->_month+1][$i][] = "<div class='dayTitle'>".$i."</div>";
         }
 
         return $this->calendarArray;
@@ -246,7 +241,7 @@ class Calendar
             </a>
             <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => date('d.m.Y')));?>#calendar">
                 <i class="fa fa-calendar"></i> 
-                <?php echo $month[intval($this->_month)]." <b>".$this->_year."</b>"; ?>
+                <?php echo $month[$this->_month]." <b>".$this->_year."</b>"; ?>
             </a>
             <a class="btn btn-default" href="<?=$this->controller->getLayout()->getUrl(array('date' => $nextDate));?>#calendar">
                 <?=$month[$nextMonth]?> 

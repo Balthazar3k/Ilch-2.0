@@ -18,6 +18,12 @@ return array(
     'calendarSeries_delete_success' => 'Delete Series was successful!',
     'calendar_delete_error' => 'Clearing was unsuccessful!.',
     
+    'missing_title' => 'Missing Title.',
+    'missing_date_ends' => 'Missing Date for the Ende',
+    'missing_date_start' => 'Missing Date for the Start',
+    'missing_time_ends' => 'Missing Time for the Ende',
+    'missing_time_start' => 'Missing Time for the Start',
+    
     'title' => 'Title',
     'cycle' => 'Cycle',
     'cycle_from_to' => 'start from %s to %s',

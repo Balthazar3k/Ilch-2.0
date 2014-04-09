@@ -130,7 +130,6 @@ class Index extends \Ilch\Controller\Admin
 
         if ($ItemId = $this->getRequest()->getParam('id')) {
             $item = $mapper->getCalendarItem($ItemId);
-            //func::dump($item);
             $item->set_is_Series($this->getRequest()->getParam('series'));
             $this->getView()->set('item', $item );
         }   

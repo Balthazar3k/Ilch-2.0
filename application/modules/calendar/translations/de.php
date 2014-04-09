@@ -18,6 +18,12 @@ return array(
     'calendarSeries_delete_success' => 'Serie löschen war erfolgreich!.',
     'calendar_delete_error' => 'Löschen war nicht erfolgreich!.',
     
+    'missing_title' => 'Bitte füllen Sie da Feld: Titel aus.',
+    'missing_date_ends' => 'Bitte geben Sie einen gültigen Datum für das Ende an',
+    'missing_date_start' => 'Bitte geben Sie einen gültigen Datum für den Start an',
+    'missing_time_ends' => 'Bitte geben Sie einen gültige Zeit für das Ende an',
+    'missing_time_start' => 'Bitte geben Sie einen gültige Zeit für den Start an',
+    
     'title' => 'Titel',
     'cycle' => 'Zyklus',
     'cycle_from_to' => 'start am %s bis zum %s',
