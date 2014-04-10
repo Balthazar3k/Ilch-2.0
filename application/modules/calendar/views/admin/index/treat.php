@@ -81,6 +81,20 @@ if( $this->get('item') != '' ){
         </div> 
      </div>
     
+    <div id="weekdays" class="form-group"> <!--<?=( ($item != '' && $item->getCycle() == 3 )? '' : 'style="display: none;"');?>>-->
+        <label for="cycle" class="col-lg-1 control-label">
+            <?php echo $this->getTrans('weekdays'); ?>:
+        </label>
+
+        <div class="col-lg-5">
+            <div class="btn-group">
+            <?php foreach($this->getTranslator()->getTranslations()['dayNames'] as $i => $day ): ?>
+                <label class="btn btn-default" style="text-align: center;" for="check_<?=$i?>"><input type="checkbox" name="weekdays[<?=$i?>]" id="check_<?=$i?>"> <?=$day[1]?></label>  
+            <?php endforeach; ?>
+            </div>
+        </div> 
+     </div>
+    
     <div class="form-group">
         <label for="time_start" class="col-lg-1 control-label">
             <?php echo $this->getTrans('time_start'); ?>:
@@ -160,15 +174,29 @@ if( $this->get('item') != '' ){
         
         $('#cycle').change(function(){
             var $val = $(this).val();
-            console.log($val);
-            if( $val > 0 ){
+            
+            if( $val == '3' ){
+                $('#weekdays').slideDown(function(){
+                    $(this).find('input').prop('disabled', false);
+                });
+            
                 $('#endsDatepicker').fadeIn(function(){
                     $(this).find('input').prop('disabled', false);
                 });
-            }else if( $val == 0 ){
-                $('#endsDatepicker').fadeOut(function(){
+            } else {
+                $('#weekdays').slideUp(function(){
                     $(this).find('input').prop('disabled', true);
                 });
+                
+                if( $val > 0 ){
+                    $('#endsDatepicker').fadeIn(function(){
+                        $(this).find('input').prop('disabled', false);
+                    });
+                }else if( $val == 0 ){
+                    $('#endsDatepicker').fadeOut(function(){
+                        $(this).find('input').prop('disabled', true);
+                    });
+                }
             }
         });
         

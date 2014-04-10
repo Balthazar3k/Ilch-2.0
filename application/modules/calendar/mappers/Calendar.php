@@ -20,7 +20,7 @@ class Calendar extends \Ilch\Mapper
                 *
             FROM [prefix]_calendar
             '.$where.'
-            ORDER BY series ASC, date_start ASC
+            ORDER BY date_start ASC
         ;');
         
         $entryArray = $this->db()->queryArray($sql);

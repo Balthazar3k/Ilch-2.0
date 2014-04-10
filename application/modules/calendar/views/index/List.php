@@ -23,26 +23,28 @@ $date = $this->getRequest()->getParam('date');
     <div style="float: right;"><?=$calendar->getNaviHtml();?></div>
 </div><br><br>
 
+<div class="list-group">
 <?php foreach ($items as $item) : ?>
-<div class="row">
-    <div class="col-sm-5 better-fill">
-        <div class="well well-sm">
-            <i class="fa fa-calendar-o fa-fw"></i>
-            <?=$this->getTrans(
-                    'begin_datetime', 
-                    $item->getStart('d.M.Y'),
-                    $item->getStart('H:i'), 
-                    $item->getEnds('H:i')
-                );
-            ?>
+    <a class="list-group-item <?=$item->is_Today('bg-info')?>" href="<?=$this->getUrl(array('action' => 'details', 'id' => $item->getId()));?>">
+        <div class="col-lg-1" align="center">
+            <h3><?=$item->getStart('d')?><div class="small" style="border-top: 3px solid black; padding-top: 5px;"><?=$item->getStart('M')?></div></h3><br>
         </div>
-    </div>
-    <div class="col-sm-4 better-fill" align="center"><div class="well well-sm"><b><?=$item->getTitle()?></b></div></div>
-    <div class="col-sm-2 better-fill" align="center"><div class="well well-sm"><?=$this->getTrans('cycle_'.Cycle::Name($item->getCycle()));?></div></div>
-    <div class="col-sm-1 better-fill" align="center">
-        <a href="<?=$this->getUrl(array('action' => 'details', 'id' => $item->getId()));?>">
-            <div class="well well-sm"><i class="fa fa-info-circle"></i> </div>
-        </a>
-    </div>
-</div>
+        
+        <div class="col-lg-10">
+            <h4 class="list-group-item-heading"><b><?=$item->getTitle()?></b></h4>
+            <div> 
+                <?=substr($item->getMessage(), 0, 264);?>
+            </div>
+        </div>
+        
+        <div class="col-lg-1" align="center">
+            <h4>
+                <?=$item->getStart('H:i')?>
+                <div style="border-top: 3px solid gray;"><?=$item->getEnds('H:i')?></div>
+            </h4>
+        </div>
+        
+        <br style="clear: both;">
+    </a>
 <?php endforeach; ?>
+</div>

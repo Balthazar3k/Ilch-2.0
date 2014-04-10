@@ -147,18 +147,23 @@ class Calendar
     
     private function init_CalendarArray()
     {
-        $maxDays = 42;                                                                      # A calendar page has illustration of a total of 42 days for an Optimal
-        $countDays = 0;                                                                     # Counter to calculate the next week
-        $allDaysNow = date("t", $this->_time);                                              # Number of days in that month
+        $maxDays = 42;                              # A calendar page has illustration of a total of 42 days for an Optimal
+        $countDays = 0;                             # Counter to calculate the next week
+        $allDaysNow = date("t", $this->_time);      # Number of days in that month
 
         # Calculation of the final days of the previous month to the current month
         $allPastDays =        date("t", mktime(0,0,0,$this->_month-1,1,$this->_year));                      # Number of days in the previous month
         $allPastWeekdays =    date("w", mktime(0,0,0, $this->_month-1, $allPastDays, $this->_year));        # last day of week
         $allPastWeekdays =    ( $allPastWeekdays == 0 ? 6 : $allPastWeekdays-1);                            # how many days are in front of the last month
-
+        
+        
+        
         # Last Month
         $firstDayLastMonth = ($allPastDays-$allPastWeekdays);
-        $this->startDate = mktime( 0, 0, 0, $this->_month-1, $firstDayLastMonth, $this->_year);
+        $this->startDate[] = mktime( 0, 0, 0, $this->_month-1, $firstDayLastMonth, $this->_year);
+        $this->startDate[] = mktime( 0, 0, 0, $this->_month, 1, $this->_year);
+        
+        
 
         for( $i=$firstDayLastMonth; $i<$allPastDays+1; $i++){
             $countDays++;
@@ -177,12 +182,12 @@ class Calendar
                 $this->calendarArray[$this->_year][$this->_month][$i][] = "<div class='dayTitle'>".$i."</div>";
             }
         }
-
+        
         # Past Month
         $lastDayNextMonth = ($maxDays-$countDays)+1;
-
-        $this->endsDate = mktime( 0, 0, 0, $this->_month+1, $lastDayNextMonth, $this->_year);
-
+        $this->endsDate[] = mktime( 0, 0, 0, $this->_month+1, $lastDayNextMonth, $this->_year);
+        $this->endsDate[] = mktime( 0, 0, 0, $this->_month, $allDaysNow, $this->_year);
+        
         for( $i=1; $i<$lastDayNextMonth; $i++){
             $this->calendarArray[$this->_year][$this->_month+1][$i] = array("attributes" =>  $this->otherMonth);
             $this->calendarArray[$this->_year][$this->_month+1][$i][] = "<div class='dayTitle'>".$i."</div>";
@@ -197,10 +202,10 @@ class Calendar
      * @return string MySQL
      */
     
-    public function where($feld, $format="Y-m-d H:i:s")
+    public function where($feld, $format="Y-m-d H:i:s", $options = 0)
     {
-        $startDate = date( $format, $this->startDate);
-        $endsDate = date( $format, $this->endsDate);
+        $startDate = date( $format, $this->startDate[$options]);
+        $endsDate = date( $format, $this->endsDate[$options]);
         return "WHERE ".$feld .">'".$startDate."' AND ". $feld ."<'".$endsDate."'"; 
     }
 

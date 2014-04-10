@@ -285,5 +285,15 @@ class Calendar extends \Ilch\Model
             return $val2;
         }
     }
+    
+    public function is_Today($val1, $val2 = NULL)
+    {
+        if( date('Y-m-d') == $this->getStart('Y-m-d') ){
+            return $val1;
+        } else {
+            return $val2;
+        }
+    }
+    
 }
 ?>

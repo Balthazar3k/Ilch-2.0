@@ -35,8 +35,9 @@ return array(
     'time_ends' => 'Ends Time',
     'date_start' => 'Start Date',
     'date_ends' => 'Ends Date',
+    'today' => 'Today',
     
-    'begin_datetime' => '<b>%s</b> at <b>%s - %s</b> clock',
+    'begin_datetime' => 'at <b>%s - %s</b> clock',
     'created' => 'Created @',
     'changed' => 'Changed @',
     

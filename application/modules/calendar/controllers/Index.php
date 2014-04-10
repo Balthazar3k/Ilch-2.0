@@ -20,7 +20,7 @@ class Index extends \Ilch\Controller\Frontend
         
         $mapper = new \Calendar\Mappers\Calendar();
         $calendarItems = $mapper->getCalendar(
-            $calendar->where('date_start', 'Y-m-d H:i:s')
+            $calendar->where('date_start', 'Y-m-d H:i:s', 0)
         );
         
         foreach( $calendarItems as $item){
@@ -65,7 +65,7 @@ class Index extends \Ilch\Controller\Frontend
         
         $mapper = new \Calendar\Mappers\Calendar();
         $calendarItems = $mapper->getCalendar(
-            $calendar->where('date_start', 'Y-m-d H:i:s')
+            $calendar->where('date_start', 'Y-m-d H:i:s', 1)
         );
         
         $this->getView()->set('calendar', $calendar);
