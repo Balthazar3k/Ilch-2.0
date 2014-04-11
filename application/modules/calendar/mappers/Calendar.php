@@ -124,6 +124,33 @@ class Calendar extends \Ilch\Mapper
 
         return $entry;
     }
+    
+    public function getTitle()
+    {
+
+        $sql = ('
+            SELECT DISTINCT
+                title
+            FROM [prefix]_calendar
+        ;');
+        
+        $entryArray = $this->db()->queryArray($sql);
+
+        if (empty($entryArray)) {
+            return array();
+        }
+
+        $entry = array();
+
+        foreach ($entryArray as $res) {
+            $model = new \Calendar\Models\Calendar();
+           
+            $model->setTitle($res['title']);
+            
+            $entry[] = $model;
+        }   
+        return $entry;
+    }
 	
 	
     public function save($controller, \Calendar\Models\Calendar $model)

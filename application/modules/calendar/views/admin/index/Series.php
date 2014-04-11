@@ -54,6 +54,7 @@ $item = $this->get('item');
   </ul>
 </div>
 <br /><br />
+
 <div class="row">
     <div class="col-xs-12 col-md-7">
         <div class="panel panel-default">
@@ -65,13 +66,12 @@ $item = $this->get('item');
             <div class="panel-body">
                 
                 <div class="list-group">
-                    <div class="list-group-item alert-info" align="center"> 
+                    <div class="list-group-item" align="center"> 
                         <i class="fa fa-calendar fa-fw"></i>
                         <?=$this->getTrans(
                                 'begin_datetime', 
                                 $item->getStart('D d.M.Y'),
-                                $item->getStart('H:i'), 
-                                $item->getEnds('H:i')
+                                $item->getStart('H:i')
                             );
                         ?>
                     </div>

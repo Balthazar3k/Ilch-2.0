@@ -68,7 +68,6 @@ class Index extends \Ilch\Controller\Admin
     public function treatAction()
     {		
         $mapper = new \Calendar\Mappers\Calendar();
-        $cycle = new \Calendar\Plugins\Cycle();
 
         if($this->getRequest()->isPost()) {
             
@@ -138,7 +137,9 @@ class Index extends \Ilch\Controller\Admin
             $item = $mapper->getCalendarItem($ItemId);
             $item->set_is_Series($this->getRequest()->getParam('series'));
             $this->getView()->set('item', $item );
-        }   
+        }
+        
+        $this->getView()->set('title', $mapper->getTitle() );
     }
     
     public function seriesAction(){

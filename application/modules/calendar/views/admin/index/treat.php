@@ -18,14 +18,14 @@ if( $this->get('item') != '' ){
     $item->setWeekdays(array());
 }
 ?>
-
+<link href="<?php echo $this->getStaticUrl('../application/modules/calendar/static/css/index.css'); ?>" rel="stylesheet">
 <form class="form-horizontal" method="POST" action="<?php echo $this->getUrl(array('action' => 'treat', 'id' => $this->getRequest()->getParam('id'))); ?>">
     <?=$this->getTokenField();?>
     <input type="hidden" name="is_series" value="<?=$item->if_Series('1', '0')?>" />
     <input type="hidden" name="organizer" value="<?=$_SESSION['user_id']?>" />
     <input type="hidden" name="series" value="<?=( ($item != '') ? $item->getSeries() : 0);?>" />
     
-    <div class="col-lg-6">
+    <div class="col-lg-7">
         <legend>
         <?php
             if ($item != '') {
@@ -39,12 +39,22 @@ if( $this->get('item') != '' ){
         <div class="form-group">
 
             <div class="col-lg-12">
-                <input class="form-control"
-                       type="text"
-                       name="title"
-                       id="title"
-                       placeholder="<?php echo $this->getTrans('title'); ?>"
-                       value="<?php if ($item != '') { echo $this->escape($item->getTitle()); } ?>" />
+                <div class="input-group">
+                    <input class="form-control"
+                           type="text"
+                           name="title"
+                           id="title"
+                           placeholder="<?php echo $this->getTrans('title'); ?>"
+                           value="<?php if ($item != '') { echo $this->escape($item->getTitle()); } ?>" />
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Select a Title <span class="caret"></span></button>
+                            <ul class="dropdown-menu pull-right">
+                                <?php foreach($this->get('title') as $title ): ?>
+                                    <li><a class="select-Title" href="#"><?=$title->getTitle();?></a></li> 
+                                <?php endforeach; ?>
+                            </ul>
+                    </div><!-- /btn-group -->
+                </div>
             </div>
          </div>
 
@@ -83,7 +93,7 @@ if( $this->get('item') != '' ){
 
         <div id="weekdays" class="form-group"<?=( ($item != '' && $item->getCycle() == 3 )? '' : 'style="display: none;"');?>>
             <label for="cycle" class="col-lg-2 control-label">
-                <?php echo $this->getTrans('weekdays'); ?>:
+                <?php echo $this->getTrans('cycle_weekdays'); ?>:
             </label>
 
             <div class="col-lg-10">
@@ -102,24 +112,18 @@ if( $this->get('item') != '' ){
             <label for="time_start" class="col-lg-2 control-label">
                 <?php echo $this->getTrans('time_start'); ?>:
             </label>
-            <div class="col-lg-10">
-                <input class="form-control"
-                       type="text"
+            <div class="col-lg-2">
+                <input class="form-control text-center col-lg-2"
+                       type="time"
                        id="time_start"
                        name="time_start"
                        placeholder="HH:MM"
                        max="5" maxlength="5"
                        value="<?php if( $item != '') { echo $item->getStart('H:i'); } ?>" />
             </div>
-        </div>
-
-        <div class="form-group">
-            <label for="time_ends" class="col-lg-2 control-label">
-                <?php echo $this->getTrans('time_ends'); ?>:
-            </label>
-            <div class="col-lg-10">
-                <input class="form-control"
-                       type="text"
+            <div class="col-lg-2">
+                <input class="form-control text-center col-lg-2"
+                       type="time"
                        id="time_ends"
                        name="time_ends"
                        placeholder="HH:MM"
@@ -132,9 +136,9 @@ if( $this->get('item') != '' ){
             <label for="date_start" class="col-lg-2 control-label">
                 <?php echo $this->getTrans('date_start'); ?>:
             </label>
-            <div class="col-lg-10">
-                <input class="form-control  datepicker"
-                       type="text"
+            <div class="col-lg-3">
+                <input class="form-control text-center"
+                       type="date"
                        id="date_start"
                        name="date_start"
                        placeholder="YYYY-MM-TT"
@@ -146,9 +150,9 @@ if( $this->get('item') != '' ){
             <label for="date_ends" class="col-lg-2 control-label">
                 <?php echo $this->getTrans('date_ends'); ?>:
             </label>
-            <div class="col-lg-10">
-                <input class="form-control datepicker"
-                       type="text"
+            <div class="col-lg-3">
+                <input class="form-control text-center"
+                       type="date"
                        id="date_ends"
                        name="date_ends"
                        placeholder="YYYY-MM-TT"
@@ -159,7 +163,7 @@ if( $this->get('item') != '' ){
     
     </div>
     
-    <div class="col-lg-6">
+    <div class="col-lg-5">
         <legend>
         <?php
             if ($item != '') {
@@ -183,12 +187,6 @@ if( $this->get('item') != '' ){
 
 <script type="text/javascript">
     $(document).ready(function(){
-
-        $( ".datepicker" ).each(function(i){
-            $(this).datepicker({ 
-                dateFormat: "yy-mm-dd"
-            });
-        });
         
         $('#cycle').change(function(){
             var $val = $(this).val();
@@ -218,26 +216,10 @@ if( $this->get('item') != '' ){
             }
         });
         
-        $("input#time_ends, input#time_start").bind("keyup", function(event){
+        $('.select-Title').click(function(event){
             event.preventDefault();
-            var val = $(this).val();
-            if( val.length === 2 && event.keyCode !== 8 ){        
-                $(this).val(val+":");
-            }
-            
-            if( val.indexOf(':') && val.length === 5 ){
-                var time = val.split(':');
-                
-                if( time[0] > 23 && time[1] > 59 ){
-                    $(this).val('23:59');
-                }else if( time[0] > 23 ){
-                    time[0] = 23;
-                    $(this).val('23:'.time[1]);
-                }
-            }
-        }).focus(function() {
-            $(this).select();
+            $('input[name=title]').val($(this).html());
         });
-    
     });
 </script>
+
