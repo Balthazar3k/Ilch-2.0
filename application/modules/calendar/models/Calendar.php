@@ -14,6 +14,7 @@ class Calendar extends \Ilch\Model
     protected $_moduleKey;
     protected $_moduleUrl;
     protected $_cycle;
+    protected $_weekdays;
     protected $_timeStart;
     protected $_timeEnds;
     protected $_dateStart;
@@ -64,6 +65,25 @@ class Calendar extends \Ilch\Model
     public function setCycle($res)
     {
         $this->_cycle = (int) $res;
+    }
+    
+    public function getWeekdays()
+    {
+        return json_decode($this->_weekdays);
+    }
+    
+    public function getWeekdaysString()
+    {
+        return $this->_weekdays;
+    }
+    
+    public function setWeekdays($res)
+    {
+        if( is_array($res) ){
+            $this->_weekdays = json_encode($res);
+        } else {
+            $this->_weekdays = (string) $res;
+        }
     }
 
     public function getDateStart()

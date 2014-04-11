@@ -6,6 +6,7 @@
  */
 
 namespace Calendar\Controllers\Admin;
+use Calendar\Plugins\Cycle as Cycle;
 
 defined('ACCESS') or die('no direct access');
 
@@ -67,7 +68,8 @@ class Index extends \Ilch\Controller\Admin
     public function treatAction()
     {		
         $mapper = new \Calendar\Mappers\Calendar();
-        
+        $cycle = new \Calendar\Plugins\Cycle();
+
         if($this->getRequest()->isPost()) {
             
             if( !$this->getRequest()->isSecure() ){
@@ -82,6 +84,7 @@ class Index extends \Ilch\Controller\Admin
             
             $series = $this->getRequest()->getPost('series');
             $cycle = $this->getRequest()->getPost('cycle');
+            $weekdays = $this->getRequest()->getPost('weekdays');
             $date_start = $this->getRequest()->getPost('date_start');
             $date_ends = $this->getRequest()->getPost('date_ends');
             $time_start = $this->getRequest()->getPost('time_start');
@@ -93,6 +96,7 @@ class Index extends \Ilch\Controller\Admin
             
             $model->setSeries($series);
             $model->setCycle($cycle);
+            $model->setWeekdays(array_keys($weekdays));
             $model->setDateStart($date_start);
             $model->setDateEnds($date_ends);
             $model->setTimeStart($time_start);
@@ -101,6 +105,8 @@ class Index extends \Ilch\Controller\Admin
             $model->setTitle($title);
             $model->setOrganizer($organizer);
             $model->setMessage($message);
+            
+            
                                    
             $model->set_is_Series($this->getRequest()->getPost('is_series'));
             

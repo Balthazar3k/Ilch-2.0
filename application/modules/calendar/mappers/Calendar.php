@@ -38,6 +38,7 @@ class Calendar extends \Ilch\Mapper
             $model->setModuleUrl($res['module_url']);
             
             $model->setCycle($res['cycle']);
+            $model->setWeekdays($res['weekdays']);
             $model->setDateStart($res['date_start']);
             $model->setDateEnds($res['date_ends']);
             
@@ -70,6 +71,7 @@ class Calendar extends \Ilch\Mapper
         $model->setModuleUrl($res['module_url']);
 
         $model->setCycle($res['cycle']);
+        $model->setWeekdays($res['weekdays']);
         $model->setDateStart($res['date_start']);
         $model->setDateEnds($res['date_ends']);
 
@@ -106,6 +108,7 @@ class Calendar extends \Ilch\Mapper
             $model->setModuleUrl($res['module_url']);
             
             $model->setCycle($res['cycle']);
+            $model->setWeekdays($res['weekdays']);
             $model->setDateStart($res['date_start']);
             $model->setDateEnds($res['date_ends']);
             
@@ -157,11 +160,13 @@ class Calendar extends \Ilch\Mapper
             
             $fields['series'] = $model->getSeries();
             $fields['cycle'] = $model->getCycle();
+            $fields['weekdays'] = $model->getWeekdaysString();
             
             $dates = Cycle::calc(
                 $model->getCycle(),
                 $model->getStartTimestamp(),
-                $model->getEndsTimestamp()
+                $model->getEndsTimestamp(),
+                $model->getWeekdays()
              );
             
             foreach($dates[0] as $i => $date){

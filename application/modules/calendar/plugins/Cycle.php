@@ -18,7 +18,7 @@ class Cycle
      * @return array of dates
      */
     
-    public static function calc( $option, $fromTS, $toTS, $format = 'Y-m-d' ){
+    public static function calc( $option, $fromTS, $toTS, $weekdays, $format = 'Y-m-d' ){
         $dates = array();
 
         $m1 = date("m", $fromTS); 
@@ -53,7 +53,6 @@ class Cycle
             break;
             
             case 3: 
-                $weekdays = array( 1, 2, 3, 4, 5);
                 $days = floor(($toTS-$fromTS)/(86400));
                 for( $x = 0; $x < $days+1; $x++){
                     if(in_array((int) date('w', mktime(0, 0, 0, $m1, $d1+($x), $y1)), $weekdays) ){
