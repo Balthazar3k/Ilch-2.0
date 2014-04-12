@@ -4,7 +4,7 @@
 */
 
 .calendar-navi a{
-    width: 150px;
+    max-width: 150px;
 }
 
 .calendar th{
@@ -31,13 +31,14 @@
     background-color: #F0F0F0!important;
 }
 
-.dayTitle{
-    font-size: 18px;
+.calendar .day{
+    font-size: 16px;
     font-weight: bolder;
-    padding-left: 5px;
-    
-    margin-bottom: 2px;
-    border-bottom: 1px dotted black; 
+    text-align: right;
+    padding-right: 5px;
+
+
+    box-shadow: inset 0 -1px 0 #888,  0 1px 0 #FFF;
 }
 
 .calendar-day-title{

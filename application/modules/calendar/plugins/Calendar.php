@@ -58,15 +58,22 @@ class Calendar
 
     # Attribute für die Kalendertage
     public $today = array(
-        'style' => 'opacity: 1;'
+        'style' => array('opacity' => '1'),
+        'height' => '138,57',
+        'width' => '138,57',
+        'class' => 'bg-success'
     );
 
     public $thisMonth = array(
-        'style' => 'opacity: 0.7;'
+        'style' => array('opacity' => '0.6'),
+        'height' => '138,57',
+        'width' => '138,57',
     );
 
     public $otherMonth = array(
-        'style' => 'opacity: 0.2;'
+        'style' => array('opacity' => '0.3'),
+        'height' => '138,57',
+        'width' => '138,57'
     );
     
     /**
@@ -78,7 +85,7 @@ class Calendar
     
     public function __construct($controller) {
         $this->controller = $controller;
-        $this->setSize(940);
+        $this->setSize(800);
         return $this;
     }
     
@@ -160,15 +167,20 @@ class Calendar
         
         # Last Month
         $firstDayLastMonth = ($allPastDays-$allPastWeekdays);
+        
+       
         $this->startDate[] = mktime( 0, 0, 0, $this->_month-1, $firstDayLastMonth, $this->_year);
         $this->startDate[] = mktime( 0, 0, 0, $this->_month, 1, $this->_year);
         
         
-
-        for( $i=$firstDayLastMonth; $i<$allPastDays+1; $i++){
-            $countDays++;
-            $this->calendarArray[$this->_year][$this->_month-1][$i] = array("attributes" => $this->otherMonth);
-            $this->calendarArray[$this->_year][$this->_month-1][$i][] = "<div class='dayTitle'>".$i."</div>";
+        if( ($allPastDays-$firstDayLastMonth) < 6 ){
+            
+            for( $i=$firstDayLastMonth; $i<$allPastDays+1; $i++){
+                $countDays++;
+                $this->calendarArray[$this->_year][$this->_month-1][$i] = array("attributes" => $this->otherMonth);
+                $this->calendarArray[$this->_year][$this->_month-1][$i][] = "<div class='day'>".$i."</div>";
+            }
+        
         }
 
         # Current Viewed Month
@@ -176,21 +188,24 @@ class Calendar
             $countDays++;
             if( ($this->_day.".".$this->_month.'.'.$this->_year) == ($i.".".date('n.Y')) ){
                 $this->calendarArray[$this->_year][$this->_month][$i] = array("attributes" => $this->today);
-                $this->calendarArray[$this->_year][$this->_month][$i][] = "<div class='dayTitle today'>".$i." <span class='small'>today</span></div>";
+                $this->calendarArray[$this->_year][$this->_month][$i][] = "<div class='day'>".$i."</div>";
             }else{
                 $this->calendarArray[$this->_year][$this->_month][$i] = array("attributes" => $this->thisMonth);
-                $this->calendarArray[$this->_year][$this->_month][$i][] = "<div class='dayTitle'>".$i."</div>";
+                $this->calendarArray[$this->_year][$this->_month][$i][] = "<div class='day'>".$i."</div>";
             }
         }
         
         # Past Month
         $lastDayNextMonth = ($maxDays-$countDays)+1;
+        if( $lastDayNextMonth > 7 )
+            $lastDayNextMonth -= 7;
+        
         $this->endsDate[] = mktime( 0, 0, 0, $this->_month+1, $lastDayNextMonth, $this->_year);
         $this->endsDate[] = mktime( 0, 0, 0, $this->_month, $allDaysNow, $this->_year);
-        
+          
         for( $i=1; $i<$lastDayNextMonth; $i++){
             $this->calendarArray[$this->_year][$this->_month+1][$i] = array("attributes" =>  $this->otherMonth);
-            $this->calendarArray[$this->_year][$this->_month+1][$i][] = "<div class='dayTitle'>".$i."</div>";
+            $this->calendarArray[$this->_year][$this->_month+1][$i][] = "<div class='day'>".$i."</div>";
         }
 
         return $this->calendarArray;
@@ -206,7 +221,7 @@ class Calendar
     {
         $startDate = date( $format, $this->startDate[$options]);
         $endsDate = date( $format, $this->endsDate[$options]);
-        return "WHERE ".$feld .">'".$startDate."' AND ". $feld ."<'".$endsDate."'"; 
+        return "WHERE `".$feld ."`>='".$startDate."' AND `". $feld ."`<'".$endsDate."'"; 
     }
 
     /**
@@ -263,10 +278,23 @@ class Calendar
 
     public function getCalendarHtml()
     {
-        $rowSize = $this->_size/7;
         $ceilCounter = 0;
         
-        ?><table cellspacing="1" width="<?=$size?>" class="calendar">
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var resizeing = function(from){
+                    var size = $(from).parent().width();
+                    
+                    var cell = size/7;
+                    $(from + ' td').css({width: cell + 'px', height: cell + 'px'});
+                }
+                
+                $(window).resize(resizeing('.calendar'));
+            });
+        </script>
+        
+        <table cellspacing="1" class="calendar">
             <thead>
                 <tr>
                     <?php foreach( $this->controller->getTranslator()->getTranslations()['dayNames'] as $key => $value): ?>
@@ -282,7 +310,7 @@ class Calendar
                             $ceilCounter++; 
                             if( ($ceilCounter-1) % 7 == 0 ){ echo "<tr>"; } 
             ?>
-                                <td valign="top" <?=$this->setAttr($dayArray['attributes'])?> width="<?=$rowSize;?>" height="<?=$rowSize;?>"><?php
+                                <td valign="top" <?=$this->setAttr($dayArray['attributes'])?>><?php
                                         foreach( $dayArray as $i => $day ):
                                             if( !is_array( $day ) ){
                                                 echo $day; 
@@ -297,6 +325,8 @@ class Calendar
                 endforeach;?>
             </tbody>
         </table>
+        
+        
         <?php
     }
     
@@ -312,7 +342,29 @@ class Calendar
         if( is_Array($attributes) && count($attributes) > 0 ){
             $attr = array();
             foreach( $attributes as $key => $value){
-                $attr[] = $key . '="'.$value.'"';
+                if( is_array($value) ){
+                    $attr[] = $key . '="'.$this->setCSS($value).'"';
+                } else {
+                    $attr[] = $key . '="'.$value.'"';
+                }
+            }
+            return implode(' ', $attr);
+        }
+    }
+    
+   /**
+     * change the array to a CSS Style string
+     * 
+     * @param array $style
+     * @return string
+     */
+    
+    private function setCSS($style)
+    {
+        if( is_Array($style) && count($style) > 0 ){
+            $attr = array();
+            foreach( $style as $key => $value){
+                $attr[] = $key . ': '.$value.';';
             }
             return implode(' ', $attr);
         }

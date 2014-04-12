@@ -13,10 +13,9 @@ $date = $this->getRequest()->getParam('date');
 <link href="<?php echo $this->getStaticUrl('../application/modules/calendar/static/css/index.css'); ?>" rel="stylesheet">
 
 <div>
-    <div style="float: left;">
+    <div class="col-lg-8">
        <?=$calendar->getNaviHtml();?>
     </div>
-    <div style="float: right;"></div>
 </div><br><br>
 
-<?=$calendar->getCalendarHtml();?>
+<div class="col-lg-8"><?=$calendar->getCalendarHtml();?></div>
