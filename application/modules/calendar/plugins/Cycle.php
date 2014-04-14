@@ -14,6 +14,7 @@ class Cycle
      * @param integer $option
      * @param integer $fromTS (from Timestamp)
      * @param integer $toTS (to Timestamp)
+     * @param array $weekdays
      * @param string $format
      * @return array of dates
      */
@@ -90,32 +91,6 @@ class Cycle
     public static function Name($id = integer)
     {
         return self::getArray()[$id];
-    }
-
-
-    public static function ar()
-    {
-        ?><pre><?php
-        foreach(func_get_args() as $arg){
-            if( is_array($arg) || is_object($arg)){
-                print_r($arg);
-                ?><hr><?php
-            } else {
-                echo $arg;
-                ?><hr><?php
-            }
-        }
-        ?></pre><?php
-    }
-    
-    public static function dump()
-    {
-        ?><pre><?php
-        foreach(func_get_args() as $arg){
-            var_dump($arg);
-            ?><hr><?php
-        }
-        ?></pre><?php
     }
 }
 ?>

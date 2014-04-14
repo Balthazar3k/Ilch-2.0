@@ -5,7 +5,6 @@
  */
 
 namespace Calendar\Plugins;
-use Calendar\Plugins\Cycle as Cycle;
 
 class Calendar 
 {
@@ -271,7 +270,7 @@ class Calendar
     }
     
     /**
-     * set the HTML from Calendar
+     * Gets the HTML from Calendar
      * 
      * @return echo HTML
      */

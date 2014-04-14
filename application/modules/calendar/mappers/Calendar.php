@@ -18,9 +18,9 @@ class Calendar extends \Ilch\Mapper
         $sql = ('
             SELECT 
                 *
-            FROM [prefix]_calendar
+            FROM `[prefix]_calendar`
             '.$where.'
-            ORDER BY date_start ASC
+            ORDER BY `date_start` ASC
         ;');
         
         $entryArray = $this->db()->queryArray($sql);
@@ -35,7 +35,6 @@ class Calendar extends \Ilch\Mapper
             $model = new \Calendar\Models\Calendar();
             $model->setId($res['id']);
             $model->setModuleKey($res['module_key']);
-            $model->setModuleUrl($res['module_url']);
             
             $model->setCycle($res['cycle']);
             $model->setWeekdays($res['weekdays']);
@@ -68,7 +67,6 @@ class Calendar extends \Ilch\Mapper
         $model = new \Calendar\Models\Calendar();
         $model->setId($res['id']);
         $model->setModuleKey($res['module_key']);
-        $model->setModuleUrl($res['module_url']);
 
         $model->setCycle($res['cycle']);
         $model->setWeekdays($res['weekdays']);
@@ -105,7 +103,6 @@ class Calendar extends \Ilch\Mapper
             $model = new \Calendar\Models\Calendar();
             $model->setId($res['id']);
             $model->setModuleKey($res['module_key']);
-            $model->setModuleUrl($res['module_url']);
             
             $model->setCycle($res['cycle']);
             $model->setWeekdays($res['weekdays']);
@@ -128,11 +125,11 @@ class Calendar extends \Ilch\Mapper
     public function getTitle()
     {
 
-        $sql = ('
+        $sql = '
             SELECT DISTINCT
-                title
-            FROM [prefix]_calendar
-        ;');
+                `title`
+            FROM `[prefix]_calendar`
+        ;';
         
         $entryArray = $this->db()->queryArray($sql);
 
@@ -144,9 +141,7 @@ class Calendar extends \Ilch\Mapper
 
         foreach ($entryArray as $res) {
             $model = new \Calendar\Models\Calendar();
-           
-            $model->setTitle($res['title']);
-            
+            $model->setTitle($res['title']);          
             $entry[] = $model;
         }   
         return $entry;
@@ -156,7 +151,7 @@ class Calendar extends \Ilch\Mapper
     public function save($controller, \Calendar\Models\Calendar $model)
     {
         if( !is_object($controller) && empty($model->getModuleKey()) ){
-            exit('1 Argument from Calendar->save need the $this from controller!');
+            trigger_error('1 Argument from Calendar->save need the $this from controller!');
             return;
         } else {
             $model ->setModuleKey($controller->getRequest()->getModuleName());
@@ -222,17 +217,17 @@ class Calendar extends \Ilch\Mapper
         ');
     }
     
-    public function getSeriesMax($id)
+    public function getSeriesMax($series)
     {
         return strtotime($this->db()->queryCell('
-            SELECT MAX(`date_start`) FROM `[prefix]_calendar` WHERE `series`=\''.$id.'\';
+            SELECT MAX(`date_start`) FROM `[prefix]_calendar` WHERE `series`=\''.$series.'\';
         '));
     }
     
-    public function getSeriesMin($id)
+    public function getSeriesMin($series)
     {
         return strtotime($this->db()->queryCell('
-            SELECT MIN(`date_start`) FROM `[prefix]_calendar` WHERE `series`=\''.$id.'\';
+            SELECT MIN(`date_start`) FROM `[prefix]_calendar` WHERE `series`=\''.$series.'\';
         '));
     }
     

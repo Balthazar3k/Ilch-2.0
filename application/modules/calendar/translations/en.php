@@ -25,6 +25,7 @@ return array(
     'missing_time_start' => 'Missing Time for the Start',
     
     'title' => 'Title',
+    'select_title' => 'Select a Title ',
     'cycle' => 'Cycle',
     'cycle_from_to' => '%s to %s',
     'cycle_unique' => 'Unique',

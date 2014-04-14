@@ -47,7 +47,7 @@ if( $this->get('item') != '' ){
                            placeholder="<?php echo $this->getTrans('title'); ?>"
                            value="<?php if ($item != '') { echo $this->escape($item->getTitle()); } ?>" />
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Select a Title <span class="caret"></span></button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><?=$this->getTrans('select_title');?><span class="caret"></span></button>
                             <ul class="dropdown-menu pull-right">
                                 <?php foreach($this->get('title') as $title ): ?>
                                     <li><a class="select-Title" href="#"><?=$title->getTitle();?></a></li> 

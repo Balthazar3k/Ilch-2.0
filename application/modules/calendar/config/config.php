@@ -47,7 +47,6 @@ class Config extends \Ilch\Config\Install
             CREATE TABLE IF NOT EXISTS `[prefix]_calendar` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `module_key` varchar(255) NOT NULL,
-                `module_url` varchar(255) NOT NULL,
                 `cycle` int(1) NOT NULL,
                 `weekdays` text NOT NULL,
                 `date_start` datetime NOT NULL,
