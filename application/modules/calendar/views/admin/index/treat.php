@@ -162,19 +162,7 @@ if( $this->get('item') != '' ){
         </div>
     
     </div>
-    
-    <div class="col-lg-5">
-        <legend>
-        <?php
-            if ($item != '') {
-                echo $this->getTrans('menu_action_update_calendar');
-            } else {
-                echo $this->getTrans('menu_action_insert_calendar');
-            }
-        ?>
-        </legend>
-    
-    </div>
+
 
     <?php
     if ($this->get('event') != '') {

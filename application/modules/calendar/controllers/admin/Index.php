@@ -2,11 +2,9 @@
 /**
  * @copyright Balthazar3k 2014
  * @package Calendar 1.0
- * 
  */
 
 namespace Calendar\Controllers\Admin;
-use Calendar\Plugins\Cycle as Cycle;
 
 defined('ACCESS') or die('no direct access');
 
@@ -70,13 +68,12 @@ class Index extends \Ilch\Controller\Admin
         $mapper = new \Calendar\Mappers\Calendar();
 
         if($this->getRequest()->isPost()) {
+            $model = new \Calendar\Models\Calendar();
             
             if( !$this->getRequest()->isSecure() ){
                 return;
             }
-            
-            $model = new \Calendar\Models\Calendar();
-            
+
             if ($this->getRequest()->getParam('id')) {
                 $model->setId($this->getRequest()->getParam('id'));
             }
@@ -92,6 +89,7 @@ class Index extends \Ilch\Controller\Admin
             $organizer = $this->getRequest()->getPost('organizer');
             $title = $this->getRequest()->getPost('title');
             $message = $this->getRequest()->getPost('message');
+            $is_Series = $this->getRequest()->getPost('is_series');
             
             $model->setSeries($series);
             $model->setCycle($cycle);
@@ -104,10 +102,7 @@ class Index extends \Ilch\Controller\Admin
             $model->setTitle($title);
             $model->setOrganizer($organizer);
             $model->setMessage($message);
-            
-            
-                                   
-            $model->set_is_Series($this->getRequest()->getPost('is_series'));
+            $model->set_is_Series($is_Series);
             
             $this->getView()->set('item', $model );
                        
@@ -133,7 +128,9 @@ class Index extends \Ilch\Controller\Admin
             }
         }
 
-        if ($ItemId = $this->getRequest()->getParam('id')) {
+        $ItemId = $this->getRequest()->getParam('id');
+        
+        if ($ItemId) {
             $item = $mapper->getCalendarItem($ItemId);
             $item->set_is_Series($this->getRequest()->getParam('series'));
             $this->getView()->set('item', $item );
@@ -157,7 +154,7 @@ class Index extends \Ilch\Controller\Admin
     
     public function deleteAction()
     {
-        $url = array();
+        $redirect = array();
         $by_id = (int) $this->getRequest()->getParam('d');
         $by_series = (int) $this->getRequest()->getParam('series');
         
@@ -165,19 +162,23 @@ class Index extends \Ilch\Controller\Admin
             $where['series'] = $by_series;
             $msg = 'calendarSeries_delete_success';
             
-            $url = array(
-                'controller' => $this->getRequest()->getControllerName(),
-                'action' => 'index'
-            );
+            $redirect = 
+                array
+                (
+                    'controller' => $this->getRequest()->getControllerName(),
+                    'action' => 'index'
+                );
         } else {
             $where['id'] = $by_id;
             $msg = 'calendar_delete_success';
             
-            $url = array(
-                'controller' => $this->getRequest()->getControllerName(),
-                'action' => 'series',
-                'id' => $this->getRequest()->getParam('id'),
-            );
+            $redirect = 
+                array
+                (
+                    'controller' => $this->getRequest()->getControllerName(),
+                    'action' => 'series',
+                    'id' => $this->getRequest()->getParam('id')
+                );
         }
         
         $mapper = new \Calendar\Mappers\Calendar();
@@ -187,7 +188,7 @@ class Index extends \Ilch\Controller\Admin
             $this->addMessage('calendar_delete_error', 'danger');
         }
         
-        $this->redirect($url);
+        $this->redirect($redirect);
         
     }	
 }

@@ -37,7 +37,7 @@ return array(
     'date_ends' => 'Datum Ende',
     'today' => 'Heute',
     
-    'begin_datetime' => 'um <b>%s - %s</b> Uhr',
+    'begin_datetime' => '<b>%s - %s</b> Uhr',
     'created' => 'Erstellt am',
     'changed' => 'Geändert am',
     

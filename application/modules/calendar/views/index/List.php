@@ -5,7 +5,6 @@
  */
 
 namespace Calendar\Views\Index;
-use Calendar\Plugins\Cycle as Cycle;
 
 $calendar = $this->get('calendar');
 $items = $this->get('items');
@@ -25,23 +24,32 @@ $date = $this->getRequest()->getParam('date');
 
 <div class="list-group">
 <?php foreach ($items as $item) : ?>
-    <a class="list-group-item <?=$item->is_Today('bg-info')?>" href="<?=$this->getUrl(array('action' => 'details', 'id' => $item->getId()));?>">
-        <div class="col-lg-1" align="center">
-            <h3><?=$item->getStart('d')?><div class="small" style="border-top: 3px solid black; padding-top: 5px;"><?=$item->getStart('M')?></div></h3><br>
+    <a class="list-group-item <?=$item->is_Today('list-group-item-info')?>" href="<?=$this->getUrl(array('action' => 'details', 'id' => $item->getId()));?>">
+        <div class="col-lg-2 text-center" align="center">
+            <h3><?=$item->getStart('d')?><div class="small" style="border-top: 3px solid black; padding-top: 5px;"><?=$item->getStart('M')?></div></h3>
         </div>
         
-        <div class="col-lg-10">
+        <?php if( $item->getMessage() != '' ) : ?>
+        <div class="col-lg-8">
             <h4 class="list-group-item-heading"><b><?=$item->getTitle()?></b></h4>
             <div> 
                 <?=substr($item->getMessage(), 0, 264);?>
             </div>
         </div>
+        <?php else : ?>
+        <div class="col-lg-8 text-center">
+            <h3>
+                <?=$item->getTitle('H:i')?>
+                <div class="small" style="border-top: 3px solid black; padding-top: 5px;"><?=$item->getStart('D d.m.Y H:i')?> - <?=$item->getEnds('H:i');?></div>
+            </h3>
+        </div>
+        <?php endif; ?>
         
-        <div class="col-lg-1" align="center">
-            <h4>
+        <div class="col-lg-2" align="center">
+            <h3>
                 <?=$item->getStart('H:i')?>
-                <div style="border-top: 3px solid gray;"><?=$item->getEnds('H:i')?></div>
-            </h4>
+                <div class="small" style="border-top: 3px solid black; padding-top: 5px;"><?=$item->getEnds('H:i')?></div>
+            </h3>
         </div>
         
         <br style="clear: both;">
