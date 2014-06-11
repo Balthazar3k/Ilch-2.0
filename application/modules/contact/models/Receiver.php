@@ -1,12 +1,10 @@
 <?php
 /**
- * Holds Contact\Models\Receiver.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace Contact\Models;
+namespace Modules\Contact\Models;
 defined('ACCESS') or die('no direct access');
 
 /**
@@ -21,21 +19,21 @@ class Receiver extends \Ilch\Model
      *
      * @var int
      */
-    protected $_id;
+    protected $id;
 
     /**
      * The name of the receiver.
      *
      * @var string
      */
-    protected $_name;
+    protected $name;
 
     /**
      * The email of the receiver.
      *
      * @var string
      */
-    protected $_email;
+    protected $email;
 
     /**
      * Gets the id of the receiver.
@@ -44,7 +42,7 @@ class Receiver extends \Ilch\Model
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -55,7 +53,7 @@ class Receiver extends \Ilch\Model
      */
     public function setId($id)
     {
-        $this->_id = (int)$id;
+        $this->id = (int)$id;
 
         return $this;
     }
@@ -67,7 +65,7 @@ class Receiver extends \Ilch\Model
      */
     public function getName()
     {
-        return $this->_name;
+        return $this->name;
     }
 
     /**
@@ -78,7 +76,7 @@ class Receiver extends \Ilch\Model
      */
     public function setName($name)
     {
-        $this->_name = (string)$name;
+        $this->name = (string)$name;
 
         return $this;
     }
@@ -90,7 +88,7 @@ class Receiver extends \Ilch\Model
      */
     public function getEmail()
     {
-        return $this->_email;
+        return $this->email;
     }
 
     /**
@@ -101,7 +99,7 @@ class Receiver extends \Ilch\Model
      */
     public function setEmail($email)
     {
-        $this->_email = (string)$email;
+        $this->email = (string)$email;
 
         return $this;
     }

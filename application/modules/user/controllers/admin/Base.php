@@ -1,12 +1,10 @@
 <?php
 /**
- * Holds the class Index.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace User\Controllers\Admin;
+namespace Modules\User\Controllers\Admin;
 
 defined('ACCESS') or die('no direct access');
 

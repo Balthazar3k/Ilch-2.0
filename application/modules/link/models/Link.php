@@ -1,12 +1,10 @@
 <?php
 /**
- * Holds Contact\Models\Link.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace Link\Models;
+namespace Modules\Link\Models;
 
 defined('ACCESS') or die('no direct access');
 
@@ -22,49 +20,49 @@ class Link extends \Ilch\Model
      *
      * @var int
      */
-    protected $_id;
+    protected $id;
 
     /**
      * The name of the link.
      *
      * @var string
      */
-    protected $_name;
+    protected $name;
 
     /**
      * The link of the link.
      *
      * @var string
      */
-    protected $_link;
+    protected $link;
 
     /**
      * The banner of the link.
      *
      * @var string
      */
-    protected $_banner;
+    protected $banner;
 
     /**
      * The category of the link.
      *
      * @var string
      */
-    protected $_cat_id;
+    protected $cat_id;
 
     /**
      * The category of the link.
      *
      * @var string
      */
-    protected $_desc;
+    protected $desc;
 
     /**
      * The category of the link.
      *
      * @var string
      */
-    protected $_hits;
+    protected $hits;
 
     /**
      * Gets the id of the link.
@@ -73,7 +71,7 @@ class Link extends \Ilch\Model
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -84,7 +82,7 @@ class Link extends \Ilch\Model
      */
     public function setId($id)
     {
-        $this->_id = (int)$id;
+        $this->id = (int)$id;
 
         return $this;
     }
@@ -96,7 +94,7 @@ class Link extends \Ilch\Model
      */
     public function getName()
     {
-        return $this->_name;
+        return $this->name;
     }
 
     /**
@@ -107,7 +105,7 @@ class Link extends \Ilch\Model
      */
     public function setName($name)
     {
-        $this->_name = (string)$name;
+        $this->name = (string)$name;
 
         return $this;
     }
@@ -119,7 +117,7 @@ class Link extends \Ilch\Model
      */
     public function getLink()
     {
-        return $this->_link;
+        return $this->link;
     }
 
     /**
@@ -130,7 +128,7 @@ class Link extends \Ilch\Model
      */
     public function setLink($link)
     {
-        $this->_link = (string)$link;
+        $this->link = (string)$link;
 
         return $this;
     }
@@ -142,7 +140,7 @@ class Link extends \Ilch\Model
      */
     public function getBanner()
     {
-        return $this->_banner;
+        return $this->banner;
     }
 
     /**
@@ -153,7 +151,7 @@ class Link extends \Ilch\Model
      */
     public function setBanner($banner)
     {
-        $this->_banner = (string)$banner;
+        $this->banner = (string)$banner;
 
         return $this;
     }
@@ -165,7 +163,7 @@ class Link extends \Ilch\Model
      */
     public function getCatId()
     {
-        return $this->_cat_id;
+        return $this->cat_id;
     }
 
     /**
@@ -176,7 +174,7 @@ class Link extends \Ilch\Model
      */
     public function setCatId($cat)
     {
-        $this->_cat_id = (int)$cat;
+        $this->cat_id = (int)$cat;
 
         return $this;
     }
@@ -188,7 +186,7 @@ class Link extends \Ilch\Model
      */
     public function getDesc()
     {
-        return $this->_desc;
+        return $this->desc;
     }
 
     /**
@@ -199,7 +197,7 @@ class Link extends \Ilch\Model
      */
     public function setDesc($desc)
     {
-        $this->_desc = (string)$desc;
+        $this->desc = (string)$desc;
 
         return $this;
     }
@@ -211,7 +209,7 @@ class Link extends \Ilch\Model
      */
     public function getHits()
     {
-        return $this->_hits;
+        return $this->hits;
     }
 
     /**
@@ -222,7 +220,7 @@ class Link extends \Ilch\Model
      */
     public function setHits($hits)
     {
-        $this->_hits = (string)$hits;
+        $this->hits = (string)$hits;
 
         return $this;
     }

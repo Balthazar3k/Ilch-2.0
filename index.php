@@ -21,6 +21,7 @@ define('VERSION', '2.0.0');
 define('ILCH_SERVER', 'http://www.ilch.de/ilch2');
 define('SERVER_TIMEZONE', $serverTimeZone);
 define('DEFAULT_MODULE', 'page');
+define('DEFAULT_LAYOUT', 'index');
 
 /*
  * Path could not be under root.
@@ -35,6 +36,8 @@ define('REWRITE_BASE', $rewriteBaseParts);
 define('BASE_URL', 'http://'.$_SERVER['HTTP_HOST'].REWRITE_BASE);
 
 require_once APPLICATION_PATH.'/libraries/Ilch/Loader.php';
+$loader = new \Ilch\Loader();
+$loader->registNamespace('Thumb');
 
 \Ilch\Registry::set('startTime', microtime(true));
 

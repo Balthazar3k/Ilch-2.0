@@ -1,13 +1,11 @@
 <?php
 /**
- * Holds Article_ArticleMapper.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace Article\Mappers;
-use Article\Models\Article as ArticleModel;
+namespace Modules\Article\Mappers;
+use Modules\Article\Models\Article as ArticleModel;
 
 defined('ACCESS') or die('no direct access');
 
@@ -41,6 +39,7 @@ class Article extends \Ilch\Mapper
         foreach ($articleArray as $articleRow) {
             $articleModel = new ArticleModel();
             $articleModel->setId($articleRow['id']);
+            $articleModel->setDescription($articleRow['description']);
             $articleModel->setTitle($articleRow['title']);
             $articleModel->setPerma($articleRow['perma']);
             $articleModel->setContent($articleRow['content']);
@@ -61,11 +60,12 @@ class Article extends \Ilch\Mapper
      */
     public function getArticleList($locale = '', $limit = null)
     {
-        $sql = 'SELECT pc.title, pc.perma, p.id FROM [prefix]_articles as p
-                LEFT JOIN [prefix]_articles_content as pc ON p.id = pc.article_id
-                    AND pc.locale = "'.$this->db()->escape($locale).'"
-                GROUP BY p.id
-                ORDER BY p.`date_created` ASC';
+        $sql = 'SELECT `a`.`id`, `ac`.`title`, `ac`.`perma`, `ac`.`article_img`
+                FROM `[prefix]_articles` as `a`
+                LEFT JOIN `[prefix]_articles_content` as `ac` ON `a`.`id` = `ac`.`article_id`
+                    AND `ac`.`locale` = "'.$this->db()->escape($locale).'"
+                GROUP BY `a`.`id`
+                ORDER BY `a`.`date_created` ASC';
         
         if ($limit !== null) {
            $sql .= ' LIMIT '.(int)$limit;
@@ -84,6 +84,7 @@ class Article extends \Ilch\Mapper
             $articleModel->setId($articleRow['id']);
             $articleModel->setTitle($articleRow['title']);
             $articleModel->setPerma($articleRow['perma']);
+            $articleModel->setArticleImage($articleRow['article_img']);
             $articles[] = $articleModel;
         }
 
@@ -110,6 +111,7 @@ class Article extends \Ilch\Mapper
 
         $articleModel = new ArticleModel();
         $articleModel->setId($articleRow['id']);
+        $articleModel->setDescription($articleRow['description']);
         $articleModel->setTitle($articleRow['title']);
         $articleModel->setContent($articleRow['content']);
         $articleModel->setLocale($articleRow['locale']);
@@ -152,16 +154,17 @@ class Article extends \Ilch\Mapper
         if ($article->getId()) {
             if ($this->getArticleByIdLocale($article->getId(), $article->getLocale())) {
                 $this->db()->update('articles_content')
-                    ->fields(array('title' => $article->getTitle(), 'content' => $article->getContent(), 'perma' => $article->getPerma(), 'article_img' => $article->getArticleImage()))
+                    ->values(array('title' => $article->getTitle(), 'description' => $article->getDescription(), 'content' => $article->getContent(), 'perma' => $article->getPerma(), 'article_img' => $article->getArticleImage()))
                     ->where(array('article_id' => $article->getId(), 'locale' => $article->getLocale()))
                     ->execute();
             } else {
                 $this->db()->insert('articles_content')
-                    ->fields
+                    ->values
                     (
                         array
                         (
                             'article_id' => $article->getId(),
+                            'description' => $article->getDescription(),
                             'title' => $article->getTitle(),
                             'content' => $article->getContent(),
                             'perma' => $article->getPerma(),
@@ -174,15 +177,16 @@ class Article extends \Ilch\Mapper
         } else {
             $date = new \Ilch\Date();
             $articleId = $this->db()->insert('articles')
-                ->fields(array('date_created' => $date->toDb()))
+                ->values(array('date_created' => $date->toDb()))
                 ->execute();
 
             $this->db()->insert('articles_content')
-                ->fields
+                ->values
                 (
                     array
                     (
                         'article_id' => $articleId,
+                        'description' => $article->getDescription(),
                         'title' => $article->getTitle(),
                         'content' => $article->getContent(),
                         'perma' => $article->getPerma(),

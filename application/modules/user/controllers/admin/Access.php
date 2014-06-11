@@ -1,19 +1,17 @@
 <?php
 /**
- * Holds the class Access.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace User\Controllers\Admin;
+namespace Modules\User\Controllers\Admin;
 
-use User\Controllers\Admin\Base as BaseController;
-use User\Mappers\Group as GroupMapper;
-use Admin\Mappers\Module as ModuleMapper;
-use Admin\Mappers\Box as BoxMapper;
-use Page\Mappers\Page as PageMapper;
-use Article\Mappers\Article as ArticleMapper;
+use Modules\User\Controllers\Admin\Base as BaseController;
+use Modules\User\Mappers\Group as GroupMapper;
+use Modules\Admin\Mappers\Module as ModuleMapper;
+use Modules\Admin\Mappers\Box as BoxMapper;
+use Modules\Page\Mappers\Page as PageMapper;
+use Modules\Article\Mappers\Article as ArticleMapper;
 
 defined('ACCESS') or die('no direct access');
 

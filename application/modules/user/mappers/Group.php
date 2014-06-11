@@ -1,14 +1,12 @@
 <?php
 /**
- * Holds class Group.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace User\Mappers;
+namespace Modules\User\Mappers;
 
-use User\Models\Group as GroupModel;
+use Modules\User\Models\Group as GroupModel;
 
 defined('ACCESS') or die('no direct access');
 
@@ -32,7 +30,7 @@ class Group extends \Ilch\Mapper
             'id' => (int) $id,
         );
 
-        $groups = $this->_getBy($where);
+        $groups = $this->getBy($where);
 
         if (!empty($groups)) {
             return reset($groups);
@@ -54,7 +52,7 @@ class Group extends \Ilch\Mapper
             'name' => $name,
         );
 
-        $groups = $this->_getBy($where);
+        $groups = $this->getBy($where);
 
         if (!empty($groups)) {
             return reset($groups);
@@ -70,12 +68,13 @@ class Group extends \Ilch\Mapper
      * @param  mixed[]            $where
      * @return false|GroupModel[]
      */
-    protected function _getBy($where = null)
+    protected function getBy($where = [])
     {
-        $groupRows = $this->db()->selectArray('*')
+        $groupRows = $this->db()->select('*')
             ->from('groups')
             ->where($where)
-            ->execute();
+            ->execute()
+            ->fetchRows();
 
         if (!empty($groupRows)) {
             $groups = array_map(array($this, 'loadFromArray'), $groupRows);
@@ -114,12 +113,9 @@ class Group extends \Ilch\Mapper
      */
     public function getUsersForGroup($groupId)
     {
-        $userIds = $this->db()->selectList
-        (
-            'user_id',
-            'users_groups',
-            array('group_id' => $groupId)
-        );
+        $userIds = $this->db()->select('user_id', 'users_groups', array('group_id' => $groupId))
+            ->execute()
+            ->fetchList();
 
         return $userIds;
     }
@@ -138,17 +134,16 @@ class Group extends \Ilch\Mapper
             $fields['name'] = $group->getName();
         }
 
-        $groupId = (int)$this->db()->selectCell('id')
-            ->from('groups')
-            ->where(array('id' => $group->getId()))
-            ->execute();
+        $groupId = (int) $this->db()->select('id', 'groups', array('id' => $group->getId()))
+            ->execute()
+            ->fetchCell();
 
         if ($groupId) {
             /*
              * Group does exist already, update.
              */
             $this->db()->update('groups')
-                ->fields($fields)
+                ->values($fields)
                 ->where(array('id' => $groupId))
                 ->execute();
         } else {
@@ -156,7 +151,7 @@ class Group extends \Ilch\Mapper
              * Group does not exist yet, insert.
              */
             $groupId = $this->db()->insert('groups')
-                ->fields($fields)
+                ->values($fields)
                 ->execute();
         }
 
@@ -170,7 +165,7 @@ class Group extends \Ilch\Mapper
      */
     public function getGroupList()
     {
-        return $this->_getBy();
+        return $this->getBy();
     }
 
     /**
@@ -181,12 +176,9 @@ class Group extends \Ilch\Mapper
      */
     public function groupWithIdExists($groupId)
     {
-        $groupExists = (boolean)$this->db()->selectCell('COUNT(*)')
-            ->from('groups')
-            ->where(array('id' => (int)$groupId))
-            ->execute();
-
-        return $groupExists;
+        return (boolean) $this->db()->select('COUNT(*)', 'groups', array('id' => (int)$groupId))
+            ->execute()
+            ->fetchCell();
     }
 
     /**
@@ -198,7 +190,7 @@ class Group extends \Ilch\Mapper
      */
     public function delete($groupId)
     {
-        if(is_a($groupId, '\User\Models\Group'))
+        if(is_a($groupId, '\Modules\User\Models\Group'))
         {
             $groupId = $groupId->getId();
         }
@@ -285,19 +277,20 @@ class Group extends \Ilch\Mapper
 
         $fields = $rec;
         $fields['access_level'] = (int)$accessLevel;
-        $entryExists = (bool)$this->db()->selectCell('COUNT(*)')
+        $entryExists = (bool)$this->db()->select('COUNT(*)')
             ->from('groups_access')
             ->where($rec)
-            ->execute();
+            ->execute()
+            ->fetchCell();
 
         if($entryExists) {
             $this->db()->update('groups_access')
-                ->fields($fields)
+                ->values($fields)
                 ->where($rec)
                 ->execute();
         } else {
             $this->db()->insert('groups_access')
-                ->fields($fields)
+                ->values($fields)
                 ->execute();
         }
     }

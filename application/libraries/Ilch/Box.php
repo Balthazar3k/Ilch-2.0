@@ -12,19 +12,19 @@ class Box extends \Ilch\Controller\Base
     /**
      * Hold the database adapter.
      *
-     * @var Ilch_Database_*
+     * @var \Ilch\Database\Mysql
      */
-    private $_db;
+    private $db;
     
     /**
      * @var integer
      */
-    private $_boxUniqid;
+    private $boxUniqid;
 
     /**
      * @var integer
      */
-    private static $_staticBoxUniqid;
+    private static $staticBoxUniqid;
 
     /**
      * Injects the layout/view to the controller.
@@ -38,15 +38,15 @@ class Box extends \Ilch\Controller\Base
     public function __construct(\Ilch\Layout\Base $layout, \Ilch\View $view, \Ilch\Request $request, \Ilch\Router $router, \Ilch\Translator $translator)
     {
         parent::__construct($layout, $view, $request, $router, $translator);
-        $this->_db = Registry::get('db');
+        $this->db = Registry::get('db');
         
-        if (!isset(Box::$_staticBoxUniqid)) {
-            Box::$_staticBoxUniqid = 0;
+        if (!isset(Box::$staticBoxUniqid)) {
+            Box::$staticBoxUniqid = 0;
         } else {
-            Box::$_staticBoxUniqid++;
+            Box::$staticBoxUniqid++;
         }
 
-        $this->_boxUniqid = Box::$_staticBoxUniqid;
+        $this->boxUniqid = Box::$staticBoxUniqid;
     }
 
     /**
@@ -56,17 +56,17 @@ class Box extends \Ilch\Controller\Base
      */
     public function getUniqid()
     {
-        return 'box_'.$this->_boxUniqid;
+        return 'box_'.$this->boxUniqid;
     }
 
     /**
      * Shortcut for getDatabse.
      *
-     * @return Ilch_Database_*
+     * @return \Ilch\Database\Mysql
      */
     public function db()
     {
-        return $this->_db;
+        return $this->db;
     }
 
     /**

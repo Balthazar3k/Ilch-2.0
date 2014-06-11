@@ -1,12 +1,10 @@
 <?php
 /**
- * Holds Box\Models\Box.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace Admin\Models;
+namespace Modules\Admin\Models;
 defined('ACCESS') or die('no direct access');
 
 /**
@@ -21,35 +19,35 @@ class Box extends \Ilch\Model
      *
      * @var int
      */
-    protected $_id;
+    protected $id;
 
     /**
      * The title of the box.
      *
      * @var string
      */
-    protected $_title;
+    protected $title;
 
     /**
      * The content of the box.
      *
      * @var string
      */
-    protected $_content;
+    protected $content;
 
     /**
      * The locale of the box.
      *
      * @var string
      */
-    protected $_locale;
+    protected $locale;
 
     /**
      * The datetime when the box got created.
      *
      * @var DateTime
      */
-    protected $_dateCreated;
+    protected $dateCreated;
 
     /**
      * Gets the id of the box.
@@ -58,7 +56,7 @@ class Box extends \Ilch\Model
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -68,7 +66,7 @@ class Box extends \Ilch\Model
      */
     public function setId($id)
     {
-        $this->_id = (int) $id;
+        $this->id = (int) $id;
     }
 
     /**
@@ -78,7 +76,7 @@ class Box extends \Ilch\Model
      */
     public function getTitle()
     {
-        return $this->_title;
+        return $this->title;
     }
 
     /**
@@ -88,7 +86,7 @@ class Box extends \Ilch\Model
      */
     public function setTitle($title)
     {
-        $this->_title = (string) $title;
+        $this->title = (string) $title;
     }
 
     /**
@@ -98,7 +96,7 @@ class Box extends \Ilch\Model
      */
     public function getContent()
     {
-        return $this->_content;
+        return $this->content;
     }
 
     /**
@@ -108,7 +106,7 @@ class Box extends \Ilch\Model
      */
     public function setContent($content)
     {
-        $this->_content = (string) $content;
+        $this->content = (string) $content;
     }
 
     /**
@@ -118,7 +116,7 @@ class Box extends \Ilch\Model
      */
     public function getLocale()
     {
-        return $this->_locale;
+        return $this->locale;
     }
 
     /**
@@ -128,7 +126,7 @@ class Box extends \Ilch\Model
      */
     public function setLocale($locale)
     {
-        $this->_locale = (string) $locale;
+        $this->locale = (string) $locale;
     }
 
     /**
@@ -138,7 +136,7 @@ class Box extends \Ilch\Model
      */
     public function getDateCreated()
     {
-        return $this->_dateCreated;
+        return $this->dateCreated;
     }
 
     /**
@@ -148,6 +146,6 @@ class Box extends \Ilch\Model
      */
     public function setDateCreated($dateCreated)
     {
-        $this->_dateCreated = $dateCreated;
+        $this->dateCreated = $dateCreated;
     }
 }

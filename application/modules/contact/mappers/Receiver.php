@@ -1,13 +1,11 @@
 <?php
 /**
- * Holds Box\Mappers\Box.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace Contact\Mappers;
-use Contact\Models\Receiver as ReceiverModel;
+namespace Modules\Contact\Mappers;
+use Modules\Contact\Models\Receiver as ReceiverModel;
 
 defined('ACCESS') or die('no direct access');
 
@@ -56,7 +54,7 @@ class Receiver extends \Ilch\Mapper
     {
         $sql = 'SELECT *
                 FROM [prefix]_contact_receivers
-                WHERE id = '.$this->db()->escape($id);
+                WHERE id = '.(int)$this->db()->escape($id);
         $receiverRow = $this->db()->queryRow($sql);
 
         if (empty($receiverRow)) {
@@ -80,12 +78,12 @@ class Receiver extends \Ilch\Mapper
     {
         if ($receiver->getId()) {
             $this->db()->update('contact_receivers')
-                ->fields(array('name' => $receiver->getName(), 'email' => $receiver->getEmail()))
+                ->values(array('name' => $receiver->getName(), 'email' => $receiver->getEmail()))
                 ->where(array('id' => $receiver->getId()))
                 ->execute();
         } else {
             $this->db()->insert('contact_receivers')
-                ->fields(array('name' => $receiver->getName(), 'email' => $receiver->getEmail()))
+                ->values(array('name' => $receiver->getName(), 'email' => $receiver->getEmail()))
                 ->execute();
         }
     }

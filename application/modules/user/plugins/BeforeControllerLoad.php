@@ -1,15 +1,13 @@
 <?php
 /**
- * Holds User_BeforeControllerLoadPlugin.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace User\Plugins;
-use User\Mappers\User as UserMapper;
-use User\Mappers\Group as GroupMapper;
-use Admin\Mappers\Module as ModuleMapper;
+namespace Modules\User\Plugins;
+use Modules\User\Mappers\User as UserMapper;
+use Modules\User\Mappers\Group as GroupMapper;
+use Modules\Admin\Mappers\Module as ModuleMapper;
 defined('ACCESS') or die('no direct access');
 
 /**

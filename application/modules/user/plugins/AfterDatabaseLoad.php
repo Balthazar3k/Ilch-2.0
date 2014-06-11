@@ -1,13 +1,11 @@
 <?php
 /**
- * Holds User_AfterDatabaseLoadPlugin.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace User\Plugins;
-use User\Mappers\User as UserMapper;
+namespace Modules\User\Plugins;
+use Modules\User\Mappers\User as UserMapper;
 defined('ACCESS') or die('no direct access');
 
 /**
@@ -50,7 +48,7 @@ class AfterDatabaseLoad
             $ip = '128.0.0.1';
         }
 
-        $visitMapper = new \User\Mappers\Visit();
+        $visitMapper = new \Modules\User\Mappers\Visit();
         $visitMapper->saveVisit(array('user_id' => $userId, 'ip' => $ip));
 
         if ($pluginData['request']->getParam('language')) {

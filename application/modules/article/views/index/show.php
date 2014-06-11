@@ -2,8 +2,11 @@
 $comments = $this->get('comments');
 $article = $this->get('article');
 $content = str_replace('[PREVIEWSTOP]', '', $article->getContent());
+$image = $article->getArticleImage();
 echo '<h4>'.$article->getTitle().'</h4>';
-echo '<img class="articleImage" src="'.$article->getArticleImage().'"></img>';
+if (!empty($image)) {
+    echo '<img class="article_image" src="'.$image.'"/>';
+}
 echo '<br />';
 
 echo $content;
@@ -34,7 +37,7 @@ if($this->getUser())
 <?php
 }
 
-$userMapper = new \User\Mappers\User();
+$userMapper = new \Modules\User\Mappers\User();
 
 foreach($comments as $comment)
 {

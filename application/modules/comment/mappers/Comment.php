@@ -4,8 +4,8 @@
  * @package ilch
  */
 
-namespace Comment\Mappers;
-use Comment\Models\Comment as CommentModel;
+namespace Modules\Comment\Mappers;
+use Modules\Comment\Models\Comment as CommentModel;
 
 defined('ACCESS') or die('no direct access');
 
@@ -19,10 +19,11 @@ class Comment extends \Ilch\Mapper
      */
     public function getCommentsByKey($key)
     {
-        $commentsArray = $this->db()->selectArray('*')
+        $commentsArray = $this->db()->select('*')
 			->from('comments')
 			->where(array('key' => $key))
-			->execute();
+			->execute()
+            ->fetchRows();
 
         $comments = array();
 
@@ -45,7 +46,7 @@ class Comment extends \Ilch\Mapper
     public function save(CommentModel $comment)
     {
         $this->db()->insert('comments')
-            ->fields
+            ->values
             (
                 array
                 (

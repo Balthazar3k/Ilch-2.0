@@ -1,14 +1,12 @@
 <?php
 /**
- * Holds class Category.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace Link\Mappers;
+namespace Modules\Link\Mappers;
 
-use Link\Models\Category as CategoryModel;
+use Modules\Link\Models\Category as CategoryModel;
 
 defined('ACCESS') or die('no direct access');
 
@@ -70,19 +68,20 @@ class Category extends \Ilch\Mapper
         return reset($cats);
     }
 
-    public function _getCategoriesForParentRec($models, $id)
+    public function getCategoriesForParentRec($models, $id)
     {
-        $categoryRow = $this->db()->selectRow('*')
+        $categoryRow = $this->db()->select('*')
             ->from('link_cats')
             ->where(array('id' => $id))
-            ->execute();
+            ->execute()
+            ->fetchAssoc();
         
         if (empty($categoryRow)) {
             return null;
         }
 
         if (!empty($categoryRow['parent_id'])) {
-           $models = $this->_getCategoriesForParentRec($models, $categoryRow['parent_id']);
+            $models = $this->getCategoriesForParentRec($models, $categoryRow['parent_id']);
         }
                         
         $categoryModel = new CategoryModel();
@@ -102,7 +101,7 @@ class Category extends \Ilch\Mapper
      */
     public function getCategoriesForParent($id)
     {
-        $models = $this->_getCategoriesForParentRec(array(), $id);
+        $models = $this->getCategoriesForParentRec(array(), $id);
         return $models;
     }
 
@@ -122,12 +121,12 @@ class Category extends \Ilch\Mapper
 
         if ($category->getId()) {
             $this->db()->update('link_cats')
-                ->fields($fields)
+                ->values($fields)
                 ->where(array('id' => $category->getId()))
                 ->execute();
         } else {
             $this->db()->insert('link_cats')
-                ->fields($fields)
+                ->values($fields)
                 ->execute();
         }
     }

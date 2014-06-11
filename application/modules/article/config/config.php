@@ -3,7 +3,7 @@
  * @package ilch
  */
 
-namespace Article\Config;
+namespace Modules\Article\Config;
 defined('ACCESS') or die('no direct access');
 
 class Config extends \Ilch\Config\Install
@@ -11,8 +11,8 @@ class Config extends \Ilch\Config\Install
     public $config = array
     (
         'key' => 'article',
-        'author' => 'Meyer Dominik',
         'icon_small' => 'article.png',
+        'system_module' => true,
         'languages' => array
         (
             'de_DE' => array
@@ -32,12 +32,12 @@ class Config extends \Ilch\Config\Install
     {
         $this->db()->queryMulti($this->getInstallSql());
         
-        $articleMapper = new \Article\Mappers\Article();
+        $articleMapper = new \Modules\Article\Mappers\Article();
         
         /*
          * @todo change content for different types.
          */
-        $article = new \Article\Models\Article();
+        $article = new \Modules\Article\Models\Article();
         $article->setContent('Guten Tag und willkommen auf meiner Internetseite! Auf dieser Seite möchte ich mich als Person vorstellen.');
         $article->setTitle('Startseite');
         $article->setPerma('startseite.html');
@@ -61,6 +61,7 @@ class Config extends \Ilch\Config\Install
                 CREATE TABLE IF NOT EXISTS `[prefix]_articles_content` (
                   `article_id` int(11) NOT NULL,
                   `content` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+                  `description` mediumtext COLLATE utf8_unicode_ci NOT NULL,
                   `locale` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                   `perma` varchar(255) COLLATE utf8_unicode_ci NOT NULL,

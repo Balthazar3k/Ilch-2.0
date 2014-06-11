@@ -1,12 +1,10 @@
 <?php
 /**
- * Holds Comment\Models\Comment.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace Comment\Models;
+namespace Modules\Comment\Models;
 defined('ACCESS') or die('no direct access');
 
 /**
@@ -19,34 +17,34 @@ class Comment extends \Ilch\Model
     /**
      * @var integer
      */
-    protected $_id;
+    protected $id;
 
     /**
      * @var string
      */
-    protected $_key;
+    protected $key;
 
     /**
      * @var string
      */
-    protected $_text;
+    protected $text;
 
 	/**
      * @var integer
      */
-    protected $_userId;
+    protected $userId;
 	
 	/**
      * @var DateTime
      */
-    protected $_dateCreated;
+    protected $dateCreated;
 
     /**
      * @return integer
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -55,7 +53,7 @@ class Comment extends \Ilch\Model
      */
     public function setId($id)
     {
-        $this->_id = (int)$id;
+        $this->id = (int)$id;
 
         return $this;
     }
@@ -65,7 +63,7 @@ class Comment extends \Ilch\Model
      */
     public function getKey()
     {
-        return $this->_key;
+        return $this->key;
     }
 
     /**
@@ -74,7 +72,7 @@ class Comment extends \Ilch\Model
      */
     public function setKey($key)
     {
-        $this->_key = (string)$key;
+        $this->key = (string)$key;
 
         return $this;
     }
@@ -84,7 +82,7 @@ class Comment extends \Ilch\Model
      */
     public function getText()
     {
-        return $this->_text;
+        return $this->text;
     }
 
     /**
@@ -93,7 +91,7 @@ class Comment extends \Ilch\Model
      */
     public function setText($text)
     {
-        $this->_text = (string)$text;
+        $this->text = (string)$text;
 
         return $this;
     }
@@ -103,7 +101,7 @@ class Comment extends \Ilch\Model
      */
     public function getUserId()
     {
-        return $this->_userId;
+        return $this->userId;
     }
 
     /**
@@ -112,7 +110,7 @@ class Comment extends \Ilch\Model
      */
     public function setUserId($userId)
     {
-        $this->_userId = (int)$userId;
+        $this->userId = (int)$userId;
 
         return $this;
     }
@@ -122,7 +120,7 @@ class Comment extends \Ilch\Model
      */
     public function getDateCreated()
     {
-        return $this->_dateCreated;
+        return $this->dateCreated;
     }
 
     /**
@@ -130,6 +128,6 @@ class Comment extends \Ilch\Model
      */
     public function setDateCreated($dateCreated)
     {
-        $this->_dateCreated = $dateCreated;
+        $this->dateCreated = $dateCreated;
     }
 }

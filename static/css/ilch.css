@@ -5,3 +5,14 @@
     margin: 10px auto 10px auto;
     width: 300px;
 }
+
+#gallery {
+  float: none;
+  width: 100%;
+  display:inline-block;
+}
+
+#gallery img{
+  width: 100%;
+  height: auto;
+}

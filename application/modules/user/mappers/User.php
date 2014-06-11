@@ -1,17 +1,13 @@
 <?php
 /**
- * Holds class User.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace User\Mappers;
+namespace Modules\User\Mappers;
 
-use User\Models\User as UserModel;
+use Modules\User\Models\User as UserModel;
 use Ilch\Date as IlchDate;
-
-defined('ACCESS') or die('no direct access');
 
 /**
  * The user mapper class.
@@ -23,17 +19,17 @@ class User extends \Ilch\Mapper
     /**
      * Returns user model found by the id.
      *
-     * @param  mixed[]             $id
-     * @return null|User_UserModel
+     * @param  mixed[] $id
+     * @return null|\Modules\User\Models\User
      */
     public function getUserById($id)
     {
         $where = array
         (
-            'id' => (int) $id,
+            'id' => (int)$id,
         );
 
-        $users = $this->_getBy($where);
+        $users = $this->getBy($where);
 
         if (!empty($users)) {
             return reset($users);
@@ -45,17 +41,17 @@ class User extends \Ilch\Mapper
     /**
      * Returns user model found by the username.
      *
-     * @param  string              $name
-     * @return null|User_UserModel
+     * @param  string $name
+     * @return null|\Modules\User\Models\User
      */
     public function getUserByName($name)
     {
         $where = array
         (
-            'name' => (string) $name,
+            'name' => (string)$name,
         );
 
-        $users = $this->_getBy($where);
+        $users = $this->getBy($where);
 
         if (!empty($users)) {
             return reset($users);
@@ -67,17 +63,17 @@ class User extends \Ilch\Mapper
     /**
      * Returns user model found by the email.
      *
-     * @param  string              $email
-     * @return null|User_UserModel
+     * @param  string $email
+     * @return null|\Modules\User\Models\User
      */
     public function getUserByEmail($email)
     {
         $where = array
         (
-            'email' => (string) $email,
+            'email' => (string)$email,
         );
 
-        $users = $this->_getBy($where);
+        $users = $this->getBy($where);
 
         if (!empty($users)) {
             return reset($users);
@@ -89,17 +85,17 @@ class User extends \Ilch\Mapper
     /**
      * Returns user model found by the confirmed_code.
      *
-     * @param  string              $confirmed
-     * @return null|User_UserModel
+     * @param  string $confirmed
+     * @return null|\Modules\User\Models\User
      */
     public function getUserByConfirmedCode($confirmed)
     {
         $where = array
         (
-            'confirmed_code' => (string) $confirmed,
+            'confirmed_code' => (string)$confirmed,
         );
 
-        $users = $this->_getBy($where);
+        $users = $this->getBy($where);
 
         if (!empty($users)) {
             return reset($users);
@@ -112,15 +108,16 @@ class User extends \Ilch\Mapper
      * Returns an array with user models found by the where clause of false if
      * none found.
      *
-     * @param  mixed[]             $where
-     * @return null|User_UserModel
+     * @param  mixed[] $where
+     * @return null|\Modules\User\Models\User
      */
-    protected function _getBy($where = null)
+    protected function getBy($where = [])
     {
-        $userRows = $this->db()->selectArray('*')
+        $userRows = $this->db()->select('*')
             ->from('users')
             ->where($where)
-            ->execute();
+            ->execute()
+            ->fetchRows();
 
         if (!empty($userRows)) {
             $users = array();
@@ -130,7 +127,7 @@ class User extends \Ilch\Mapper
                 $sql = 'SELECT g.*
                         FROM [prefix]_groups AS g
                         INNER JOIN [prefix]_users_groups AS ug ON g.id = ug.group_id
-                        WHERE ug.user_id = '.$userRow['id'];
+                        WHERE ug.user_id = ' . $userRow['id'];
                 $groupRows = $this->db()->queryArray($sql);
                 $groupMapper = new Group();
 
@@ -152,7 +149,7 @@ class User extends \Ilch\Mapper
     /**
      * Returns a user created using an array with user data.
      *
-     * @param  mixed[]   $userRow
+     * @param  mixed[] $userRow
      * @return UserModel
      */
     public function loadFromArray($userRow = array())
@@ -206,7 +203,7 @@ class User extends \Ilch\Mapper
      *
      * @param UserModel $user
      *
-     * @return The userId of the updated or inserted user.
+     * @return int The userId of the updated or inserted user.
      */
     public function save(UserModel $user)
     {
@@ -231,7 +228,7 @@ class User extends \Ilch\Mapper
         if (!empty($email)) {
             $fields['email'] = $user->getEmail();
         }
-        
+
         if (!empty($dateCreated)) {
             $fields['date_created'] = $user->getDateCreated()->toDb();
         }
@@ -244,34 +241,35 @@ class User extends \Ilch\Mapper
             $fields['date_last_activity'] = $user->getDateLastActivity()->toDb();
         }
 
-        if ($user->getConfirmed() !== null) {
-            $fields['confirmed'] = $user->getConfirmed();
-        }
-        
-        if ($user->getConfirmedCode() !== null) {
-            $fields['confirmed_code'] = $user->getConfirmedCode();
+        if ($confirmed !== null) {
+            $fields['confirmed'] = $confirmed;
         }
 
-        $userId = (int)$this->db()->selectCell('id')
+        if ($confirmedCode !== null) {
+            $fields['confirmed_code'] = $confirmedCode;
+        }
+
+        $userId = (int)$this->db()->select('id')
             ->from('users')
             ->where(array('id' => $user->getId()))
-            ->execute();
+            ->execute()
+            ->fetchCell();
 
         if ($userId) {
             /*
              * User does exist already, update.
              */
             $this->db()->update('users')
-                ->fields($fields)
+                ->values($fields)
                 ->where(array('id' => $userId))
                 ->execute();
         } else {
-            
+
             /*
              * User does not exist yet, insert.
              */
             $userId = $this->db()->insert('users')
-                ->fields($fields)
+                ->values($fields)
                 ->execute();
         }
 
@@ -282,7 +280,7 @@ class User extends \Ilch\Mapper
 
             foreach ($user->getGroups() as $group) {
                 $this->db()->insert('users_groups')
-                    ->fields(array('user_id' => $userId, 'group_id' => $group->getId()))
+                    ->values(array('user_id' => $userId, 'group_id' => $group->getId()))
                     ->execute();
             }
         }
@@ -297,21 +295,21 @@ class User extends \Ilch\Mapper
      */
     public function getAdministratorCount()
     {
-        $sql = 'SELECT COUNT(*)
-                FROM `[prefix]_users_groups`
-                WHERE `group_id` = 1';
-
-        return (int)$this->db()->queryCell($sql);
+        return $this->db()->select('COUNT(*)', 'users_groups', ['group_id' => 1])
+            ->execute()
+            ->fetchCell();
     }
 
     /**
      * Returns a array of all user model objects.
      *
+     * @param array|mixed $where
+     *
      * @return UserModel[]
      */
-    public function getUserList($where = null)
+    public function getUserList($where = [])
     {
-        return $this->_getBy($where);
+        return $this->getBy($where);
     }
 
     /**
@@ -323,14 +321,15 @@ class User extends \Ilch\Mapper
      */
     public function userWithIdExists($userId)
     {
-        $userExists = (bool)$this->db()->selectCell('id')
+        $userExists = (bool)$this->db()->select('id')
             ->from('users')
             ->where(array('id' => $userId))
-            ->execute();
+            ->execute()
+            ->fetchCell();
 
         return $userExists;
     }
-    
+
     /**
      * Deletes a given user or a user with the given id.
      *
@@ -340,15 +339,14 @@ class User extends \Ilch\Mapper
      */
     public function delete($userId)
     {
-        if(is_a($userId, '\User\Models\User'))
-        {
+        if (is_a($userId, '\Modules\User\Models\User')) {
             $userId = $userId->getId();
         }
 
         $this->db()->delete('users_groups')
             ->where(array('user_id' => $userId))
             ->execute();
-        
+
         return $this->db()->delete('users')
             ->where(array('id' => $userId))
             ->execute();

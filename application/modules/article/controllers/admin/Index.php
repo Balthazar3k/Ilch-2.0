@@ -4,9 +4,9 @@
  * @package ilch
  */
 
-namespace Article\Controllers\Admin;
-use Article\Mappers\Article as ArticleMapper;
-use Article\Models\Article as ArticleModel;
+namespace Modules\Article\Controllers\Admin;
+use Modules\Article\Mappers\Article as ArticleMapper;
+use Modules\Article\Models\Article as ArticleModel;
 
 defined('ACCESS') or die('no direct access');
 
@@ -93,10 +93,11 @@ class Index extends \Ilch\Controller\Admin
                 $model->setId($this->getRequest()->getParam('id'));
             }
 
+            $model->setDescription($this->getRequest()->getPost('description'));
             $model->setTitle($this->getRequest()->getPost('articleTitle'));
             $model->setContent($this->getRequest()->getPost('articleContent'));
             $model->setArticleImage($this->getRequest()->getPost('articleImage'));
-            
+
             if ($this->getRequest()->getPost('articleLanguage') != '') {
                 $model->setLocale($this->getRequest()->getPost('articleLanguage'));
             } else {

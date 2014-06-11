@@ -10,9 +10,9 @@ defined('ACCESS') or die('no direct access');
 
 return array
 (
-    'editButton' => 'Bearbeiten',
     'addButton' => 'Hinzufügen',
     'saveButton'     => 'Speichern',
+    'updateButton' => 'Aktualisieren',
     'saveSuccess' => 'Erfolgreich gespeichert',
     'deleteSuccess' => 'Erfolgreich gelöscht',
     'freeSuccess' => 'Erfolgreich freigeschaltet',
@@ -72,13 +72,15 @@ return array
     'menuBox' => 'Box',
     'menuBoxes' => 'Boxen',
     'menuActionNewBox' => 'Neue Box erstellen',
+    'menuSettings' => 'Einstellungen',
+    'menuBackup' => 'Backup',
     'boxTitle' => 'Boxentitel',
     'addBox'	=> 'Neue Box hinzufügen',
     'editBox'	=> 'Box editieren',
     'deleteBox' => 'Box entfernen',
     'boxLanguage' => 'Boxsprache',
     'addButtonBox' => 'Box anlegen',
-    'editButtonBox' => 'Box ändern',
+    'updateButtonBox' => 'Box aktualisieren',
     'noBoxes' => 'Keine Boxen vorhanden',
     'treat' => 'Bearbeiten',
     'askIfDeleteBox' => 'Sind Sie sicher dass die Box "%s" entfernt werden soll?',
@@ -91,5 +93,6 @@ return array
     'upToDate' => 'aktuell',
     'notUpToDate' => 'nicht aktuell',
     'installedVersion' => 'Installierte Version',
-    'serverVersion' => 'Server Version'
+    'serverVersion' => 'Server Version',
+    'description' => 'Beschreibung',
 );

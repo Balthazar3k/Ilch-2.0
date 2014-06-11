@@ -3,7 +3,7 @@
  * @package ilch
  */
 
-namespace Page\Config;
+namespace Modules\Page\Config;
 defined('ACCESS') or die('no direct access');
 
 class Config extends \Ilch\Config\Install
@@ -11,8 +11,8 @@ class Config extends \Ilch\Config\Install
     public $config = array
     (
         'key' => 'page',
-        'author' => 'Meyer Dominik',
         'icon_small' => 'page.png',
+        'system_module' => true,
         'languages' => array
         (
             'de_DE' => array
@@ -50,6 +50,7 @@ class Config extends \Ilch\Config\Install
                 CREATE TABLE IF NOT EXISTS `[prefix]_pages_content` (
                   `page_id` int(11) NOT NULL,
                   `content` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+                  `description` mediumtext COLLATE utf8_unicode_ci NOT NULL,
                   `locale` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                   `perma` varchar(255) COLLATE utf8_unicode_ci NOT NULL

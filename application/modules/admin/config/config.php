@@ -3,7 +3,7 @@
  * @package ilch
  */
 
-namespace Admin\Config;
+namespace Modules\Admin\Config;
 defined('ACCESS') or die('no direct access');
 
 class Config extends \Ilch\Config\Install
@@ -19,6 +19,7 @@ class Config extends \Ilch\Config\Install
         $databaseConfig->set('date_cms_installed', $date->format('Y-m-d H:i:s'), 1);
         $databaseConfig->set('timezone', $_SESSION['install']['timezone']);
         $databaseConfig->set('default_layout', 'clan3columns');
+        $databaseConfig->set('start_page', 'module_article');
     }
 
     public function getInstallSql()
@@ -32,6 +33,7 @@ class Config extends \Ilch\Config\Install
 
                 CREATE TABLE IF NOT EXISTS `[prefix]_modules` (
                   `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                  `system` int(11) NOT NULL,
                   `author` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                   `icon_small` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                   UNIQUE KEY `key` (`key`)

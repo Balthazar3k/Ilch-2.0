@@ -1,18 +1,16 @@
 <?php
 /**
- * Holds the class Index.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace User\Controllers\Admin;
+namespace Modules\User\Controllers\Admin;
 
-use User\Controllers\Admin\Base as BaseController;
-use User\Mappers\User as UserMapper;
-use User\Mappers\Group as GroupMapper;
-use User\Models\User as UserModel;
-use User\Models\Group as GroupModel;
+use Modules\User\Controllers\Admin\Base as BaseController;
+use Modules\User\Mappers\User as UserMapper;
+use Modules\User\Mappers\Group as GroupMapper;
+use Modules\User\Models\User as UserModel;
+use Modules\User\Models\Group as GroupModel;
 use \Ilch\Registry as Registry;
 
 defined('ACCESS') or die('no direct access');
@@ -47,7 +45,7 @@ class Group extends BaseController
         $groupMapper = new GroupMapper();
 
         if ($this->getRequest()->getPost('action') == 'delete' && $this->getRequest()->getPost('check_groups')) {
-            foreach($this->getRequest()->getPost('check_groups') as $groupId) {
+            foreach ($this->getRequest()->getPost('check_groups') as $groupId) {
                 if ($groupId != 1) {
                     $groupMapper->delete($groupId);
                 }

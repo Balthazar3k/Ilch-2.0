@@ -4,7 +4,7 @@
  * @package ilch
  */
 
-namespace Media\Models;
+namespace Modules\Media\Models;
 
 defined('ACCESS') or die('no direct access');
 
@@ -15,51 +15,66 @@ class Media extends \Ilch\Model
      *
      * @var int
      */
-    protected $_id;
+    protected $id;
 
     /**
      * The url of the media.
      *
      * @var string
      */
-    protected $_url;
+    protected $url;
 
     /**
      * The urlthumb of the media.
      *
      * @var string
      */
-    protected $_urlthumb;
+    protected $urlthumb;
 
     /**
      * The ending of the media.
      *
      * @var string
      */
-    protected $_ending;
+    protected $ending;
 
     /**
      * The name of the media.
      *
      * @var string
      */
-    protected $_name;
+    protected $name;
 
     /**
      * The datetime of the media.
      *
      * @var string
      */
-    protected $_datetime;
+    protected $datetime;
+
+    /**
+     * The cat_id of the media.
+     *
+     * @var int
+     */
+    protected $catname;
+
+    /**
+     * The cat_id of the media.
+     *
+     * @var int
+     */
+    protected $catid;
 
     /**
      * Gets the id of the media.
      *
      * @return integer
      */
+
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -69,7 +84,7 @@ class Media extends \Ilch\Model
      */
     public function getUrl()
     {
-        return $this->_url;
+        return $this->url;
     }
 
     /**
@@ -79,7 +94,7 @@ class Media extends \Ilch\Model
      */
     public function getUrlThumb()
     {
-        return $this->_urlthumb;
+        return $this->urlthumb;
     }
 
     /**
@@ -89,7 +104,7 @@ class Media extends \Ilch\Model
      */
     public function getEnding()
     {
-        return $this->_ending;
+        return $this->ending;
     }
 
     /**
@@ -99,7 +114,7 @@ class Media extends \Ilch\Model
      */
     public function getName()
     {
-        return $this->_name;
+        return $this->name;
     }
 
     /**
@@ -109,7 +124,27 @@ class Media extends \Ilch\Model
      */
     public function getDatetime()
     {
-        return $this->_datetime;
+        return $this->datetime;
+    }
+
+    /**
+     * Gets the cat_id of the media.
+     *
+     * @return integer
+     */
+    public function getCatName()
+    {
+        return $this->catname;
+    }
+
+    /**
+     * Gets the cat_id of the media.
+     *
+     * @return integer
+     */
+    public function getCatId()
+    {
+        return $this->catid;
     }
 
     /**
@@ -119,7 +154,7 @@ class Media extends \Ilch\Model
      */
     public function setId($id)
     {
-        $this->_id = (int)$id;
+        $this->id = (int)$id;
     }
 
     /**
@@ -129,7 +164,7 @@ class Media extends \Ilch\Model
      */
     public function setUrl($url)
     {
-        $this->_url = (string)$url;
+        $this->url = (string)$url;
     }
 
     /**
@@ -139,7 +174,7 @@ class Media extends \Ilch\Model
      */
     public function setUrlThumb($urlthumb)
     {
-        $this->_urlthumb = (string)$urlthumb;
+        $this->urlthumb = (string)$urlthumb;
     }
 
     /**
@@ -149,7 +184,7 @@ class Media extends \Ilch\Model
      */
     public function setEnding($ending)
     {
-        $this->_ending = (string)$ending;
+        $this->ending = (string)$ending;
     }
 
     /**
@@ -159,7 +194,7 @@ class Media extends \Ilch\Model
      */
     public function setName($name)
     {
-        $this->_name = (string)$name;
+        $this->name = (string)$name;
     }
 
     /**
@@ -169,6 +204,26 @@ class Media extends \Ilch\Model
      */
     public function setDatetime($datetime)
     {
-        $this->_datetime = (string)$datetime;
+        $this->datetime = (string)$datetime;
+    }
+
+    /**
+     * Sets the cat_id of the media.
+     *
+     * @param integer $catid
+     */
+    public function setCatName($catname)
+    {
+        $this->catname = $catname;
+    }
+
+    /**
+     * Sets the cat_id of the media.
+     *
+     * @param integer $catid
+     */
+    public function setCatId($catid)
+    {
+        $this->catid = $catid;
     }
 }

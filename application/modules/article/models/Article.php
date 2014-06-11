@@ -1,12 +1,10 @@
 <?php
 /**
- * Holds Article_ArticleModel.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace Article\Models;
+namespace Modules\Article\Models;
 defined('ACCESS') or die('no direct access');
 
 /**
@@ -21,49 +19,56 @@ class Article extends \Ilch\Model
      *
      * @var int
      */
-    protected $_id;
+    protected $id;
 
     /**
      * The perma of the article.
      *
      * @var string
      */
-    protected $_perma;
+    protected $perma;
 
     /**
      * The title of the article.
      *
      * @var string
      */
-    protected $_title;
+    protected $title;
 
     /**
      * The content of the article.
      *
      * @var string
      */
-    protected $_content;
+    protected $content;
+    
+    /**
+     * The description of the article.
+     *
+     * @var string
+     */
+    protected $description;
 
     /**
      * The locale of the article.
      *
      * @var string
      */
-    protected $_locale;
+    protected $locale;
 
     /**
      * The datetime when the article got created.
      *
      * @var DateTime
      */
-    protected $_dateCreated;
+    protected $dateCreated;
 
     /**
      * The articleImage of the article.
      *
      * @var DateTime
      */
-    protected $_articleImage;
+    protected $articleImage;
 
     /**
      * Gets the id of the article.
@@ -72,7 +77,7 @@ class Article extends \Ilch\Model
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -82,7 +87,7 @@ class Article extends \Ilch\Model
      */
     public function setId($id)
     {
-        $this->_id = (int) $id;
+        $this->id = (int) $id;
     }
 
     /**
@@ -92,7 +97,7 @@ class Article extends \Ilch\Model
      */
     public function getPerma()
     {
-        return $this->_perma;
+        return $this->perma;
     }
 
     /**
@@ -102,7 +107,7 @@ class Article extends \Ilch\Model
      */
     public function setPerma($perma)
     {
-        $this->_perma = $perma;
+        $this->perma = $perma;
     }
 
     /**
@@ -112,7 +117,7 @@ class Article extends \Ilch\Model
      */
     public function getTitle()
     {
-        return $this->_title;
+        return $this->title;
     }
 
     /**
@@ -122,7 +127,7 @@ class Article extends \Ilch\Model
      */
     public function setTitle($title)
     {
-        $this->_title = (string) $title;
+        $this->title = (string) $title;
     }
 
     /**
@@ -132,7 +137,7 @@ class Article extends \Ilch\Model
      */
     public function getContent()
     {
-        return $this->_content;
+        return $this->content;
     }
 
     /**
@@ -142,7 +147,27 @@ class Article extends \Ilch\Model
      */
     public function setContent($content)
     {
-        $this->_content = (string) $content;
+        $this->content = (string) $content;
+    }
+
+    /**
+     * Gets the description of the page.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Sets the description of the page.
+     *
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = (string)$description;
     }
 
     /**
@@ -152,7 +177,7 @@ class Article extends \Ilch\Model
      */
     public function getLocale()
     {
-        return $this->_locale;
+        return $this->locale;
     }
 
     /**
@@ -162,7 +187,7 @@ class Article extends \Ilch\Model
      */
     public function setLocale($locale)
     {
-        $this->_locale = (string) $locale;
+        $this->locale = (string)$locale;
     }
 
     /**
@@ -172,7 +197,7 @@ class Article extends \Ilch\Model
      */
     public function getDateCreated()
     {
-        return $this->_dateCreated;
+        return $this->dateCreated;
     }
 
     /**
@@ -182,7 +207,7 @@ class Article extends \Ilch\Model
      */
     public function setDateCreated($dateCreated)
     {
-        $this->_dateCreated = $dateCreated;
+        $this->dateCreated = $dateCreated;
     }
 
     /**
@@ -192,7 +217,7 @@ class Article extends \Ilch\Model
      */
     public function setArticleImage($articleimage)
     {
-        $this->_articleImage = $articleimage;
+        $this->articleImage = $articleimage;
     }
 
     /**
@@ -202,6 +227,6 @@ class Article extends \Ilch\Model
      */
     public function getArticleImage()
     {
-        return $this->_articleImage;
+        return $this->articleImage;
     }
 }

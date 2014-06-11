@@ -81,3 +81,76 @@ function removeDir($dir)
         unlink($dir);
     }
 }
+
+/**
+ * Gets array data
+ *
+ * Supports 'dot' notation for arrays
+ * e.g.
+ *      foo.bar     > foo['bar']
+ *      foo.bar.baz > foo['bar']['baz']
+ *
+ * @param array     $data       The array
+ * @param string    $key        The key to look for
+ * @param mixed     $default    A default value if $key is not found
+ *
+ * @copyright <Taylor Otwell>
+ */
+function array_dot($data = array(), $key = null, $default = null)
+{
+    if ($key === null) {
+        return $data;
+    }
+
+    if (isset($data[$key])) {
+        return $data[$key];
+    }
+
+    foreach (explode('.', $key) as $seg) {
+        if (!is_array($data) || !array_key_exists($seg, $data)) {
+            return $default;
+        }
+
+        $data = $data[$seg];
+    }
+
+    return $data;
+}
+
+/**
+ * Set an array item to a given value using "dot" notation.
+ *
+ * If no key is given to the method, the entire array will be replaced.
+ *
+ * @param  array   $array
+ * @param  string  $key
+ * @param  mixed   $value
+ * @return array
+ *
+ * @copyright <Taylor Otwell>
+ */
+function array_dot_set(&$array, $key, $value)
+{
+    if (is_null($key)) {
+        return $array = $value;
+    }
+
+    $keys = explode('.', $key);
+
+    while (count($keys) > 1) {
+        $key = array_shift($keys);
+
+        // If the key doesn't exist at this depth, we will just create an empty array
+        // to hold the next value, allowing us to create the arrays to hold final
+        // values at the correct depth. Then we'll keep digging into the array.
+        if (! isset($array[$key]) || ! is_array($array[$key])) {
+            $array[$key] = array();
+        }
+
+        $array =& $array[$key];
+    }
+
+    $array[array_shift($keys)] = $value;
+
+    return $array;
+}

@@ -4,9 +4,9 @@
  * @package ilch
  */
 
-namespace Page\Controllers\Admin;
-use Page\Mappers\Page as PageMapper;
-use Page\Models\Page as PageModel;
+namespace Modules\Page\Controllers\Admin;
+use Modules\Page\Mappers\Page as PageMapper;
+use Modules\Page\Models\Page as PageModel;
 
 defined('ACCESS') or die('no direct access');
 
@@ -92,6 +92,7 @@ class Index extends \Ilch\Controller\Admin
                 $model->setId($this->getRequest()->getParam('id'));
             }
 
+            $model->setDescription($this->getRequest()->getPost('description'));
             $model->setTitle($this->getRequest()->getPost('pageTitle'));
             $model->setContent($this->getRequest()->getPost('pageContent'));
             

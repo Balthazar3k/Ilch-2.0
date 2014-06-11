@@ -12,9 +12,9 @@ abstract class Base
     /**
      * Holds all Helpers.
      *
-     * @var array 
+     * @var array
      */
-    private $_helpers = array();
+    private $helpers = array();
 
     /**
      * Adds view/layout helper.
@@ -25,7 +25,7 @@ abstract class Base
      */
     public function addHelper($name, $type, $obj)
     {
-        $this->_helpers[$type][$name] = $obj;
+        $this->helpers[$type][$name] = $obj;
     }
 
     /**
@@ -36,33 +36,47 @@ abstract class Base
      */
     public function getHelper($name, $type)
     {
-        return $this->_helpers[$type][$name];
+        return $this->helpers[$type][$name];
     }
 
     /**
      * @var Ilch_Request
      */
-    private $_request;
+    private $request;
 
     /**
      * @var Ilch_Translator
      */
-    private $_translator;
+    private $translator;
 
     /**
      * @var Ilch_Router
      */
-    private $_router;
+    private $router;
 
     /**
      * @var array
      */
-    private $_data = array();
+    private $data = array();
 
     /**
      * @var boolean
      */
-    private $_modRewrite;
+    private $modRewrite;
+    
+    /**
+     * Injects request and translator to layout/view.
+     *
+     * @param \Ilch\Request    $request
+     * @param \Ilch\Translator $translator
+     * @param \Ilch\Router     $router
+     */
+    public function __construct(\Ilch\Request $request, \Ilch\Translator $translator, \Ilch\Router $router)
+    {
+        $this->request = $request;
+        $this->translator = $translator;
+        $this->router = $router;
+    }
 
     /**
      * Gets view data.
@@ -72,8 +86,8 @@ abstract class Base
      */
     public function get($key)
     {
-        if (isset($this->_data[$key])) {
-            return $this->_data[$key];
+        if (isset($this->data[$key])) {
+            return $this->data[$key];
         }
 
         return null;
@@ -87,21 +101,17 @@ abstract class Base
      */
     public function set($key, $value)
     {
-        $this->_data[$key] = $value;
+        $this->data[$key] = $value;
     }
 
     /**
-     * Injects request and translator to layout/view.
+     * Sets view data array.
      *
-     * @param \Ilch\Request    $request
-     * @param \Ilch\Translator $translator
-     * @param \Ilch\Router     $router
+     * @param mixed[] $data
      */
-    public function __construct(\Ilch\Request $request, \Ilch\Translator $translator, \Ilch\Router $router)
+    public function setArray($data = array())
     {
-        $this->_request = $request;
-        $this->_translator = $translator;
-        $this->_router = $router;
+        $this->data = array_merge($this->data, $data);
     }
 
     /**
@@ -111,9 +121,9 @@ abstract class Base
      */
     public function getRequest()
     {
-        return $this->_request;
+        return $this->request;
     }
-    
+
     /**
      * Gets the router object.
      *
@@ -121,7 +131,7 @@ abstract class Base
      */
     public function getRouter()
     {
-        return $this->_router;
+        return $this->router;
     }
 
     /**
@@ -131,7 +141,7 @@ abstract class Base
      */
     public function getTranslator()
     {
-        return $this->_translator;
+        return $this->translator;
     }
 
     /**
@@ -169,22 +179,37 @@ abstract class Base
     }
 
    /**
-     * Gets the static url.
+     * Gets the layout url.
      *
-     * @param  string $url
+     * @param string $url
      * @return string
      */
     public function getLayoutUrl($url = '')
     {
         if (empty($url)) {
-            return BASE_URL.'/application/layouts/'.$this->_layoutKey.'/';
+            return BASE_URL.'/application/layouts/'.$this->layoutKey.'/';
         }
 
-        return BASE_URL.'/application/layouts/'.$this->_layoutKey.'/'.$url;
+        return BASE_URL.'/application/layouts/'.$this->layoutKey.'/'.$url;
     }
 
     /**
-     * Gets the syste, static url.
+     * Gets the module url.
+     *
+     * @param string $url
+     * @return string
+     */
+    public function getModuleUrl($url = '')
+    {
+        if (empty($url)) {
+            return BASE_URL.'/application/modules/'.$this->getRequest()->getModuleName();
+        }
+
+        return BASE_URL.'/application/modules/'.$this->getRequest()->getModuleName().'/'.$url;
+    }
+
+    /**
+     * Gets the system, static url.
      *
      * @param  string $url
      * @return string
@@ -218,17 +243,17 @@ abstract class Base
     public function getHtmlFromBBCode($bbcode)
     {
         require_once APPLICATION_PATH.'/libraries/jbbcode/Parser.php';
-        
+
         $parser = new \JBBCode\Parser();
         $parser->addCodeDefinitionSet(new \JBBCode\DefaultCodeDefinitionSet());
-        
+
         $builder = new \JBBCode\CodeDefinitionBuilder('quote', '<div class="quote">{param}</div>');
         $parser->addCodeDefinition($builder->build());
 
         $builder = new \JBBCode\CodeDefinitionBuilder('code', '<pre class="code">{param}</pre>');
         $builder->setParseContent(false);
         $parser->addCodeDefinition($builder->build());
-        
+
         $parser->parse($bbcode);
 
         return $parser->getAsHTML();
@@ -246,8 +271,8 @@ abstract class Base
     {
         $config = \Ilch\Registry::get('config');
 
-        if($config !== null && $this->_modRewrite === null) {
-            $this->_modRewrite = (bool)$config->get('mod_rewrite');
+        if($config !== null && $this->modRewrite === null) {
+            $this->modRewrite = (bool)$config->get('mod_rewrite');
         }
 
         if (empty($urlArray)) {
@@ -284,7 +309,7 @@ abstract class Base
         foreach ($urlArray as $key => $value) {
             $urlParts[] = $key.'/'.$value;
         }
-        
+
         if ($secure) {
             $token = uniqid();
             $_SESSION['token'][$token] = $token;
@@ -297,7 +322,7 @@ abstract class Base
             $s = 'admin/';
         }
 
-        if ($this->_modRewrite && empty($s)) {
+        if ($this->modRewrite && empty($s)) {
             return BASE_URL.'/'.$s.implode('/', $urlParts);
         } else {
             return BASE_URL.'/index.php/'.$s.implode('/', $urlParts);
@@ -355,5 +380,25 @@ abstract class Base
         } else {
             return preg_replace("/[^ ]*$/", '', substr($str, 0, $length)).'...';
         }
+    }
+
+    /**
+     * Gets the key of the layout.
+     *
+     * @return string
+     */
+    public function getLayoutKey()
+    {
+        return $this->layoutKey;
+    }
+
+    /**
+     * Set the key of the layout.
+     *
+     * @param string $layoutKey
+     */
+    public function setLayoutKey($layoutKey)
+    {
+        $this->layoutKey = $layoutKey;
     }
 }

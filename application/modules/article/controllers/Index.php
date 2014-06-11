@@ -4,10 +4,10 @@
  * @package ilch
  */
 
-namespace Article\Controllers;
-use Article\Mappers\Article as ArticleMapper;
-use Comment\Mappers\Comment as CommentMapper;
-use Comment\Models\Comment as CommentModel;
+namespace Modules\Article\Controllers;
+use Modules\Article\Mappers\Article as ArticleMapper;
+use Modules\Comment\Mappers\Comment as CommentMapper;
+use Modules\Comment\Models\Comment as CommentModel;
 
 defined('ACCESS') or die('no direct access');
 
@@ -23,14 +23,14 @@ class Index extends \Ilch\Controller\Frontend
             }
         }
         
-        $this->_locale = $locale;
+        $this->locale = $locale;
     }
 
     public function indexAction()
     {
         $this->getLayout()->getHmenu()->add($this->getTranslator()->trans('menuArticles'), array('action' => 'index'));
         $articleMapper = new ArticleMapper();
-        $this->getView()->set('articles', $articleMapper->getArticles($this->_locale));
+        $this->getView()->set('articles', $articleMapper->getArticles($this->locale));
     }
     
     public function showAction()
@@ -53,6 +53,8 @@ class Index extends \Ilch\Controller\Frontend
         $article = $articleMapper->getArticleByIdLocale($this->getRequest()->getParam('id'));
         $comments = $commentMapper->getCommentsByKey('articles_'.$this->getRequest()->getParam('id'));
 
+        $this->getLayout()->set('metaTitle', $article->getTitle());
+        $this->getLayout()->set('metaDescription', $article->getDescription());
         $this->getView()->set('article', $article);
         $this->getView()->set('comments', $comments);
         $this->getLayout()->getHmenu()->add($this->getTranslator()->trans('menuArticles'), array('action' => 'index'))

@@ -1,12 +1,10 @@
 <?php
 /**
- * Holds BeforeControllerLoadPlugin.
- *
  * @copyright Ilch 2.0
  * @package ilch
  */
 
-namespace Admin\Plugins;
+namespace Modules\Admin\Plugins;
 defined('ACCESS') or die('no direct access');
 
 /**

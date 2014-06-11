@@ -4,9 +4,9 @@
  * @package ilch
  */
 
-namespace Partner\Mappers;
+namespace Modules\Partner\Mappers;
 
-use Partner\Models\Entry as PartnerModel;
+use Modules\Partner\Models\Entry as PartnerModel;
 
 defined('ACCESS') or die('no direct access');
 
@@ -20,11 +20,12 @@ class Partner extends \Ilch\Mapper
      */
     public function getEntries($where = array())
     {
-        $entryArray = $this->db()->selectArray('*')
+        $entryArray = $this->db()->select('*')
             ->from('partners')
             ->where($where)
             ->order(array('id' => 'DESC'))
-            ->execute();
+            ->execute()
+            ->fetchRows();
 
         if (empty($entryArray)) {
             return array();
@@ -55,11 +56,12 @@ class Partner extends \Ilch\Mapper
      */
     public function getPartnersBy($where = array(), $orderBy = array('id' => 'ASC'))
     {
-        $partnerArray = $this->db()->selectArray('*')
+        $partnerArray = $this->db()->select('*')
             ->from('partners')
             ->where($where)
             ->order($orderBy)
-            ->execute();
+            ->execute()
+            ->fetchRows();
 
         if (empty($partnerArray)) {
             return array();
@@ -87,10 +89,11 @@ class Partner extends \Ilch\Mapper
      */
     public function getPartnerById($id)
     {
-        $partnerRow = $this->db()->selectRow('*')
+        $partnerRow = $this->db()->select('*')
             ->from('partners')
-            ->where(array('id' => $this->db()->escape($id)))
-            ->execute();
+            ->where(array('id' => $id))
+            ->execute()
+            ->fetchAssoc();
 
         if (empty($partnerRow)) {
             return null;
@@ -122,12 +125,12 @@ class Partner extends \Ilch\Mapper
 
         if ($partner->getId()) {
             $this->db()->update('partners')
-                ->fields($fields)
+                ->values($fields)
                 ->where(array('id' => $partner->getId()))
                 ->execute();
         } else {
             $this->db()->insert('partners')
-                ->fields($fields)
+                ->values($fields)
                 ->execute();
         }
     }
